@@ -1,0 +1,517 @@
+/* ===== SEARCH BAR WRAP ===== */
+.search-bar-wrap {
+  position: relative;
+  width: 100%;
+  margin-bottom: 10px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  z-index: 300;
+}
+
+.search-trigger {
+  background: #fff;
+  border: 1.5px solid #dce3ef;
+  border-radius: 10px;
+  padding: 0;
+  box-shadow: none;
+  transition: border-color 0.15s;
+}
+
+.search-trigger:focus-within {
+  border-color: var(--agoda-blue);
+}
+
+.search-trigger-inner {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.search-trigger-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #aaa;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.search-trigger-input {
+  width: 100%;
+  padding: 14px 40px 14px 42px;
+  border: none;
+  border-radius: 10px;
+  outline: none;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  color: #333;
+  background: transparent;
+}
+
+.search-trigger-input::placeholder {
+  color: #bbb;
+}
+
+/* Clear button */
+.search-clear-btn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #aaa;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  transition: background 0.15s, color 0.15s;
+}
+
+.search-clear-btn:hover {
+  background: #f0f0f0;
+  color: #555;
+}
+
+/* ===== DROPDOWN ===== */
+.search-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.16);
+  overflow: hidden;
+  z-index: 400;
+  max-height: 480px;
+  overflow-y: auto;
+  animation: dropDown 0.18s ease;
+}
+
+.search-dropdown.active {
+  display: block;
+}
+
+@keyframes dropDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Scrollbar */
+.search-dropdown::-webkit-scrollbar {
+  width: 6px;
+}
+
+.search-dropdown::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.search-dropdown::-webkit-scrollbar-thumb {
+  background: #e0e0e0;
+  border-radius: 3px;
+}
+
+/* ===== SECTIONS ===== */
+.search-section {
+  padding: 14px 20px 10px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.search-section:last-child {
+  border-bottom: none;
+}
+
+.search-section-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 10px;
+}
+
+.search-section-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+/* ===== RECENT ITEM ===== */
+.recent-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f7f8fa;
+  border-radius: 8px;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: background 0.15s;
+  max-width: 380px;
+}
+
+.recent-item:hover {
+  background: #eef2ff;
+}
+
+.recent-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.recent-icon {
+  font-size: 14px;
+  color: #888;
+  flex-shrink: 0;
+}
+
+.recent-city {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 2px;
+}
+
+.recent-dates {
+  font-size: 12px;
+  color: #888;
+}
+
+.recent-guests {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  color: #555;
+}
+
+/* ===== RESULT ITEMS ===== */
+.result-group {
+  margin-bottom: 6px;
+}
+
+.result-group-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 8px 10px 4px;
+}
+
+.search-results-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.result-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.result-item:hover {
+  background: #f0f6ff;
+}
+
+.result-img {
+  width: 44px;
+  height: 44px;
+  border-radius: 6px;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: #e5e5e5;
+}
+
+.result-info {
+  flex: 1;
+}
+
+.result-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.result-name span {
+  font-weight: 400;
+  color: #888;
+  font-size: 13px;
+}
+
+.result-sub {
+  font-size: 12px;
+  color: #888;
+  margin-top: 2px;
+}
+
+.result-city-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  color: #1a73e8;
+  background: #e8f0fe;
+  border-radius: 4px;
+  padding: 1px 6px;
+  margin-right: 4px;
+}
+
+.pct {
+  color: #1a73e8;
+  font-weight: 600;
+}
+
+/* ===== TWO COLUMNS ===== */
+.search-columns {
+  display: flex;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.search-col {
+  flex: 1;
+  padding: 14px 20px 10px;
+}
+
+.search-col:first-child {
+  border-right: 1px solid #f0f0f0;
+}
+
+/* ===== NO RESULTS ===== */
+.no-results {
+  padding: 24px 10px;
+  color: #aaa;
+  font-size: 14px;
+  text-align: center;
+}
+
+.no-results i {
+  font-size: 28px;
+  display: block;
+  margin-bottom: 8px;
+  color: #ddd;
+}
+
+/* ===== POPULAR COUNTRY CARDS ===== */
+.popular-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.popular-country-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.popular-country-card:hover {
+  background: #f0f6ff;
+}
+
+.pcc-flag {
+  font-size: 26px;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f4f6fb;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+.pcc-info {
+  flex: 1;
+}
+
+.pcc-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 2px;
+}
+
+.pcc-sub {
+  font-size: 12px;
+  color: #888;
+}
+
+.pcc-arrow {
+  font-size: 12px;
+  color: #ccc;
+  transition: color 0.15s;
+}
+
+.popular-country-card:hover .pcc-arrow {
+  color: #1a73e8;
+}
+
+/* ===== CITY LIST — after selecting country ===== */
+.city-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1a73e8;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  transition: background 0.15s;
+  border: none;
+  background: none;
+}
+
+.city-back-btn:hover {
+  background: #e8f0fe;
+}
+
+.city-country-header {
+  font-size: 14px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 10px;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ===== POPULAR SECTION ===== */
+.search-popular {
+  padding: 14px 20px 16px;
+}
+
+.search-popular .search-section-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 12px;
+}
+
+/* ===== POPULAR CITIES GRID (default view) ===== */
+.popular-cities-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.popular-city-card {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  aspect-ratio: 4/3;
+  transition: transform 0.18s, box-shadow 0.18s;
+}
+
+.popular-city-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.14);
+}
+
+.popular-city-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.popular-city-card-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.65));
+  padding: 24px 10px 10px;
+  color: #fff;
+}
+
+.popular-city-card-name {
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.popular-city-card-count {
+  font-size: 11px;
+  opacity: 0.85;
+  margin-top: 1px;
+}
+
+/* ===== DIVIDER between sections ===== */
+.sd-divider {
+  height: 1px;
+  background: #f0f0f0;
+  margin: 0;
+}
+
+/* ===== "All hotels in Country" row ===== */
+.result-all-country {
+  background: #f7f8fa;
+  border-radius: 8px;
+  margin-bottom: 6px;
+  border: 1.5px solid #e8edf5;
+}
+.result-all-country:hover {
+  background: #eef2ff;
+  border-color: #c5d4f8;
+}
+.result-all-icon {
+  width: 44px;
+  height: 44px;
+  background: #e8f0fe;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: #1a73e8;
+  flex-shrink: 0;
+}
+
+/* ===== "All hotels" inline link in grouped search results ===== */
+.result-group-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.result-group-all {
+  margin-left: auto;
+  font-size: 11px;
+  font-weight: 600;
+  color: #1a73e8;
+  text-transform: none;
+  letter-spacing: 0;
+  cursor: pointer;
+  padding: 2px 8px;
+  border-radius: 4px;
+  transition: background 0.15s;
+}
+.result-group-all:hover {
+  background: #e8f0fe;
+}

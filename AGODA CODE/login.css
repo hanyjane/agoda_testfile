@@ -1,0 +1,48 @@
+/* ===== LOGIN PAGE — login.css =====
+   Extends signup.css — only login-specific overrides live here.
+   ============================================================ */
+
+/* ── Card logo (shown inside the card on login page only) ── */
+.card-logo {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+/* ── Slightly tighter card for 2-field layout ── */
+.signin-popup {
+  width: 480px;          /* a touch narrower than sign-up's 540px */
+}
+
+/* ── Forgot password link ── */
+.forgot-wrap {
+  display: flex;
+  justify-content: flex-end;
+  margin: -4px 0 16px 0;
+}
+
+.forgot-link {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1a73e8;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.forgot-link:hover {
+  color: #1558b0;
+  text-decoration: underline;
+}
+
+/* ── Extra breathing room above the terms on this shorter form ── */
+.btn-continue {
+  margin-top: 4px;
+}
+
+.nav-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;        /* more space between avatar and text */
+  padding: 6px 14px;
+}
+

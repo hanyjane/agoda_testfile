@@ -1,0 +1,1012 @@
+/* =============================================================
+   SEARCH BAR (sticky top)
+   ============================================================= */
+.search-bar-wrap {
+  background: #1a1f3c;
+  padding: 18px 0 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 1100px;
+  max-width: 95vw;
+}
+
+/* ── Each field is its own white box ── */
+.search-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 16px;
+  height: 58px;
+  background: #ffffff;
+  border-radius: 10px;
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  position: relative;
+  flex-shrink: 0;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.search-field:hover {
+  border-color: var(--agoda-blue);
+}
+
+.search-field:focus-within {
+  border-color: var(--agoda-blue);
+  box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.12);
+}
+
+/* ── Destination stretches ── */
+.search-destination {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── Icon ── */
+.search-icon {
+  color: #aaa;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+/* ── Text input ── */
+.search-input {
+  border: none;
+  outline: none;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 15px;
+  color: #1a1a2e;
+  background: transparent;
+  width: 100%;
+}
+
+.search-input::placeholder {
+  color: #bbb;
+}
+
+/* ── Date label stack ── */
+.search-date-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.search-date-label {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a2e;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.search-date-day {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 12px;
+  color: #888;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.search-dates-combined {
+  padding: 0;
+  gap: 0;
+  overflow: hidden;
+}
+
+.date-half {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 18px;
+  height: 58px;
+  cursor: pointer;
+  flex: 1;
+  transition: background 0.15s;
+}
+
+.date-half:hover {
+  background: #f0f6ff;
+}
+
+.date-inner-divider {
+  width: 1.5px;
+  height: 30px;
+  background: #dce3ef;
+  flex-shrink: 0;
+}
+
+/* ── Hidden native date input ── */
+.hidden-date {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+/* ── Hide old divider ── */
+.search-divider {
+  display: none;
+}
+
+/* ── Guests field ── */
+.search-guests {
+  min-width: 180px;
+  justify-content: space-between;
+}
+
+/* ── Guests dropdown ── */
+.guests-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  background: #fff;
+  border: 1px solid #dce3ef;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.14);
+  padding: 8px 20px 16px;
+  min-width: 260px;
+  z-index: 300;
+}
+
+.guests-dropdown.open {
+  display: block;
+}
+
+.guest-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #f0f0f0;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a2e;
+}
+
+.guest-row:last-of-type {
+  border-bottom: none;
+}
+
+.guest-counter {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.guest-counter button {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1.5px solid #dce3ef;
+  background: #fff;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--agoda-blue);
+  font-weight: 700;
+  transition: background 0.15s, border-color 0.15s;
+  line-height: 1;
+}
+
+.guest-counter button:hover {
+  background: #e8f0fe;
+  border-color: var(--agoda-blue);
+}
+
+.guest-counter span {
+  font-size: 15px;
+  font-weight: 700;
+  min-width: 18px;
+  text-align: center;
+  color: #1a1a2e;
+}
+
+.guests-done {
+  width: 100%;
+  margin-top: 14px;
+  padding: 10px;
+  background: var(--agoda-blue);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.guests-done:hover {
+  background: #1558b0;
+}
+
+/* ── SEARCH button ── */
+.search-btn {
+  height: 58px;
+  padding: 0 36px;
+  background: var(--agoda-blue);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  flex-shrink: 0;
+  white-space: nowrap;
+  transition: background 0.15s, transform 0.1s;
+}
+
+.search-btn:hover {
+  background: #1558b0;
+  transform: translateY(-1px);
+}
+
+.search-btn:active {
+  transform: translateY(0);
+}
+
+
+/* =============================================================
+   PAGE LAYOUT — sidebar + listings
+   ============================================================= */
+.hotel-page-layout {
+  display: flex;
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 20px 40px;
+  align-items: flex-start;
+  /* REQUIRED for sticky children */
+}
+
+
+/* =============================================================
+   FILTERS SIDEBAR
+   ============================================================= */
+.filters-sidebar {
+  width: 280px;
+  flex-shrink: 0;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
+  padding: 24px;
+  /* navbar(60) + search bar(98) + 8px gap = 166px */
+}
+
+.filters-title {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.filters-title i {
+  color: var(--agoda-blue);
+  font-size: 16px;
+}
+
+/* ── Search summary ── */
+.filter-search-summary {
+  background: #f0f6ff;
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+  border: 1px solid #dce8f8;
+}
+
+.summary-row {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1a1a2e;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+}
+
+.summary-row i {
+  color: var(--agoda-blue);
+  font-size: 12px;
+  width: 16px;
+  text-align: center;
+}
+
+/* ── Filter groups ── */
+.filter-group {
+  padding: 18px 0;
+  border-top: 1px solid #f0f0f0;
+}
+
+.filter-group-title {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 14px;
+}
+
+/* Price range */
+.price-range-wrap {
+  padding: 4px 0;
+}
+
+.price-range-wrap input[type="range"] {
+  width: 100%;
+  height: 4px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: linear-gradient(to right, var(--agoda-blue) 0%, #dce3ef 0%);
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+}
+
+.price-range-wrap input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--agoda-blue);
+  border: 3px solid #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+
+.price-range-wrap input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+.price-range-labels {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #888;
+  margin-top: 8px;
+}
+
+/* Star filter */
+.star-filter-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.star-filter-btn {
+  padding: 6px 16px;
+  border: 1.5px solid #dce3ef;
+  border-radius: 8px;
+  background: #fff;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #555;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.star-filter-btn:hover {
+  border-color: var(--agoda-blue);
+  color: var(--agoda-blue);
+}
+
+.star-filter-btn.active {
+  background: var(--agoda-blue);
+  border-color: var(--agoda-blue);
+  color: #fff;
+}
+
+/* Checkbox filters */
+.filter-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #444;
+  cursor: pointer;
+  padding: 6px 0;
+  transition: color 0.15s;
+}
+
+.filter-check:hover {
+  color: var(--agoda-blue);
+}
+
+.filter-check input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  accent-color: var(--agoda-blue);
+  cursor: pointer;
+}
+
+
+/* =============================================================
+   SORT BAR
+   ============================================================= */
+.sort-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  padding: 0 4px;
+}
+
+.results-count {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+
+.sort-options {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sort-label {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #888;
+}
+
+.sort-select {
+  padding: 8px 14px;
+  border: 1.5px solid #dce3ef;
+  border-radius: 8px;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1a1a2e;
+  background: #fff;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.sort-select:focus {
+  border-color: var(--agoda-blue);
+}
+
+
+/* =============================================================
+   HOTEL LISTINGS MAIN
+   ============================================================= */
+.hotel-listings-main {
+  flex: 1;
+  min-width: 0;
+  padding-bottom: 40px;
+  /* breathing room at bottom */
+}
+
+.hotel-cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+
+/* =============================================================
+   HOTEL CARD
+   ============================================================= */
+.hotel-card {
+  display: flex;
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+  transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+  animation: cardFadeIn 0.4s ease both;
+  cursor: pointer;
+}
+
+.hotel-card:hover {
+  box-shadow: 0 10px 25px rgba(26, 115, 232, 0.08);
+  border-color: #cbd5e1;
+  transform: translateY(-2px);
+}
+
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Image ── */
+.hotel-card-image-wrap {
+  width: 280px;
+  min-height: 220px;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.hotel-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.hotel-card:hover .hotel-card-image {
+  transform: scale(1.04);
+}
+
+.hotel-card-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: #e63946;
+  color: #ffffff;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 6px rgba(230, 57, 70, 0.4);
+}
+
+.hotel-card-fav {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.95);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: #cbd5e1;
+  transition: transform 0.2s, color 0.2s;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.hotel-card-fav:hover {
+  transform: scale(1.1);
+  color: #e63946;
+}
+
+/* ── Body ── */
+.hotel-card-body {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 0;
+}
+
+.hotel-card-top {
+  margin-bottom: 12px;
+}
+
+.hotel-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.hotel-card-type {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: var(--agoda-blue);
+  padding: 2px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+
+.hotel-card-stars {
+  font-size: 12px;
+  color: #f5a623;
+  letter-spacing: 2px;
+}
+
+.hotel-card-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.hotel-card-name {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  color: #1a1a2e;
+  line-height: 1.3;
+}
+
+.hotel-card:hover .hotel-card-name {
+  color: var(--agoda-blue);
+}
+
+.hotel-card-location {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 13px;
+  color: #888;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.hotel-card-location i {
+  color: var(--agoda-blue);
+  font-size: 11px;
+}
+
+.hotel-card-desc {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 13px;
+  color: #666;
+  line-height: 1.5;
+  margin-bottom: 12px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ── Amenities ── */
+.hotel-card-amenities {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.hotel-amenity-tag {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: #555;
+  background: #f5f7fa;
+  padding: 4px 10px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+
+.hotel-amenity-tag i {
+  font-size: 11px;
+  color: var(--agoda-blue);
+}
+
+/* ── Bottom: Rating + Price ── */
+.hotel-card-bottom {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding-top: 16px;
+  border-top: 1px solid #f0f0f0;
+  margin-top: auto;
+}
+
+.hotel-card-rating-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hotel-card-rating-badge {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px 8px 8px 0;
+  background: var(--agoda-blue);
+  color: #fff;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hotel-card-rating-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.hotel-card-rating-label {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+
+.hotel-card-review-count {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 12px;
+  color: #888;
+}
+
+/* ── Price & Action ── */
+.hotel-card-price-action {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.hotel-card-price-wrap {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.hotel-card-original-price {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 14px;
+  color: #aaa;
+  text-decoration: line-through;
+}
+
+.hotel-card-price-main {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.hotel-card-price {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 24px;
+  font-weight: 800;
+  color: #e63946;
+}
+
+.hotel-card-price-info {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 12px;
+  color: #888;
+  font-weight: 500;
+}
+
+.hotel-card-total {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: #555;
+  background: #f5f7fa;
+  padding: 4px 10px;
+  border-radius: 4px;
+  margin-top: 4px;
+}
+
+.hotel-card-btn {
+  background: var(--agoda-blue);
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-family: 'Nunito Sans', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.hotel-card-btn:hover {
+  background: #1558b0;
+  transform: translateY(-1px);
+}
+
+.hotel-card-btn:active {
+  transform: translateY(0);
+}
+
+/* =============================================================
+   NO RESULTS
+   ============================================================= */
+.no-results {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.no-results i {
+  font-size: 48px;
+  color: #dce3ef;
+  margin-bottom: 20px;
+}
+
+.no-results h3 {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 8px;
+}
+
+.no-results p {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 14px;
+  color: #888;
+}
+
+
+/* =============================================================
+   RESPONSIVE
+   ============================================================= */
+@media (max-width: 1024px) {
+  .hotel-page-layout {
+    flex-direction: column;
+  }
+
+  .filters-sidebar {
+    width: 100%;
+    position: static;
+  }
+
+  .hotel-card-image-wrap {
+    width: 240px;
+  }
+}
+
+@media (max-width: 768px) {
+  .search-bar {
+    flex-direction: column;
+    gap: 8px;
+    padding: 0 12px;
+  }
+
+  .search-field,
+  .search-destination,
+  .search-guests {
+    width: 100%;
+    flex: unset;
+    min-width: unset;
+  }
+
+  .search-btn {
+    width: 100%;
+    border-radius: 10px;
+  }
+
+  .hotel-card {
+    flex-direction: column;
+  }
+
+  .hotel-card-image-wrap {
+    width: 100%;
+    min-height: 200px;
+    max-height: 220px;
+  }
+
+  .hotel-card-bottom {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .hotel-card-price-wrap {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .sort-bar {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+}
+
+/* =============================================================
+   HOTEL PAGE — DESTINATION DROPDOWN OVERRIDES
+   ============================================================= */
+
+/* Make the destination field container allow overflow for the dropdown */
+.hotel-dest-field {
+  overflow: visible !important;
+  padding: 0 !important;
+  gap: 0 !important;
+}
+
+/* The inner wrapper that positions the dropdown */
+.hotel-dest-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+/* Override search-trigger to look like a seamless input inside the white field */
+.hotel-search-trigger {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  width: 100%;
+  height: 58px;
+  display: flex;
+  align-items: center;
+}
+
+.hotel-search-trigger .search-trigger-inner {
+  width: 100%;
+  height: 58px;
+}
+
+/* Input inside hotel search bar */
+.hotel-search-trigger .search-trigger-input {
+  height: 58px;
+  padding: 0 16px 0 42px;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 15px;
+  color: #1a1a2e;
+  border-radius: 10px;
+}
+
+.hotel-search-trigger .search-trigger-input::placeholder {
+  color: #bbb;
+  font-size: 15px;
+}
+
+/* Position the search icon correctly */
+.hotel-search-trigger .search-trigger-icon {
+  left: 16px;
+  color: #aaa;
+  font-size: 14px;
+}
+
+/* Dropdown popup — needs high z-index to clear the sticky search bar */
+.hotel-dest-wrap .search-dropdown {
+  top: calc(100% + 6px);
+  z-index: 9999;
+  min-width: 380px;
+  font-family: 'Nunito Sans', sans-serif;
+}

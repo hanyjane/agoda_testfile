@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create Account – Agoda</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="signup.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="top-nav">
+    <div class="nav-inner">
+      <div class="logo-wrap">
+        <a href="index.html">
+          <img src="Agoda_logo_2019.svg.png" alt="logo" width="71" height="36">
+        </a>
+      </div>
+      <div class="nav-links">
+        <a href="#">Flight + Hotel</a>
+        <a href="#">Hotels &amp; Homes</a>
+        <a href="#">Transport <i class="fa fa-chevron-down fa-xs"></i></a>
+        <a href="#">Attractions</a>
+        <a href="#">Coupons &amp; Deals</a>
+        <a href="#">eSIM</a>
+        <a href="#">Travel Guides</a>
+        <a href="#">Travel Itineraries</a>
+      </div>
+      <div class="nav-right">
+      </div>
+  </nav>
+
+  <!-- ===== CENTERED SIGN UP CARD ===== -->
+  <div class="page-body">
+    <div class="signin-popup">
+      <h2 class="signin-title">Sign in or create an account</h2>
+      <p class="signin-sub">Sign up for free or log in to access amazing deals and benefits!</p>
+
+      <!-- Success / Error message -->
+      <div id="formMsg" class="form-msg" style="display:none;"></div>
+
+      <!-- First Name & Last Name -->
+      <div class="field-row">
+        <div class="signin-field">
+          <label class="signin-label">First Name</label>
+          <input type="text" class="signin-input" id="firstName" placeholder="Juan" />
+        </div>
+        <div class="signin-field">
+          <label class="signin-label">Last Name</label>
+          <input type="text" class="signin-input" id="lastName" placeholder="Dela Cruz" />
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="signin-field">
+        <label class="signin-label">Email</label>
+        <input type="email" class="signin-input" id="email" placeholder="id@email.com" />
+      </div>
+
+      <!-- Contact Number -->
+      <div class="signin-field">
+        <label class="signin-label">Contact Number</label>
+        <div class="phone-wrap">
+          <span class="phone-prefix">🇵🇭 +63</span>
+          <input type="tel" class="signin-input phone-input" id="contact" placeholder="9XX XXX XXXX" />
+        </div>
+      </div>
+
+
+      <!-- Password -->
+      <div class="signin-field">
+        <label class="signin-label">Password</label>
+        <div class="password-wrap">
+          <input type="password" class="signin-input" id="password" placeholder="Enter password" />
+          <button type="button" class="toggle-pass" onclick="togglePass('password', this)">
+            <i class="fa fa-eye"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Confirm Password -->
+      <div class="signin-field" id="confirmField">
+        <label class="signin-label">Confirm Password</label>
+        <div class="password-wrap">
+          <input type="password" class="signin-input" id="confirmPassword" placeholder="Re-enter password" />
+          <button type="button" class="toggle-pass" onclick="togglePass('confirmPassword', this)">
+            <i class="fa fa-eye"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Password match message -->
+      <p id="passMsg" style="display:none; font-size:12px; margin: -8px 0 10px 4px;"></p>
+
+
+      <!-- Submit -->
+      <button class="btn-continue" id="submitBtn" disabled>Create Account</button>
+
+      <p class="signin-terms">
+        By signing in, I agree to Agoda's
+        <a href="#">Terms of Use <i class="fa-solid fa-arrow-up-right-from-square fa-xs"></i></a>
+        and
+        <a href="#">Privacy Policy <i class="fa-solid fa-arrow-up-right-from-square fa-xs"></i></a>.
+      </p>
+
+      <p class="signup-login">
+        Already have an account? <a href="login.html">Sign in</a>
+      </p>
+    </div>
+  </div>
+
+  <script src="signup.js"></script>
+</body>
+
+</html>

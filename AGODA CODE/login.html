@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign In – Agoda</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="signup.css"/>
+  <link rel="stylesheet" href="login.css"/>
+  
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="top-nav">
+    <div class="nav-inner">
+        <div class="logo-wrap">
+        <a href="index.html">
+            <img src="Agoda_logo_2019.svg.png" alt="logo" width="71" height="36">
+        </a>
+        </div>
+      <div class="nav-links">
+        <a href="#">Flight + Hotel</a>
+        <a href="#">Hotels &amp; Homes</a>
+        <a href="#">Transport <i class="fa fa-chevron-down fa-xs"></i></a>
+        <a href="#">Attractions</a>
+        <a href="#">Coupons &amp; Deals</a>
+        <a href="#">eSIM</a>
+        <a href="#">Travel Guides</a>
+        <a href="#">Travel Itineraries</a>
+      </div>
+      <div class="nav-right">
+
+    </div>
+  </nav>
+
+  <!-- ===== CENTERED LOGIN CARD ===== -->
+  <div class="page-body">
+    <div class="signin-popup">
+
+      <!-- Logo inside card -->
+      <div class="card-logo">
+        <img src="Agoda_logo_2019.svg.png" alt="Agoda" height="32"/>
+      </div>
+
+      <h2 class="signin-title">Welcome back</h2>
+      <p class="signin-sub">Sign in to access your bookings and exclusive deals.</p>
+
+      <!-- Success / Error message -->
+      <div id="formMsg" class="form-msg" style="display:none;"></div>
+
+      <!-- Email -->
+      <div class="signin-field">
+        <label class="signin-label">Email address</label>
+        <input
+          type="email"
+          class="signin-input"
+          id="email"
+          placeholder="id@email.com"
+          autocomplete="email"
+        />
+      </div>
+
+      <!-- Password -->
+      <div class="signin-field">
+        <label class="signin-label">Password</label>
+        <div class="password-wrap">
+          <input
+            type="password"
+            class="signin-input"
+            id="password"
+            placeholder="Enter your password"
+            autocomplete="current-password"
+          />
+          <button type="button" class="toggle-pass" onclick="togglePass('password', this)">
+            <i class="fa fa-eye"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Forgot password link -->
+      <div class="forgot-wrap">
+        <a href="#" class="forgot-link">Forgot password?</a>
+      </div>
+
+      <!-- Submit -->
+      <button class="btn-continue" id="submitBtn" disabled>Sign In</button>
+
+      <p class="signin-terms">
+        By signing in, I agree to Agoda's
+        <a href="#">Terms of Use <i class="fa-solid fa-arrow-up-right-from-square fa-xs"></i></a>
+        and
+        <a href="#">Privacy Policy <i class="fa-solid fa-arrow-up-right-from-square fa-xs"></i></a>.
+      </p>
+
+      <p class="signup-login">
+        Don't have an account? <a href="signup.html">Create one for free</a>
+      </p>
+
+    </div>
+  </div>
+
+  <!-- Navbar state script (same as your other pages) -->
+  <script src="navbar.js"></script>
+  <script src="login.js"></script>
+</body>
+</html>
