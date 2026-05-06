@@ -312,6 +312,7 @@ function changeGuestHotel(type, delta) {
     txt += ' · ' + hotelGuestState.rooms + ' room' + (hotelGuestState.rooms !== 1 ? 's' : '');
     summary.textContent = txt;
   }
+   fetchHotels(currentSearch);
 }
 
 

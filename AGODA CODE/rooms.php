@@ -7,9 +7,10 @@ error_reporting(E_ALL);
 ini_set('display_errors', 0);
 ini_set('log_errors', 1);
 
+
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
-define('DB_PASS', '');        // ← your password
+define('DB_PASS', '');
 define('DB_NAME', 'agoda_db');
 
 // ── Validate ─────────────────────────────────────────────────
@@ -20,6 +21,11 @@ if (empty($_GET['hotel_id']) || !is_numeric($_GET['hotel_id'])) {
 
 $hotelId = (int) $_GET['hotel_id'];
 
+// ── Guest counts (moved up, defined ONCE) ────────────────────
+$adults      = !empty($_GET['adults'])   && is_numeric($_GET['adults'])   ? (int)$_GET['adults']   : 1;
+$children    = !empty($_GET['children']) && is_numeric($_GET['children']) ? (int)$_GET['children'] : 0;
+$totalGuests = $adults + $children;
+
 // ── Connect ───────────────────────────────────────────────────
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 if ($conn->connect_error) {
@@ -28,7 +34,7 @@ if ($conn->connect_error) {
 }
 $conn->set_charset('utf8mb4');
 
-// ── Fetch hotel meta (name, stars, type, location) ───────────
+// ── Fetch hotel meta ──────────────────────────────────────────
 $hStmt = $conn->prepare("
     SELECT
         h.Hotel_ID      AS id,
@@ -60,7 +66,7 @@ $hotel['id']     = (int)   $hotel['id'];
 $hotel['stars']  = (int)   $hotel['stars'];
 $hotel['rating'] = (float) $hotel['rating'];
 
-// ── Fetch rooms — matches your exact ROOM schema ─────────────
+// ── Fetch rooms filtered by max occupancy ────────────────────
 $rStmt = $conn->prepare("
     SELECT
         Room_ID         AS id,
@@ -70,14 +76,15 @@ $rStmt = $conn->prepare("
         Room_Price      AS price,
         Room_Amenities  AS amenities
     FROM  ROOM
-    WHERE Room_HotelID = ?
+    WHERE Room_HotelID  = ?
+      AND Room_MaxOccpncy >= ?
     ORDER BY Room_Price ASC
 ");
 if (!$rStmt) {
     echo json_encode(['success' => false, 'message' => 'Rooms query failed: ' . $conn->error]);
     exit;
 }
-$rStmt->bind_param('i', $hotelId);
+$rStmt->bind_param('ii', $hotelId, $totalGuests);
 $rStmt->execute();
 $rResult = $rStmt->get_result();
 
@@ -86,7 +93,6 @@ while ($row = $rResult->fetch_assoc()) {
     $row['id']           = (int)   $row['id'];
     $row['maxOccupancy'] = (int)   $row['maxOccupancy'];
     $row['price']        = (float) $row['price'];
-    // amenities is a TEXT description — send as-is (may be null)
     $row['amenities']    = $row['amenities'] ?? '';
     $rooms[] = $row;
 }
@@ -94,8 +100,9 @@ while ($row = $rResult->fetch_assoc()) {
 $conn->close();
 
 echo json_encode([
-    'success' => true,
-    'hotel'   => $hotel,
-    'rooms'   => $rooms,
-    'count'   => count($rooms),
+    'success'     => true,
+    'hotel'       => $hotel,
+    'rooms'       => $rooms,
+    'count'       => count($rooms),
+    'totalGuests' => $totalGuests,
 ]);
