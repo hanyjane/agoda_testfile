@@ -477,10 +477,12 @@
   margin-bottom: 6px;
   border: 1.5px solid #e8edf5;
 }
+
 .result-all-country:hover {
   background: #eef2ff;
   border-color: #c5d4f8;
 }
+
 .result-all-icon {
   width: 44px;
   height: 44px;
@@ -500,6 +502,7 @@
   align-items: center;
   gap: 8px;
 }
+
 .result-group-all {
   margin-left: auto;
   font-size: 11px;
@@ -512,6 +515,7 @@
   border-radius: 4px;
   transition: background 0.15s;
 }
+
 .result-group-all:hover {
   background: #e8f0fe;
 }

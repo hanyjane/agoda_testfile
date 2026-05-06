@@ -1,0 +1,447 @@
+/* =============================================================
+   ROOMS MODAL OVERLAY
+   ============================================================= */
+.rooms-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 20, 50, 0.55);
+    backdrop-filter: blur(3px);
+    z-index: 9999;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 30px 16px 40px;
+    overflow-y: auto;
+    animation: modalFadeIn 0.2s ease;
+}
+
+.rooms-modal-overlay.open {
+    display: flex;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* =============================================================
+   MODAL BOX
+   ============================================================= */
+.rooms-modal {
+    background: #ffffff;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 860px;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.22);
+    animation: modalSlideUp 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+    overflow: hidden;
+}
+
+@keyframes modalSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(32px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =============================================================
+   MODAL HEADER
+   ============================================================= */
+.rooms-modal-header {
+    background: linear-gradient(135deg, #1a1f3c 0%, #1a56db 100%);
+    padding: 24px 28px 20px;
+    position: relative;
+    color: #fff;
+}
+
+.rooms-modal-close {
+    position: absolute;
+    top: 18px;
+    right: 20px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255, 255, 255, 0.35);
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s, transform 0.15s;
+}
+
+.rooms-modal-close:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: scale(1.08);
+}
+
+.rooms-modal-hotel-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 0 0 4px;
+    color: #fff;
+}
+
+.rooms-modal-hotel-meta {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.78);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.rooms-modal-hotel-meta span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.rooms-modal-stay-info {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 14px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 10px 14px;
+    flex-wrap: wrap;
+}
+
+.rooms-stay-item {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.88);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.rooms-stay-item i {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.65);
+}
+
+/* =============================================================
+   MODAL BODY
+   ============================================================= */
+.rooms-modal-body {
+    padding: 24px 28px 28px;
+}
+
+.rooms-section-label {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.rooms-section-label i {
+    color: #1a56db;
+    font-size: 14px;
+}
+
+/* =============================================================
+   ROOM CARDS
+   ============================================================= */
+.rooms-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.room-card {
+    display: flex;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 14px;
+    overflow: hidden;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+    background: #fff;
+}
+
+.room-card:hover {
+    border-color: #1a56db;
+    box-shadow: 0 8px 24px rgba(26, 86, 219, 0.1);
+    transform: translateY(-2px);
+}
+
+/* ── Room image ── */
+.room-card-img-wrap {
+    width: 200px;
+    min-height: 160px;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+    background: #f0f4f8;
+}
+
+.room-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.room-card:hover .room-card-img {
+    transform: scale(1.05);
+}
+
+.room-card-img-placeholder {
+    width: 100%;
+    height: 100%;
+    min-height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 8px;
+    color: #b0bec5;
+    font-size: 13px;
+    font-family: 'Nunito Sans', sans-serif;
+}
+
+.room-card-img-placeholder i {
+    font-size: 32px;
+    color: #cfd8e3;
+}
+
+.room-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: #1a56db;
+    color: #fff;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 3px 9px;
+    border-radius: 4px;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+}
+
+.room-badge.best-value {
+    background: #16a34a;
+}
+
+.room-badge.popular {
+    background: #d97706;
+}
+
+.room-badge.last-rooms {
+    background: #dc2626;
+}
+
+/* ── Room body ── */
+.room-card-body {
+    flex: 1;
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-width: 0;
+}
+
+.room-card-name {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin: 0 0 6px;
+}
+
+.room-card-detail-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+}
+
+.room-detail-item {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 12.5px;
+    color: #555;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.room-detail-item i {
+    color: #1a56db;
+    font-size: 11px;
+}
+
+.room-amenities-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 4px;
+}
+
+.room-amenity-tag {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 11.5px;
+    color: #444;
+    background: #f0f4f8;
+    border-radius: 6px;
+    padding: 3px 9px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.room-amenity-tag i {
+    color: #1a56db;
+    font-size: 10px;
+}
+
+/* ── Room footer ── */
+.room-card-footer {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid #f0f0f0;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+
+.room-price-original {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 12px;
+    color: #aaa;
+    text-decoration: line-through;
+    display: block;
+    line-height: 1.2;
+}
+
+.room-price-main {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: #1a56db;
+    line-height: 1.1;
+}
+
+.room-price-per-night {
+    font-size: 12px;
+    font-weight: 500;
+    color: #888;
+}
+
+.room-price-total {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 12px;
+    color: #555;
+    margin-top: 2px;
+}
+
+.room-select-btn {
+    padding: 10px 22px;
+    background: #1a56db;
+    color: #fff;
+    border: none;
+    border-radius: 9px;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s, transform 0.1s;
+    flex-shrink: 0;
+}
+
+.room-select-btn:hover {
+    background: #1447b8;
+    transform: translateY(-1px);
+}
+
+.room-select-btn:active {
+    transform: translateY(0);
+}
+
+/* =============================================================
+   CONFIRMATION TOAST
+   ============================================================= */
+.room-toast {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: #1a1f3c;
+    color: #fff;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 12px 24px;
+    border-radius: 999px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    z-index: 99999;
+    white-space: nowrap;
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.35s;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.room-toast.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
+
+/* =============================================================
+   RESPONSIVE
+   ============================================================= */
+@media (max-width: 640px) {
+    .rooms-modal-body {
+        padding: 16px;
+    }
+
+    .rooms-modal-header {
+        padding: 20px 16px 16px;
+    }
+
+    .room-card {
+        flex-direction: column;
+    }
+
+    .room-card-img-wrap {
+        width: 100%;
+        min-height: 180px;
+    }
+
+    .room-card-img-placeholder {
+        min-height: 180px;
+    }
+}
+
+/* =============================================================
+   ROOM AMENITIES — plain text (matches Room_Amenities TEXT column)
+   ============================================================= */
+.room-amenities-text {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 12.5px;
+    color: #555;
+    line-height: 1.5;
+    margin: 6px 0 8px;
+}

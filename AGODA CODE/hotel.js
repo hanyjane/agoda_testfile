@@ -272,7 +272,16 @@ function renderHotels(hotels, search) {
                 </div>
                 ${nights > 1 ? `<span class="hotel-card-total">Total: ${formatPrice(totalPrice)} for ${nights} nights</span>` : ''}
               </div>
-              <button class="hotel-card-btn">Book now</button>
+              <button class="hotel-card-btn"
+                data-hotel-id="${h.id}"
+                data-hotel-name="${h.name}"
+                data-hotel-stars="${h.stars}"
+                data-hotel-type="${h.type}"
+                data-hotel-location="${h.area}, ${h.city}"
+                data-hotel-rating="${h.rating}"
+                data-hotel-price="${h.price}"
+                data-hotel-amenities='${JSON.stringify(h.amenities)}'
+                onclick="openRoomsModal(this)">Book now</button>
             </div>
           </div>
         </div>

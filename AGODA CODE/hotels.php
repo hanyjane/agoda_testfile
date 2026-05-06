@@ -61,6 +61,19 @@ if (!empty($_GET['stars']) && (int) $_GET['stars'] > 0) {
     $types       .= 'i';
 }
 
+if (!empty($_GET['adults']) || !empty($_GET['children'])) {
+    $adults      = !empty($_GET['adults'])   && is_numeric($_GET['adults'])   ? (int)$_GET['adults']   : 1;
+    $children    = !empty($_GET['children']) && is_numeric($_GET['children']) ? (int)$_GET['children'] : 0;
+    $totalGuests = $adults + $children;
+    $conditions[] = 'EXISTS (
+        SELECT 1 FROM ROOM r2
+        WHERE r2.Room_HotelID = h.Hotel_ID  
+        AND r2.Room_MaxOccpncy >= ?
+    )';
+    $params[] = $totalGuests;
+    $types   .= 'i';
+}
+
 // Filter by property type  (comma-separated: Hotel,Resort)
 if (!empty($_GET['types'])) {
     $typeList     = array_map('trim', explode(',', $_GET['types']));
