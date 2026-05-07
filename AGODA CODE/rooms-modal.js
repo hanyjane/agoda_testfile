@@ -180,9 +180,15 @@ async function openRoomsModal(btn) {
 
   const adults   = (document.getElementById('adultsCount')   || {}).textContent || '1';
   const children = (document.getElementById('childrenCount') || {}).textContent || '0';
+  const rooms    = (document.getElementById('roomsCount')    || {}).textContent || '1';
 
   try {
-    const res  = await fetch(`rooms.php?hotel_id=${encodeURIComponent(hotelId)}&adults=${encodeURIComponent(adults)}&children=${encodeURIComponent(children)}`);
+    const res  = await fetch(
+      `rooms.php?hotel_id=${encodeURIComponent(hotelId)}`
+      + `&adults=${encodeURIComponent(adults)}`
+      + `&children=${encodeURIComponent(children)}`
+      + `&rooms=${encodeURIComponent(rooms)}`
+    );
     const data = await res.json();
 
     if (!data.success) {
@@ -244,12 +250,14 @@ function selectRoom(btn) {
   const rooms     = (document.getElementById('roomsCount')    || {}).textContent || '1';
   const roomCount = parseInt(rooms) || 1;
 
-  const subtotal  = totalPrice * roomCount;  // multiply by number of rooms
-  const tax       = subtotal * 0.12;
-  const grand     = subtotal + tax;
+  const subtotal = totalPrice * roomCount;
+  const tax      = subtotal * 0.12;
+  const grand    = subtotal + tax;
 
   overlay.innerHTML = `
     <div class="booking-confirm-modal">
+
+      <!-- HEADER -->
       <div class="bcm-header">
         <div>
           <div class="bcm-tag">Booking Summary</div>
@@ -260,6 +268,7 @@ function selectRoom(btn) {
         </button>
       </div>
 
+      <!-- ROOM HIGHLIGHT -->
       <div class="bcm-room-highlight">
         <i class="fa fa-door-open bcm-room-icon"></i>
         <div>
@@ -268,6 +277,7 @@ function selectRoom(btn) {
         </div>
       </div>
 
+      <!-- STAY DETAILS -->
       <div class="bcm-details-grid">
         <div class="bcm-detail-item">
           <i class="fa fa-calendar-day bcm-detail-icon"></i>
@@ -316,40 +326,42 @@ function selectRoom(btn) {
         </div>
       </div>
 
+      <!-- PRICE BREAKDOWN -->
       <div class="bcm-price-breakdown">
-      <div class="bcm-price-row">
-        <span>₱${pricePerNight.toLocaleString()} × ${nights} night${nights !== 1 ? 's' : ''}</span>
-        <span>₱${totalPrice.toLocaleString()}</span>
+        <div class="bcm-price-row">
+          <span>₱${pricePerNight.toLocaleString()} × ${nights} night${nights !== 1 ? 's' : ''}</span>
+          <span>₱${totalPrice.toLocaleString()}</span>
+        </div>
+        ${roomCount > 1 ? `
+        <div class="bcm-price-row">
+          <span>× ${roomCount} rooms</span>
+          <span>₱${subtotal.toLocaleString()}</span>
+        </div>` : ''}
+        <div class="bcm-price-row bcm-price-row--tax">
+          <span>Taxes & fees (est. 12%)</span>
+          <span>₱${tax.toFixed(2)}</span>
+        </div>
+        <div class="bcm-price-divider"></div>
+        <div class="bcm-price-row bcm-price-row--total">
+          <span>Total</span>
+          <span>₱${grand.toFixed(2)}</span>
+        </div>
       </div>
-      ${roomCount > 1 ? `
-      <div class="bcm-price-row">
-        <span>× ${roomCount} rooms</span>
-        <span>₱${subtotal.toLocaleString()}</span>
-      </div>` : ''}
-      <div class="bcm-price-row bcm-price-row--tax">
-        <span>Taxes & fees (est. 12%)</span>
-        <span>₱${tax.toFixed(2)}</span>
-      </div>
-      <div class="bcm-price-divider"></div>
-      <div class="bcm-price-row bcm-price-row--total">
-        <span>Total</span>
-        <span>₱${grand.toFixed(2)}</span>
-      </div>
-    </div>
 
+      <!-- ACTIONS -->
       <div class="bcm-actions">
         <button class="bcm-btn-back" onclick="closeBookingConfirm()">
           <i class="fa fa-arrow-left"></i> Back to Rooms
         </button>
-        <button class="bcm-btn-confirm">
-          <i class="fa fa-check"></i> Confirm Booking
-        </button>
+        <button class="bcm-btn-confirm" onclick="confirmBooking()">
+  <i class="fa fa-check"></i> Confirm Booking
+</button>
       </div>
+
     </div>`;
 
   overlay.classList.add('open');
 }
-
 // ============================================================
 //  CLOSE BOOKING CONFIRMATION MODAL
 // ============================================================
@@ -362,3 +374,18 @@ document.addEventListener('click', function (e) {
   const overlay = document.getElementById('bookingConfirmOverlay');
   if (overlay && e.target === overlay) closeBookingConfirm();
 });
+
+// ============================================================
+//  CONFIRM BOOKING
+// ============================================================
+function confirmBooking() {
+  closeBookingConfirm();
+
+  const toast = document.getElementById('roomToast');
+  const msg   = document.getElementById('roomToastMsg');
+  if (toast && msg) {
+    msg.textContent = 'Booking confirmed! Thank you.';
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3500);
+  }
+}

@@ -53,16 +53,18 @@ if (!empty($_GET['stars']) && (int) $_GET['stars'] > 0) {
 }
 
 if (!empty($_GET['adults']) || !empty($_GET['children'])) {
-    $adults      = isset($_GET['adults'])   && is_numeric($_GET['adults'])   ? (int)$_GET['adults']   : 1;
-    $children    = isset($_GET['children']) && is_numeric($_GET['children']) ? (int)$_GET['children'] : 0;
-    $totalGuests = $adults + $children;
+    $adults        = isset($_GET['adults'])   && is_numeric($_GET['adults'])   ? (int)$_GET['adults']   : 1;
+    $children      = isset($_GET['children']) && is_numeric($_GET['children']) ? (int)$_GET['children'] : 0;
+    $rooms         = isset($_GET['rooms'])    && is_numeric($_GET['rooms'])    ? max(1, (int)$_GET['rooms']) : 1;
+    $totalGuests   = $adults + $children;
+    $guestsPerRoom = (int) ceil($totalGuests / $rooms);
     if ($totalGuests >= 1) {
         $conditions[] = 'EXISTS (
             SELECT 1 FROM ROOM r2
             WHERE r2.Room_HotelID = h.Hotel_ID
             AND   r2.Room_MaxOccpncy >= ?
         )';
-        $params[] = $totalGuests;
+        $params[] = $guestsPerRoom;
         $types   .= 'i';
     }
 }

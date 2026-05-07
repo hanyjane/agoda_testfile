@@ -21,10 +21,12 @@ if (empty($_GET['hotel_id']) || !is_numeric($_GET['hotel_id'])) {
 
 $hotelId = (int) $_GET['hotel_id'];
 
-// ── Guest counts (moved up, defined ONCE) ────────────────────
-$adults      = !empty($_GET['adults'])   && is_numeric($_GET['adults'])   ? (int)$_GET['adults']   : 1;
-$children    = !empty($_GET['children']) && is_numeric($_GET['children']) ? (int)$_GET['children'] : 0;
-$totalGuests = $adults + $children;
+// ── Guest counts ──────────────────────────────────────────────
+$adults        = !empty($_GET['adults'])   && is_numeric($_GET['adults'])   ? (int)$_GET['adults']   : 1;
+$children      = !empty($_GET['children']) && is_numeric($_GET['children']) ? (int)$_GET['children'] : 0;
+$rooms         = !empty($_GET['rooms'])    && is_numeric($_GET['rooms'])    ? max(1, (int)$_GET['rooms']) : 1;
+$totalGuests   = $adults + $children;
+$guestsPerRoom = (int) ceil($totalGuests / $rooms);
 
 // ── Connect ───────────────────────────────────────────────────
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
@@ -66,7 +68,7 @@ $hotel['id']     = (int)   $hotel['id'];
 $hotel['stars']  = (int)   $hotel['stars'];
 $hotel['rating'] = (float) $hotel['rating'];
 
-// ── Fetch rooms filtered by max occupancy ────────────────────
+// ── Fetch rooms filtered by per-room occupancy ───────────────
 $rStmt = $conn->prepare("
     SELECT
         Room_ID         AS id,
@@ -84,25 +86,26 @@ if (!$rStmt) {
     echo json_encode(['success' => false, 'message' => 'Rooms query failed: ' . $conn->error]);
     exit;
 }
-$rStmt->bind_param('ii', $hotelId, $totalGuests);
+$rStmt->bind_param('ii', $hotelId, $guestsPerRoom);
 $rStmt->execute();
 $rResult = $rStmt->get_result();
 
-$rooms = [];
+$rooms_list = [];
 while ($row = $rResult->fetch_assoc()) {
     $row['id']           = (int)   $row['id'];
     $row['maxOccupancy'] = (int)   $row['maxOccupancy'];
     $row['price']        = (float) $row['price'];
     $row['amenities']    = $row['amenities'] ?? '';
-    $rooms[] = $row;
+    $rooms_list[] = $row;
 }
 
 $conn->close();
 
 echo json_encode([
-    'success'     => true,
-    'hotel'       => $hotel,
-    'rooms'       => $rooms,
-    'count'       => count($rooms),
-    'totalGuests' => $totalGuests,
+    'success'       => true,
+    'hotel'         => $hotel,
+    'rooms'         => $rooms_list,
+    'count'         => count($rooms_list),
+    'totalGuests'   => $totalGuests,
+    'guestsPerRoom' => $guestsPerRoom,
 ]);

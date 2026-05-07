@@ -112,6 +112,7 @@ async function fetchHotels(search) {
   params.set('sort', currentFilters.sort);
  params.set('adults',   search.adults   || hotelGuestState.adults);
   params.set('children', search.children || hotelGuestState.children);
+  params.set('rooms',    search.rooms    || hotelGuestState.rooms); 
   try {
     const res = await fetch('hotels.php?' + params.toString());
     const json = await res.json();
