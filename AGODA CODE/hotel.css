@@ -1010,3 +1010,186 @@
   min-width: 380px;
   font-family: 'Nunito Sans', sans-serif;
 }
+
+/* ── Booking Confirm Overlay ── */
+.bcm-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(3px);
+}
+.bcm-overlay.open {
+  display: flex;
+}
+
+/* ── Modal Card ── */
+.booking-confirm-modal {
+  background: #fff;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 480px;
+  margin: 20px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.25);
+  animation: bcmSlideUp 0.28s ease;
+}
+@keyframes bcmSlideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Header ── */
+.bcm-header {
+  background: linear-gradient(135deg, #1a56db, #1e429f);
+  padding: 22px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.bcm-tag {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.65);
+  margin-bottom: 4px;
+}
+.bcm-hotel-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+}
+.bcm-close {
+  background: rgba(255,255,255,0.15);
+  border: none;
+  color: #fff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.bcm-close:hover { background: rgba(255,255,255,0.25); }
+
+/* ── Room Highlight ── */
+.bcm-room-highlight {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 24px;
+  background: #f0f6ff;
+  border-bottom: 1px solid #e2ecfb;
+}
+.bcm-room-icon {
+  font-size: 24px;
+  color: #1a56db;
+}
+.bcm-room-type {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+.bcm-room-sub {
+  font-size: 12px;
+  color: #888;
+}
+
+/* ── Details Grid ── */
+.bcm-details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  padding: 8px 0;
+}
+.bcm-detail-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 24px;
+  border-bottom: 1px solid #f3f4f6;
+}
+.bcm-detail-icon {
+  font-size: 15px;
+  color: #1a56db;
+  width: 18px;
+  text-align: center;
+  flex-shrink: 0;
+}
+.bcm-detail-label {
+  font-size: 11px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.bcm-detail-value {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-top: 2px;
+}
+
+/* ── Price Breakdown ── */
+.bcm-price-breakdown {
+  padding: 16px 24px;
+  background: #fafafa;
+  border-top: 1px solid #f0f0f0;
+}
+.bcm-price-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #555;
+  margin-bottom: 8px;
+}
+.bcm-price-row--tax { color: #888; font-size: 12px; }
+.bcm-price-divider {
+  border-top: 1px dashed #ddd;
+  margin: 10px 0;
+}
+.bcm-price-row--total {
+  font-size: 16px;
+  font-weight: 800;
+  color: #1a1a2e;
+  margin-bottom: 0;
+}
+
+/* ── Actions ── */
+.bcm-actions {
+  display: flex;
+  gap: 10px;
+  padding: 16px 24px 20px;
+}
+.bcm-btn-back {
+  flex: 1;
+  padding: 12px;
+  border: 2px solid #e2e8f0;
+  background: #fff;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #555;
+  cursor: pointer;
+}
+.bcm-btn-back:hover { background: #f8fafc; }
+.bcm-btn-confirm {
+  flex: 2;
+  padding: 12px;
+  background: linear-gradient(135deg, #1a56db, #1e429f);
+  border: none;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+}
+.bcm-btn-confirm:hover { opacity: 0.9; }

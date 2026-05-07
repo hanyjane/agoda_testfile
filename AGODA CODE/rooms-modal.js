@@ -1,6 +1,4 @@
 // ===== ROOMS MODAL — rooms-modal.js =====
-// Works with your exact ROOM schema:
-//   Room_ID, Room_Type, Room_MaxOccpncy, Room_BedType, Room_Price, Room_Amenities
 
 // ============================================================
 //  HELPERS
@@ -12,28 +10,23 @@ function fmt(n) {
 function starsHtml(n) {
   n = Math.max(0, Math.min(5, parseInt(n) || 0));
   const filled = '<i class="fa fa-star" style="color:#f59e0b;font-size:11px;"></i>'.repeat(n);
-  const empty = '<i class="fa fa-star" style="color:rgba(255,255,255,0.25);font-size:11px;"></i>'.repeat(5 - n);
+  const empty  = '<i class="fa fa-star" style="color:rgba(255,255,255,0.25);font-size:11px;"></i>'.repeat(5 - n);
   return filled + empty;
 }
 
-// Room type → icon & display label
 const ROOM_TYPE_META = {
-  'Standard': { icon: 'fa-bed', label: 'Standard Room' },
-  'Deluxe': { icon: 'fa-bed', label: 'Deluxe Room' },
-  'Superior': { icon: 'fa-bed', label: 'Superior Room' },
-  'Suite': { icon: 'fa-crown', label: 'Suite' },
-  'Family': { icon: 'fa-people-roof', label: 'Family Room' },
-  'Twin': { icon: 'fa-bed', label: 'Twin Room' },
+  'Standard': { icon: 'fa-bed',         label: 'Standard Room' },
+  'Deluxe':   { icon: 'fa-bed',         label: 'Deluxe Room'   },
+  'Superior': { icon: 'fa-bed',         label: 'Superior Room' },
+  'Suite':    { icon: 'fa-crown',       label: 'Suite'         },
+  'Family':   { icon: 'fa-people-roof', label: 'Family Room'   },
+  'Twin':     { icon: 'fa-bed',         label: 'Twin Room'     },
 };
 
 function getRoomMeta(type) {
-  // Normalise: trim + title-case first word for lookup
   const key = (type || '').trim();
-  // Try exact match first, then case-insensitive
   for (const k of Object.keys(ROOM_TYPE_META)) {
-    if (key.toLowerCase().includes(k.toLowerCase())) {
-      return ROOM_TYPE_META[k];
-    }
+    if (key.toLowerCase().includes(k.toLowerCase())) return ROOM_TYPE_META[k];
   }
   return { icon: 'fa-door-open', label: key || 'Room' };
 }
@@ -42,7 +35,7 @@ function getRoomMeta(type) {
 //  CALCULATE NIGHTS FROM SEARCH BAR
 // ============================================================
 function getNightsFromSearchBar() {
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   const parseLabel = (s) => {
     if (!s) return null;
     const parts = s.trim().split(' ');
@@ -54,9 +47,9 @@ function getNightsFromSearchBar() {
     }
     return null;
   };
-  const ciStr = (document.getElementById('checkinLabel') || {}).textContent || '';
+  const ciStr = (document.getElementById('checkinLabel')  || {}).textContent || '';
   const coStr = (document.getElementById('checkoutLabel') || {}).textContent || '';
-  const ci = parseLabel(ciStr !== 'Check-in' ? ciStr : null);
+  const ci = parseLabel(ciStr !== 'Check-in'  ? ciStr : null);
   const co = parseLabel(coStr !== 'Check-out' ? coStr : null);
   if (ci && co) return Math.max(1, Math.round((co - ci) / 86400000));
   return 1;
@@ -67,9 +60,8 @@ function getNightsFromSearchBar() {
 // ============================================================
 function renderRoomCard(room, nights) {
   const totalPrice = room.price * nights;
-  const meta = getRoomMeta(room.type);
+  const meta       = getRoomMeta(room.type);
 
-  // Room_Amenities is a plain-text description in your schema
   const amenitiesHtml = room.amenities
     ? `<p class="room-amenities-text">
          <i class="fa fa-circle-check" style="color:#1a56db;font-size:11px;margin-right:4px;"></i>
@@ -105,11 +97,15 @@ function renderRoomCard(room, nights) {
               <span class="room-price-per-night"> /night</span>
             </div>
             ${nights > 1
-      ? `<div class="room-price-total">Total: <strong>${fmt(totalPrice)}</strong> for ${nights} night${nights !== 1 ? 's' : ''}</div>`
-      : ''}
+              ? `<div class="room-price-total">Total: <strong>${fmt(totalPrice)}</strong> for ${nights} night${nights !== 1 ? 's' : ''}</div>`
+              : ''}
           </div>
           <button class="room-select-btn"
-            onclick="selectRoom(${JSON.stringify(room.type)}, ${room.price}, ${totalPrice}, ${nights})">
+            data-type="${room.type}"
+            data-price="${room.price}"
+            data-total="${totalPrice}"
+            data-nights="${nights}"
+            onclick="selectRoom(this)">
             Select Room
           </button>
         </div>
@@ -139,22 +135,21 @@ function showRoomsError(msg) {
 }
 
 // ============================================================
-//  OPEN MODAL — fetch rooms from rooms.php
+//  OPEN ROOMS MODAL
 // ============================================================
 async function openRoomsModal(btn) {
-  const hotelId = btn.dataset.hotelId;
-  const hotelName = btn.dataset.hotelName || 'Hotel';
+  const hotelId    = btn.dataset.hotelId;
+  const hotelName  = btn.dataset.hotelName     || 'Hotel';
   const hotelStars = parseInt(btn.dataset.hotelStars) || 3;
-  const hotelType = btn.dataset.hotelType || 'Hotel';
-  const hotelLoc = btn.dataset.hotelLocation || '';
+  const hotelType  = btn.dataset.hotelType     || 'Hotel';
+  const hotelLoc   = btn.dataset.hotelLocation || '';
   const hotelRating = parseFloat(btn.dataset.hotelRating) || 8.0;
 
-  const checkin = (document.getElementById('checkinLabel') || {}).textContent || '';
+  const checkin  = (document.getElementById('checkinLabel')  || {}).textContent || '';
   const checkout = (document.getElementById('checkoutLabel') || {}).textContent || '';
-  const guests = (document.getElementById('guestSummary') || {}).textContent || '2 adults · 1 room';
-  const nights = getNightsFromSearchBar();
+  const guests   = (document.getElementById('guestSummary')  || {}).textContent || '2 adults · 1 room';
+  const nights   = getNightsFromSearchBar();
 
-  // Fill header immediately
   document.getElementById('modalHotelName').textContent = hotelName;
   document.getElementById('modalHotelMeta').innerHTML = `
     <span>${starsHtml(hotelStars)}</span>
@@ -174,7 +169,6 @@ async function openRoomsModal(btn) {
     <span class="rooms-stay-item"><i class="fa fa-user-group"></i> ${guests}</span>
   `;
 
-  // Open modal with spinner
   document.getElementById('roomsModalOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
   showRoomsLoading();
@@ -184,13 +178,12 @@ async function openRoomsModal(btn) {
     return;
   }
 
-
-
-  const adults = (document.getElementById('adultsCount') || {}).textContent || '1';
+  const adults   = (document.getElementById('adultsCount')   || {}).textContent || '1';
   const children = (document.getElementById('childrenCount') || {}).textContent || '0';
 
   try {
-    const res = await fetch(`rooms.php?hotel_id=${encodeURIComponent(hotelId)}&adults=${encodeURIComponent(adults)}&children=${encodeURIComponent(children)}`);
+    const res  = await fetch(`rooms.php?hotel_id=${encodeURIComponent(hotelId)}&adults=${encodeURIComponent(adults)}&children=${encodeURIComponent(children)}`);
+    const data = await res.json();
 
     if (!data.success) {
       showRoomsError(data.message || 'Could not load rooms.');
@@ -198,7 +191,7 @@ async function openRoomsModal(btn) {
     }
 
     if (!data.rooms || data.rooms.length === 0) {
-      showRoomsError('No rooms listed for this hotel yet.');
+      showRoomsError('No rooms available for your selected guests.');
       return;
     }
 
@@ -212,7 +205,7 @@ async function openRoomsModal(btn) {
 }
 
 // ============================================================
-//  CLOSE MODAL
+//  CLOSE ROOMS MODAL
 // ============================================================
 function closeRoomsModal() {
   document.getElementById('roomsModalOverlay').classList.remove('open');
@@ -228,13 +221,144 @@ document.addEventListener('keydown', function (e) {
 });
 
 // ============================================================
-//  SELECT ROOM — toast confirmation
+//  SELECT ROOM → BOOKING CONFIRMATION MODAL
 // ============================================================
-function selectRoom(roomType, pricePerNight, totalPrice, nights) {
+function selectRoom(btn) {
   closeRoomsModal();
-  const msg = `${roomType} — ${fmt(totalPrice)} for ${nights} night${nights !== 1 ? 's' : ''}`;
-  document.getElementById('roomToastMsg').textContent = msg;
-  const toast = document.getElementById('roomToast');
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 4000);
+  const roomType      = btn.dataset.type;
+  const pricePerNight = parseFloat(btn.dataset.price);
+  const totalPrice    = parseFloat(btn.dataset.total);
+  const nights        = parseInt(btn.dataset.nights);
+
+  const overlay = document.getElementById('bookingConfirmOverlay');
+  if (!overlay) {
+    alert('bookingConfirmOverlay div is missing from hotel.html — add it before </body>');
+    return;
+  }
+
+  const hotelName = document.getElementById('modalHotelName').textContent;
+  const checkin   = (document.getElementById('checkinLabel')  || {}).textContent || '—';
+  const checkout  = (document.getElementById('checkoutLabel') || {}).textContent || '—';
+  const adults    = (document.getElementById('adultsCount')   || {}).textContent || '1';
+  const children  = (document.getElementById('childrenCount') || {}).textContent || '0';
+  const rooms     = (document.getElementById('roomsCount')    || {}).textContent || '1';
+  const roomCount = parseInt(rooms) || 1;
+
+  const subtotal  = totalPrice * roomCount;  // multiply by number of rooms
+  const tax       = subtotal * 0.12;
+  const grand     = subtotal + tax;
+
+  overlay.innerHTML = `
+    <div class="booking-confirm-modal">
+      <div class="bcm-header">
+        <div>
+          <div class="bcm-tag">Booking Summary</div>
+          <h2 class="bcm-hotel-name">${hotelName}</h2>
+        </div>
+        <button class="bcm-close" onclick="closeBookingConfirm()">
+          <i class="fa fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="bcm-room-highlight">
+        <i class="fa fa-door-open bcm-room-icon"></i>
+        <div>
+          <div class="bcm-room-type">${roomType}</div>
+          <div class="bcm-room-sub">Selected Room</div>
+        </div>
+      </div>
+
+      <div class="bcm-details-grid">
+        <div class="bcm-detail-item">
+          <i class="fa fa-calendar-day bcm-detail-icon"></i>
+          <div>
+            <div class="bcm-detail-label">Check-in</div>
+            <div class="bcm-detail-value">${checkin}</div>
+          </div>
+        </div>
+        <div class="bcm-detail-item">
+          <i class="fa fa-calendar-check bcm-detail-icon"></i>
+          <div>
+            <div class="bcm-detail-label">Check-out</div>
+            <div class="bcm-detail-value">${checkout}</div>
+          </div>
+        </div>
+        <div class="bcm-detail-item">
+          <i class="fa fa-moon bcm-detail-icon"></i>
+          <div>
+            <div class="bcm-detail-label">Duration</div>
+            <div class="bcm-detail-value">${nights} night${nights !== 1 ? 's' : ''}</div>
+          </div>
+        </div>
+        <div class="bcm-detail-item">
+          <i class="fa fa-user-group bcm-detail-icon"></i>
+          <div>
+            <div class="bcm-detail-label">Guests</div>
+            <div class="bcm-detail-value">
+              ${adults} adult${parseInt(adults) !== 1 ? 's' : ''}
+              ${parseInt(children) > 0 ? `, ${children} child${parseInt(children) !== 1 ? 'ren' : ''}` : ''}
+            </div>
+          </div>
+        </div>
+        <div class="bcm-detail-item">
+          <i class="fa fa-door-closed bcm-detail-icon"></i>
+          <div>
+            <div class="bcm-detail-label">Rooms</div>
+            <div class="bcm-detail-value">${rooms} room${parseInt(rooms) !== 1 ? 's' : ''}</div>
+          </div>
+        </div>
+        <div class="bcm-detail-item">
+          <i class="fa fa-tag bcm-detail-icon"></i>
+          <div>
+            <div class="bcm-detail-label">Price / night</div>
+            <div class="bcm-detail-value">₱${pricePerNight.toLocaleString()}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bcm-price-breakdown">
+      <div class="bcm-price-row">
+        <span>₱${pricePerNight.toLocaleString()} × ${nights} night${nights !== 1 ? 's' : ''}</span>
+        <span>₱${totalPrice.toLocaleString()}</span>
+      </div>
+      ${roomCount > 1 ? `
+      <div class="bcm-price-row">
+        <span>× ${roomCount} rooms</span>
+        <span>₱${subtotal.toLocaleString()}</span>
+      </div>` : ''}
+      <div class="bcm-price-row bcm-price-row--tax">
+        <span>Taxes & fees (est. 12%)</span>
+        <span>₱${tax.toFixed(2)}</span>
+      </div>
+      <div class="bcm-price-divider"></div>
+      <div class="bcm-price-row bcm-price-row--total">
+        <span>Total</span>
+        <span>₱${grand.toFixed(2)}</span>
+      </div>
+    </div>
+
+      <div class="bcm-actions">
+        <button class="bcm-btn-back" onclick="closeBookingConfirm()">
+          <i class="fa fa-arrow-left"></i> Back to Rooms
+        </button>
+        <button class="bcm-btn-confirm">
+          <i class="fa fa-check"></i> Confirm Booking
+        </button>
+      </div>
+    </div>`;
+
+  overlay.classList.add('open');
 }
+
+// ============================================================
+//  CLOSE BOOKING CONFIRMATION MODAL
+// ============================================================
+function closeBookingConfirm() {
+  const overlay = document.getElementById('bookingConfirmOverlay');
+  if (overlay) overlay.classList.remove('open');
+}
+
+document.addEventListener('click', function (e) {
+  const overlay = document.getElementById('bookingConfirmOverlay');
+  if (overlay && e.target === overlay) closeBookingConfirm();
+});

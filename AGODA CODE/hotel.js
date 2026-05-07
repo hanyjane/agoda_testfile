@@ -110,7 +110,8 @@ async function fetchHotels(search) {
   if (search.city) params.set('city', search.city);
   if (search.dest) params.set('dest', search.dest);
   params.set('sort', currentFilters.sort);
-
+ params.set('adults',   search.adults   || hotelGuestState.adults);
+  params.set('children', search.children || hotelGuestState.children);
   try {
     const res = await fetch('hotels.php?' + params.toString());
     const json = await res.json();
@@ -312,7 +313,7 @@ function changeGuestHotel(type, delta) {
     txt += ' · ' + hotelGuestState.rooms + ' room' + (hotelGuestState.rooms !== 1 ? 's' : '');
     summary.textContent = txt;
   }
-   fetchHotels(currentSearch);
+   
 }
 
 
@@ -320,7 +321,7 @@ function changeGuestHotel(type, delta) {
 //  GUESTS DROPDOWN TOGGLE
 // ============================================================
 document.getElementById('guestsField').addEventListener('click', function (e) {
-  e.stopPropagation();
+  e.stopPropagation(); // prevent the document click from firing immediately
   document.getElementById('guestsDropdown').classList.toggle('open');
 });
 
@@ -328,10 +329,13 @@ function closeGuestsDropdown() {
   document.getElementById('guestsDropdown').classList.remove('open');
 }
 
-document.addEventListener('click', function () {
-  closeGuestsDropdown();
+// Only close when clicking OUTSIDE the guestsField
+document.addEventListener('click', function (e) {
+  const field = document.getElementById('guestsField');
+  if (!field.contains(e.target)) {
+    closeGuestsDropdown();
+  }
 });
-
 
 // ============================================================
 //  DATE INPUTS
@@ -420,14 +424,14 @@ function setupFilters(search) {
   });
 
   // Search button on hotel page
-  document.getElementById('hotelSearchBtn').addEventListener('click', () => {
+ document.getElementById('hotelSearchBtn').addEventListener('click', () => {
     const destEl = document.getElementById('searchInput');
     const dest = destEl ? destEl.value.trim() : '';
     const ci = document.getElementById('checkinLabel').textContent;
     const co = document.getElementById('checkoutLabel').textContent;
-    const a = document.getElementById('adultsCount').textContent;
-    const c = document.getElementById('childrenCount').textContent;
-    const r = document.getElementById('roomsCount').textContent;
+    const a = hotelGuestState.adults;    // ← read from state, not DOM
+    const c = hotelGuestState.children; // ← read from state, not DOM
+    const r = hotelGuestState.rooms;    // ← read from state, not DOM
     const params = new URLSearchParams();
     const savedCountry = localStorage.getItem('search_country') || '';
     const savedCity = localStorage.getItem('search_city') || '';
