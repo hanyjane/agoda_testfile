@@ -379,6 +379,50 @@ document.addEventListener('click', function (e) {
 //  CONFIRM BOOKING
 // ============================================================
 function confirmBooking() {
+  const hotelName  = document.getElementById('modalHotelName').textContent;
+  const checkin    = (document.getElementById('checkinLabel')  || {}).textContent || '';
+  const checkout   = (document.getElementById('checkoutLabel') || {}).textContent || '';
+  const adults     = (document.getElementById('adultsCount')   || {}).textContent || '1';
+  const children   = (document.getElementById('childrenCount') || {}).textContent || '0';
+  const rooms      = (document.getElementById('roomsCount')    || {}).textContent || '1';
+  const roomType   = document.querySelector('.bcm-room-type')  ? document.querySelector('.bcm-room-type').textContent : '';
+  const totalEl    = document.querySelector('.bcm-price-row--total span:last-child');
+  const totalRaw   = totalEl ? totalEl.textContent.replace(/[^0-9.]/g, '') : '0';
+  const userEmail  = localStorage.getItem('user_User_Email') || '';
+  const hotelId    = localStorage.getItem('last_hotel_id')   || '0';
+
+  const formData = new FormData();
+  formData.append('userEmail',  userEmail);
+  formData.append('hotelId',    hotelId);
+  formData.append('hotelName',  hotelName);
+  formData.append('roomType',   roomType);
+  formData.append('checkin',    checkin);
+  formData.append('checkout',   checkout);
+  formData.append('adults',     adults);
+  formData.append('children',   children);
+  formData.append('rooms',      rooms);
+  formData.append('total',      totalRaw);
+
+  fetch('bookings.php', { method: 'POST', body: formData })
+    .then(r => r.json())
+    .then(data => {
+      if (data.success) {
+        // Also save to localStorage as backup
+        const booking = {
+          id: data.booking_id,
+          hotelName, roomType, checkin, checkout,
+          adults, children, rooms,
+          total: '₱' + parseFloat(totalRaw).toLocaleString('en-PH'),
+          bookedOn: new Date().toLocaleDateString('en-PH', { year:'numeric', month:'short', day:'numeric' }),
+          status: 'confirmed'
+        };
+        const existing = JSON.parse(localStorage.getItem('my_bookings') || '[]');
+        existing.unshift(booking);
+        localStorage.setItem('my_bookings', JSON.stringify(existing));
+      }
+    })
+    .catch(err => console.error('Booking save error:', err));
+
   closeBookingConfirm();
 
   const toast = document.getElementById('roomToast');

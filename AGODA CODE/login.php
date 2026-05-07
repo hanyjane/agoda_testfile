@@ -37,7 +37,7 @@ if ($conn->connect_error) {
 }
 
 // ── Fetch user by email ──
-$stmt = $conn->prepare('SELECT User_Fname, User_Lname, User_Email, User_Password FROM USER WHERE User_Email = ?');
+$stmt = $conn->prepare('SELECT User_ID, User_Fname, User_Lname, User_Email, User_Password, User_Role FROM USER WHERE User_Email = ?');
 $stmt->bind_param('s', $email);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -61,9 +61,11 @@ if (!password_verify($password, $user['User_Password'])) {
 // ── Login successful — return user info ──
 echo json_encode([
     'success'    => true,
+    'User_ID'    => $user['User_ID'],
     'User_Fname' => $user['User_Fname'],
     'User_Lname' => $user['User_Lname'],
-    'User_Email' => $user['User_Email']
+    'User_Email' => $user['User_Email'],
+    'User_Role'  => $user['User_Role']
 ]);
 
 $stmt->close();

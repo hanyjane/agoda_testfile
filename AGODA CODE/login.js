@@ -43,6 +43,7 @@ submitBtn.addEventListener('click', async function () {
     if (json.success) {
       localStorage.setItem('user_User_Fname', json.User_Fname);
       localStorage.setItem('user_User_Lname', json.User_Lname);
+      localStorage.setItem('user_User_Role',  data.User_Role);
       localStorage.setItem('user_User_Email', json.User_Email);
       localStorage.setItem('user_logged_in',  'true');
 
