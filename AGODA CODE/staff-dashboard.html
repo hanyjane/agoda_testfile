@@ -1,3 +1,4 @@
+================================================
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -517,6 +518,9 @@
       <div class="sidebar-staff-info">
         <div class="sidebar-staff-name" id="sidebarName">Staff Member</div>
         <div class="sidebar-staff-role" id="sidebarRole">Support Agent</div>
+        <div class="sidebar-staff-role" id="sidebarHotel" style="color:#60a5fa;margin-top:3px;font-size:10px;">
+          <i class="fa fa-hotel" style="margin-right:4px;"></i><span id="sidebarHotelName">—</span>
+        </div>
       </div>
     </div>
 
@@ -695,15 +699,17 @@
 (function () {
   const loggedIn = localStorage.getItem('staff_logged_in') === 'true';
   if (!loggedIn) {
-    window.location.href = 'staff-login.html';
+    window.location.href = 'login.html';
     return;
   }
   // Populate sidebar
-  const name = localStorage.getItem('staff_name') || 'Staff';
-  const role = localStorage.getItem('staff_role') || 'Agent';
-  document.getElementById('sidebarName').textContent = name;
-  document.getElementById('sidebarRole').textContent = role;
-  document.getElementById('sidebarAvatar').textContent = name.charAt(0).toUpperCase();
+  const name      = localStorage.getItem('staff_name')       || 'Staff';
+  const role      = localStorage.getItem('staff_role')       || 'Agent';
+  const hotelName = localStorage.getItem('staff_hotel_name') || 'Unassigned';
+  document.getElementById('sidebarName').textContent      = name;
+  document.getElementById('sidebarRole').textContent      = role;
+  document.getElementById('sidebarAvatar').textContent    = name.charAt(0).toUpperCase();
+  document.getElementById('sidebarHotelName').textContent = hotelName;
 
   // Hide auth guard
   document.getElementById('authGuard').style.display = 'none';
@@ -733,15 +739,17 @@ let expandedRows    = new Set();
 //  LOAD BOOKINGS
 // ============================================================
 async function loadBookings() {
-  const status = document.getElementById('statusFilter').value;
-  const search = document.getElementById('searchInput').value.trim();
+  const status  = document.getElementById('statusFilter').value;
+  const search  = document.getElementById('searchInput').value.trim();
+  const hotelID = localStorage.getItem('staff_hotel_id') || '';
 
   showSkeleton();
 
   try {
     let url = 'get-bookings.php?t=' + Date.now();
-    if (status) url += '&status=' + encodeURIComponent(status);
-    if (search) url += '&search=' + encodeURIComponent(search);
+    if (hotelID) url += '&hotel_id=' + encodeURIComponent(hotelID);
+    if (status)  url += '&status='   + encodeURIComponent(status);
+    if (search)  url += '&search='   + encodeURIComponent(search);
 
     const res  = await fetch(url);
     const data = await res.json();
@@ -1074,11 +1082,8 @@ function showSection(section) {
 //  LOGOUT
 // ============================================================
 function logout() {
-  localStorage.removeItem('staff_logged_in');
-  localStorage.removeItem('staff_username');
-  localStorage.removeItem('staff_name');
-  localStorage.removeItem('staff_role');
-  window.location.href = 'staff-login.html';
+  localStorage.clear();
+  window.location.href = 'index.html';
 }
 
 // ============================================================

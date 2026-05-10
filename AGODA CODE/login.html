@@ -7,18 +7,17 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <link rel="stylesheet" href="signup.css"/>
   <link rel="stylesheet" href="login.css"/>
-  
 </head>
 <body>
 
   <!-- ===== NAVBAR ===== -->
   <nav class="top-nav">
     <div class="nav-inner">
-        <div class="logo-wrap">
+      <div class="logo-wrap">
         <a href="index.html">
-            <img src="Agoda_logo_2019.svg.png" alt="logo" width="71" height="36">
+          <img src="Agoda_logo_2019.svg.png" alt="logo" width="71" height="36">
         </a>
-        </div>
+      </div>
       <div class="nav-links">
         <a href="#">Flight + Hotel</a>
         <a href="#">Hotels &amp; Homes</a>
@@ -29,8 +28,7 @@
         <a href="#">Travel Guides</a>
         <a href="#">Travel Itineraries</a>
       </div>
-      <div class="nav-right">
-
+      <div class="nav-right"></div>
     </div>
   </nav>
 
@@ -44,20 +42,20 @@
       </div>
 
       <h2 class="signin-title">Welcome back</h2>
-      <p class="signin-sub">Sign in to access your bookings and exclusive deals.</p>
+      <p class="signin-sub">Sign in to your account.</p>
 
       <!-- Success / Error message -->
       <div id="formMsg" class="form-msg" style="display:none;"></div>
 
-      <!-- Email -->
+      <!-- Email or Username -->
       <div class="signin-field">
-        <label class="signin-label">Email address</label>
+        <label class="signin-label">Email or Username</label>
         <input
-          type="email"
+          type="text"
           class="signin-input"
-          id="email"
-          placeholder="id@email.com"
-          autocomplete="email"
+          id="identifier"
+          placeholder="Email address or staff username"
+          autocomplete="username"
         />
       </div>
 
@@ -78,13 +76,13 @@
         </div>
       </div>
 
-      <!-- Forgot password link -->
+      <!-- Forgot password -->
       <div class="forgot-wrap">
         <a href="#" class="forgot-link">Forgot password?</a>
       </div>
 
       <!-- Submit -->
-      <button class="btn-continue" id="submitBtn" disabled>Sign In</button>
+      <button class="btn-continue" id="submitBtn">Sign In</button>
 
       <p class="signin-terms">
         By signing in, I agree to Agoda's
@@ -100,7 +98,6 @@
     </div>
   </div>
 
-  <!-- Navbar state script (same as your other pages) -->
   <script src="navbar.js"></script>
   <script src="login.js"></script>
 </body>

@@ -32,10 +32,13 @@ if ($conn->connect_error) {
 }
 $conn->set_charset('utf8mb4');
 
+// Fetch staff + their assigned hotel name
 $stmt = $conn->prepare("
-    SELECT Staff_ID, Staff_Username, Staff_Name, Staff_Role, Staff_Password
-    FROM staff
-    WHERE Staff_Username = ?
+    SELECT s.Staff_ID, s.Staff_Username, s.Staff_Name, s.Staff_Role, s.Staff_Password,
+           s.Staff_HotelID, h.Hotel_Name
+    FROM staff s
+    LEFT JOIN HOTEL h ON h.Hotel_ID = s.Staff_HotelID
+    WHERE s.Staff_Username = ?
     LIMIT 1
 ");
 
@@ -69,10 +72,12 @@ if (!$passwordValid) {
 }
 
 echo json_encode([
-    'success'  => true,
-    'username' => $staff['Staff_Username'],
-    'name'     => $staff['Staff_Name'],
-    'role'     => $staff['Staff_Role'],
+    'success'    => true,
+    'username'   => $staff['Staff_Username'],
+    'name'       => $staff['Staff_Name'],
+    'role'       => $staff['Staff_Role'],
+    'hotel_id'   => $staff['Staff_HotelID'],
+    'hotel_name' => $staff['Hotel_Name'] ?? 'Unassigned',
 ]);
 
 $stmt->close();

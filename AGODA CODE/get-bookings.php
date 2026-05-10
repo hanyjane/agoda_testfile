@@ -1,5 +1,5 @@
 <?php
-// ===== get-bookings.php — Return all bookings (staff only) =====
+// ===== get-bookings.php — Return bookings filtered by staff's assigned hotel =====
 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
@@ -24,13 +24,19 @@ if ($conn->connect_error) {
 }
 $conn->set_charset('utf8mb4');
 
-// Optional filters via GET params
+// Staff's assigned hotel (sent from dashboard via localStorage)
+$hotelID      = intval($_GET['hotel_id'] ?? 0);
 $statusFilter = trim($_GET['status'] ?? '');
 $searchQuery  = trim($_GET['search'] ?? '');
 
-$where  = [];
-$params = [];
-$types  = '';
+if (!$hotelID) {
+    echo json_encode(['success' => false, 'message' => 'No hotel assigned to this staff account.']);
+    exit;
+}
+
+$where  = ['b.Booking_HotelID = ?'];
+$params = [$hotelID];
+$types  = 'i';
 
 if ($statusFilter && in_array(strtolower($statusFilter), ['confirmed', 'cancelled', 'completed'])) {
     $where[]  = 'LOWER(b.Booking_Status) = ?';
@@ -48,7 +54,7 @@ if ($searchQuery) {
     $types   .= 'ssss';
 }
 
-$whereSQL = $where ? 'WHERE ' . implode(' AND ', $where) : '';
+$whereSQL = 'WHERE ' . implode(' AND ', $where);
 
 $sql = "
     SELECT
@@ -65,20 +71,16 @@ $sql = "
         b.Booking_Total,
         b.Booking_Status,
         b.Booking_CreatedAt,
-        CONCAT(u.first_name, ' ', u.last_name) AS Customer_Name,
-        u.contact AS Customer_Contact
+        CONCAT(u.User_Fname, ' ', u.User_Lname) AS Customer_Name,
+        u.User_Phone AS Customer_Contact
     FROM BOOKING b
-    LEFT JOIN users u ON u.email = b.Booking_UserEmail
+    LEFT JOIN USER u ON u.User_Email = b.Booking_UserEmail
     $whereSQL
     ORDER BY b.Booking_ID DESC
 ";
 
 $stmt = $conn->prepare($sql);
-
-if ($types && $params) {
-    $stmt->bind_param($types, ...$params);
-}
-
+$stmt->bind_param($types, ...$params);
 $stmt->execute();
 $result   = $stmt->get_result();
 $bookings = [];
@@ -87,8 +89,8 @@ while ($row = $result->fetch_assoc()) {
     $bookings[] = $row;
 }
 
-// Summary counts
-$countStmt = $conn->query("
+// Summary counts for THIS hotel only
+$summaryStmt = $conn->prepare("
     SELECT
         COUNT(*) AS total,
         SUM(CASE WHEN LOWER(Booking_Status) = 'confirmed'  THEN 1 ELSE 0 END) AS confirmed,
@@ -96,8 +98,11 @@ $countStmt = $conn->query("
         SUM(CASE WHEN LOWER(Booking_Status) = 'completed'  THEN 1 ELSE 0 END) AS completed,
         SUM(Booking_Total) AS revenue
     FROM BOOKING
+    WHERE Booking_HotelID = ?
 ");
-$summary = $countStmt->fetch_assoc();
+$summaryStmt->bind_param('i', $hotelID);
+$summaryStmt->execute();
+$summary = $summaryStmt->get_result()->fetch_assoc();
 
 echo json_encode([
     'success'  => true,
@@ -106,4 +111,5 @@ echo json_encode([
 ]);
 
 $stmt->close();
+$summaryStmt->close();
 $conn->close();

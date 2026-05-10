@@ -10,7 +10,7 @@ USE agoda_db;
 -- ──────────────────────────────────────────────────────
 
 ALTER TABLE BOOKING
-    MODIFY COLUMN Booking_Status VARCHAR(20) NOT NULL DEFAULT 'confirmed';
+    MODIFY COLUMN Booking_Status VARCHAR(20) NOT NULL DEFAULT 'pending';
 
 -- Add CreatedAt if missing (silent if already present)
 ALTER TABLE BOOKING
