@@ -33,9 +33,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
         <div class="dropdown-menu" id="userDropdown">
           <p class="menu-title">MY ACCOUNT</p>
-          <a href="#">My Trips</a>
-          <a href="#">Saved Properties</a>
-          <a href="#">Profile</a>
+          <a href="my-bookings.html"><i class="fa fa-suitcase-rolling" style="margin-right:7px;color:#1a56db;"></i>My Bookings</a>
+          <a href="#"><i class="fa fa-heart" style="margin-right:7px;color:#1a56db;"></i>Saved Properties</a>
+          <a href="#"><i class="fa fa-user" style="margin-right:7px;color:#1a56db;"></i>Profile</a>
           <button class="logout-btn" id="logoutBtn">SIGN OUT</button>
         </div>
       </div>

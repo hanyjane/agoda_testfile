@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Bookings — Agoda</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --blue:   #1a56db;
+      --dark:   #1a1a2e;
+      --green:  #16a34a;
+      --red:    #dc2626;
+      --orange: #d97706;
+      --grey:   #6b7280;
+      --light:  #f4f7fc;
+      --border: #e5e9f0;
+    }
+    body { font-family: 'Nunito Sans', sans-serif; background: var(--light); color: var(--dark); }
+
+    /* ── Navbar (matches existing nav style) ── */
+    .top-nav {
+      background: #fff;
+      height: 60px;
+      padding: 0 16px;
+      position: sticky;
+      top: 0;
+      z-index: 600;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner { display: flex; align-items: center; height: 100%; flex: 1; }
+    .logo-wrap { flex-shrink: 0; display: flex; align-items: center; margin-right: 40px; margin-left: 20px; }
+    .logo-wrap a { display: flex; align-items: center; text-decoration: none; gap: 8px; }
+    .logo-text { font-size: 22px; font-weight: 800; color: var(--blue); letter-spacing: -0.5px; }
+    .nav-links { display: flex; align-items: center; flex: 1; gap: 2px; }
+    .nav-links a { font-size: 14px; font-weight: 400; color: #2A2A2E; text-decoration: none; padding: 6px 14px; border-radius: 6px; white-space: nowrap; transition: color 0.15s; }
+    .nav-links a:hover { color: var(--blue); }
+    .nav-links a.active { color: var(--blue); font-weight: 700; }
+    .nav-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+    .nav-user { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: var(--dark); }
+    .nav-user-avatar {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: var(--blue); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700; flex-shrink: 0;
+    }
+    #navLoginBtn {
+      font-size: 14px; font-weight: 600; color: var(--blue);
+      border: 1.5px solid #d0d0d0; border-radius: 999px; background: #fff;
+      height: 38px; padding: 0 20px; cursor: pointer; transition: all 0.15s;
+    }
+    #navLoginBtn:hover { border-color: var(--blue); background: #f0f6ff; }
+
+    /* ── Page Hero ── */
+    .page-hero {
+      background: linear-gradient(135deg, #1a1f3c 0%, #1a56db 100%);
+      padding: 48px 20px 40px;
+      text-align: center;
+      color: #fff;
+    }
+    .page-hero h1 { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
+    .page-hero p  { font-size: 15px; opacity: 0.8; }
+
+    /* ── Container ── */
+    .page-container { max-width: 900px; margin: 0 auto; padding: 32px 20px 60px; }
+
+    /* ── Tabs ── */
+    .tabs-wrap {
+      display: flex;
+      gap: 6px;
+      background: #fff;
+      border-radius: 14px;
+      padding: 6px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+      margin-bottom: 28px;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 10px;
+      background: transparent;
+      font-family: 'Nunito Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--grey);
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      white-space: nowrap;
+    }
+    .tab-btn:hover { background: var(--light); color: var(--dark); }
+    .tab-btn.active { background: var(--blue); color: #fff; }
+    .tab-btn .tab-count {
+      background: rgba(255,255,255,0.25);
+      border-radius: 999px;
+      padding: 1px 8px;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.6;
+    }
+    .tab-btn:not(.active) .tab-count { background: #e5e9f0; color: var(--grey); }
+
+    /* ── Booking Cards ── */
+    .bookings-list { display: flex; flex-direction: column; gap: 18px; }
+
+    .booking-card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+      overflow: hidden;
+      border: 1.5px solid var(--border);
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .booking-card:hover { box-shadow: 0 8px 28px rgba(0,0,0,0.10); transform: translateY(-2px); }
+
+    /* Card header band */
+    .card-header {
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      gap: 12px;
+    }
+    .card-header-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .hotel-icon {
+      width: 44px; height: 44px; border-radius: 10px;
+      background: #eef2ff; color: var(--blue);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; flex-shrink: 0;
+    }
+    .hotel-name { font-size: 17px; font-weight: 800; color: var(--dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .booking-id { font-size: 12px; color: var(--grey); margin-top: 2px; }
+
+    /* Status badge */
+    .status-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 5px 12px; border-radius: 999px;
+      font-size: 12px; font-weight: 700;
+      flex-shrink: 0;
+    }
+    .status-badge.active    { background: #dcfce7; color: var(--green); }
+    .status-badge.past      { background: #f3f4f6; color: var(--grey); }
+    .status-badge.cancelled { background: #fee2e2; color: var(--red); }
+
+    /* Card body */
+    .card-body { padding: 18px 20px; }
+
+    .details-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    .detail-item { display: flex; flex-direction: column; gap: 3px; }
+    .detail-label { font-size: 11px; font-weight: 600; color: var(--grey); text-transform: uppercase; letter-spacing: 0.5px; }
+    .detail-value { font-size: 14px; font-weight: 700; color: var(--dark); display: flex; align-items: center; gap: 5px; }
+    .detail-value i { color: var(--blue); font-size: 12px; }
+
+    /* Price highlight */
+    .price-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      background: var(--light);
+      border-radius: 10px;
+      margin-bottom: 14px;
+    }
+    .price-label { font-size: 13px; font-weight: 600; color: var(--grey); }
+    .price-value { font-size: 20px; font-weight: 800; color: var(--blue); }
+
+    /* Card footer */
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .booked-on { font-size: 12px; color: var(--grey); display: flex; align-items: center; gap: 5px; }
+
+    .btn-cancel {
+      padding: 9px 22px;
+      background: #fff;
+      color: var(--red);
+      border: 1.5px solid var(--red);
+      border-radius: 9px;
+      font-family: 'Nunito Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .btn-cancel:hover { background: #fee2e2; }
+    .btn-cancel:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* ── Empty state ── */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--grey);
+    }
+    .empty-state i { font-size: 52px; color: #d1d5db; margin-bottom: 16px; display: block; }
+    .empty-state h3 { font-size: 18px; font-weight: 700; color: var(--dark); margin-bottom: 8px; }
+    .empty-state p  { font-size: 14px; margin-bottom: 24px; }
+    .btn-browse {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 11px 28px;
+      background: var(--blue); color: #fff;
+      border: none; border-radius: 10px;
+      font-family: 'Nunito Sans', sans-serif;
+      font-size: 14px; font-weight: 700;
+      text-decoration: none; cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-browse:hover { background: #1447b8; }
+
+    /* ── Loading skeleton ── */
+    .skeleton-card {
+      background: #fff; border-radius: 16px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+      padding: 20px; border: 1.5px solid var(--border);
+    }
+    .skel { background: linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1.2s infinite; border-radius: 8px; }
+    @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+    .skel-h { height: 18px; margin-bottom: 10px; }
+    .skel-sm { height: 12px; width: 60%; }
+    .skel-row { display: flex; gap: 12px; margin-top: 16px; }
+    .skel-box { flex: 1; height: 48px; border-radius: 8px; }
+
+    /* ── Not logged in ── */
+    .login-prompt {
+      text-align: center; padding: 70px 20px;
+      background: #fff; border-radius: 16px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+    }
+    .login-prompt i { font-size: 48px; color: #d1d5db; margin-bottom: 16px; display: block; }
+    .login-prompt h3 { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
+    .login-prompt p  { font-size: 14px; color: var(--grey); margin-bottom: 24px; }
+
+    /* ── Cancel confirm modal ── */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.45); z-index: 9999;
+      align-items: center; justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+      background: #fff; border-radius: 18px;
+      padding: 32px; max-width: 420px; width: 90%;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    }
+    .modal-icon { font-size: 40px; color: var(--red); margin-bottom: 14px; }
+    .modal-box h3 { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
+    .modal-box p  { font-size: 14px; color: var(--grey); margin-bottom: 24px; }
+    .modal-actions { display: flex; gap: 10px; justify-content: center; }
+    .modal-btn-back {
+      flex: 1; padding: 11px;
+      border: 1.5px solid var(--border); border-radius: 10px;
+      background: #fff; font-family: 'Nunito Sans', sans-serif;
+      font-size: 14px; font-weight: 700; color: var(--grey); cursor: pointer;
+      transition: all 0.15s;
+    }
+    .modal-btn-back:hover { background: var(--light); }
+    .modal-btn-confirm {
+      flex: 1; padding: 11px;
+      border: none; border-radius: 10px;
+      background: var(--red); color: #fff;
+      font-family: 'Nunito Sans', sans-serif;
+      font-size: 14px; font-weight: 700; cursor: pointer;
+      transition: background 0.15s;
+    }
+    .modal-btn-confirm:hover { background: #b91c1c; }
+
+    /* ── Toast ── */
+    .toast {
+      position: fixed; bottom: 28px; left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: #1a1f3c; color: #fff;
+      font-family: 'Nunito Sans', sans-serif; font-size: 14px; font-weight: 600;
+      padding: 12px 24px; border-radius: 999px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+      z-index: 99999; white-space: nowrap;
+      transition: transform 0.35s cubic-bezier(.34,1.56,.64,1), opacity 0.35s;
+      opacity: 0;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+    .toast.success { background: var(--green); }
+    .toast.error   { background: var(--red); }
+
+    /* ── Success banner (shown after redirect from booking) ── */
+    .success-banner {
+      display: flex; align-items: center; gap: 14px;
+      background: #dcfce7; border: 1.5px solid #bbf7d0;
+      border-radius: 14px; padding: 16px 20px;
+      margin-bottom: 24px;
+      animation: bannerSlide 0.4s ease;
+    }
+    @keyframes bannerSlide { from { opacity:0; transform:translateY(-10px); } to { opacity:1; transform:translateY(0); } }
+    .success-banner-icon { font-size: 28px; color: var(--green); flex-shrink: 0; }
+    .success-banner-text h3 { font-size: 16px; font-weight: 800; color: var(--green); margin-bottom: 3px; }
+    .success-banner-text p  { font-size: 13px; color: #166534; }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .tabs-wrap { flex-wrap: wrap; }
+      .tab-btn   { flex: 1 1 45%; }
+      .details-grid { grid-template-columns: 1fr 1fr; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="top-nav">
+  <div class="nav-inner">
+    <div class="logo-wrap">
+      <a href="index.html">
+        <span class="logo-text">agoda</span>
+      </a>
+    </div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="hotel.html">Hotels</a>
+      <a href="my-bookings.html" class="active">My Bookings</a>
+    </div>
+  </div>
+  <div class="nav-right">
+    <div id="navUserWrap" style="display:none;" class="nav-user">
+      <div class="nav-user-avatar" id="navAvatar">U</div>
+      <span id="navUserName">User</span>
+    </div>
+    <button id="navLoginBtn" onclick="window.location.href='login.html'" style="display:none;">Sign In</button>
+  </div>
+</nav>
+
+<!-- ===== PAGE HERO ===== -->
+<div class="page-hero">
+  <h1><i class="fa fa-suitcase-rolling" style="margin-right:10px;"></i>My Bookings</h1>
+  <p id="heroSubtitle">Manage all your reservations in one place</p>
+</div>
+
+<!-- ===== MAIN CONTENT ===== -->
+<div class="page-container">
+
+  <!-- Not logged in -->
+  <div id="loginPrompt" class="login-prompt" style="display:none;">
+    <i class="fa fa-circle-user"></i>
+    <h3>Please sign in first</h3>
+    <p>You need to be logged in to view your bookings.</p>
+    <a class="btn-browse" href="login.html"><i class="fa fa-arrow-right-to-bracket"></i> Sign In</a>
+  </div>
+
+  <!-- Bookings content (shown when logged in) -->
+  <div id="bookingsContent" style="display:none;">
+
+    <!-- Success banner (shown after redirect from hotel booking) -->
+    <div id="successBanner" class="success-banner" style="display:none;">
+      <div class="success-banner-icon"><i class="fa fa-circle-check"></i></div>
+      <div class="success-banner-text">
+        <h3>Booking Confirmed! 🎉</h3>
+        <p>Your reservation has been saved. You can manage it below.</p>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs-wrap">
+      <button class="tab-btn active" id="tab-active" onclick="switchTab('active')">
+        <i class="fa fa-circle-check"></i> Active
+        <span class="tab-count" id="count-active">0</span>
+      </button>
+      <button class="tab-btn" id="tab-past" onclick="switchTab('past')">
+        <i class="fa fa-clock-rotate-left"></i> Past
+        <span class="tab-count" id="count-past">0</span>
+      </button>
+      <button class="tab-btn" id="tab-cancelled" onclick="switchTab('cancelled')">
+        <i class="fa fa-ban"></i> Cancelled
+        <span class="tab-count" id="count-cancelled">0</span>
+      </button>
+    </div>
+
+    <!-- Booking list -->
+    <div id="bookingsList" class="bookings-list">
+      <!-- Skeleton loader -->
+      <div class="skeleton-card">
+        <div class="skel skel-h" style="width:55%;"></div>
+        <div class="skel skel-sm"></div>
+        <div class="skel-row">
+          <div class="skel skel-box"></div>
+          <div class="skel skel-box"></div>
+          <div class="skel skel-box"></div>
+        </div>
+      </div>
+      <div class="skeleton-card">
+        <div class="skel skel-h" style="width:40%;"></div>
+        <div class="skel skel-sm" style="width:30%;"></div>
+        <div class="skel-row">
+          <div class="skel skel-box"></div>
+          <div class="skel skel-box"></div>
+          <div class="skel skel-box"></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /#bookingsContent -->
+</div>
+
+<!-- ===== CANCEL CONFIRM MODAL ===== -->
+<div class="modal-overlay" id="cancelModal">
+  <div class="modal-box">
+    <div class="modal-icon"><i class="fa fa-triangle-exclamation"></i></div>
+    <h3>Cancel this booking?</h3>
+    <p id="cancelModalDesc">This action cannot be undone.</p>
+    <div class="modal-actions">
+      <button class="modal-btn-back" onclick="closeCancelModal()">Keep Booking</button>
+      <button class="modal-btn-confirm" id="modalConfirmBtn" onclick="doCancel()">Yes, Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TOAST ===== -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ============================================================
+//  STATE
+// ============================================================
+let allBookings  = [];
+let currentTab   = 'active';
+let pendingCancel = null;  // { id, email }
+
+// ============================================================
+//  INIT
+// ============================================================
+document.addEventListener('DOMContentLoaded', () => {
+  const loggedIn = localStorage.getItem('user_logged_in') === 'true';
+  const email    = localStorage.getItem('user_User_Email') || '';
+  const fname    = localStorage.getItem('user_User_Fname') || '';
+  const lname    = localStorage.getItem('user_User_Lname') || '';
+
+  // Nav
+  if (loggedIn && email) {
+    const initials = (fname[0] || '') + (lname[0] || '');
+    document.getElementById('navAvatar').textContent   = initials.toUpperCase() || 'U';
+    document.getElementById('navUserName').textContent = fname || email;
+    document.getElementById('navUserWrap').style.display = 'flex';
+    document.getElementById('heroSubtitle').textContent =
+      `Welcome back, ${fname}! Here are your reservations.`;
+  } else {
+    document.getElementById('navLoginBtn').style.display = 'block';
+  }
+
+  if (!loggedIn || !email) {
+    document.getElementById('loginPrompt').style.display = 'block';
+    return;
+  }
+
+  document.getElementById('bookingsContent').style.display = 'block';
+
+  // Show success banner if redirected from a fresh booking
+  if (new URLSearchParams(window.location.search).get('booked') === '1') {
+    const banner = document.getElementById('successBanner');
+    if (banner) {
+      banner.style.display = 'flex';
+      // Auto-hide after 6 seconds
+      setTimeout(() => { banner.style.opacity = '0'; banner.style.transition = 'opacity 0.5s'; setTimeout(() => banner.style.display = 'none', 500); }, 6000);
+    }
+    // Clean URL so refresh doesn't re-show it
+    history.replaceState(null, '', 'my-bookings.html');
+  }
+
+  loadBookings(email);
+});
+
+// ============================================================
+//  LOAD BOOKINGS FROM SERVER
+// ============================================================
+async function loadBookings(email) {
+  try {
+    const res  = await fetch(`my-bookings.php?email=${encodeURIComponent(email)}`);
+    const data = await res.json();
+
+    if (!data.success) {
+      showToast(data.message || 'Could not load bookings.', 'error');
+      document.getElementById('bookingsList').innerHTML = emptyState('active');
+      return;
+    }
+
+    allBookings = data.bookings || [];
+
+    // Also sync localStorage bookings that may not be in DB yet (edge case fallback)
+    syncFromLocalStorage(email);
+
+    updateCounts();
+    renderTab(currentTab);
+
+  } catch (err) {
+    console.error('my-bookings.php error:', err);
+    // Fallback to localStorage
+    const local = JSON.parse(localStorage.getItem('my_bookings') || '[]');
+    allBookings = local.map(b => ({
+      ...b,
+      category: deriveCategory(b)
+    }));
+    updateCounts();
+    renderTab(currentTab);
+  }
+}
+
+// Merge any localStorage bookings not yet reflected in DB response
+function syncFromLocalStorage(email) {
+  const local = JSON.parse(localStorage.getItem('my_bookings') || '[]');
+  local.forEach(lb => {
+    if (!allBookings.find(ab => ab.id == lb.id)) {
+      allBookings.unshift({ ...lb, category: deriveCategory(lb) });
+    }
+  });
+}
+
+function deriveCategory(b) {
+  if (b.status === 'cancelled') return 'cancelled';
+  const checkout = new Date(b.checkout || b.Booking_CheckOut || '');
+  const today    = new Date(); today.setHours(0,0,0,0);
+  return checkout < today ? 'past' : 'active';
+}
+
+// ============================================================
+//  COUNTS & TABS
+// ============================================================
+function updateCounts() {
+  ['active','past','cancelled'].forEach(cat => {
+    document.getElementById(`count-${cat}`).textContent =
+      allBookings.filter(b => b.category === cat).length;
+  });
+}
+
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(`tab-${tab}`).classList.add('active');
+  renderTab(tab);
+}
+
+// ============================================================
+//  RENDER
+// ============================================================
+function renderTab(tab) {
+  const list = allBookings.filter(b => b.category === tab);
+  const el   = document.getElementById('bookingsList');
+
+  if (list.length === 0) {
+    el.innerHTML = emptyState(tab);
+    return;
+  }
+
+  el.innerHTML = list.map(b => bookingCard(b)).join('');
+}
+
+function bookingCard(b) {
+  const statusMap = {
+    confirmed: { label:'Active',    cls:'active',    icon:'fa-circle-check'  },
+    cancelled:  { label:'Cancelled', cls:'cancelled',  icon:'fa-ban'           },
+    past:       { label:'Completed', cls:'past',       icon:'fa-flag-checkered'}
+  };
+
+  let statusKey = b.status === 'cancelled' ? 'cancelled'
+                : b.category === 'past'    ? 'past'
+                : 'confirmed';
+  const st = statusMap[statusKey];
+
+  const total = typeof b.total === 'number'
+    ? '₱' + b.total.toLocaleString('en-PH', { minimumFractionDigits:2, maximumFractionDigits:2 })
+    : b.total || '—';
+
+  const nights = calcNights(b.checkin || b.Booking_CheckIn, b.checkout || b.Booking_CheckOut);
+  const bookedOn = b.bookedOn || b.Booking_BookedOn || '';
+
+  const canCancel = b.category === 'active' && b.status !== 'cancelled';
+
+  return `
+    <div class="booking-card" id="card-${b.id}">
+      <div class="card-header">
+        <div class="card-header-left">
+          <div class="hotel-icon"><i class="fa fa-building"></i></div>
+          <div>
+            <div class="hotel-name">${escHtml(b.hotelName || b.Booking_HotelName || 'Hotel')}</div>
+            <div class="booking-id"><i class="fa fa-hashtag" style="font-size:10px;"></i> Booking #${b.id}</div>
+          </div>
+        </div>
+        <span class="status-badge ${st.cls}">
+          <i class="fa ${st.icon}" style="font-size:11px;"></i> ${st.label}
+        </span>
+      </div>
+
+      <div class="card-body">
+        <div class="details-grid">
+          <div class="detail-item">
+            <span class="detail-label">Room Type</span>
+            <span class="detail-value"><i class="fa fa-door-open"></i>${escHtml(b.roomType || b.Booking_RoomType || '—')}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Check-in</span>
+            <span class="detail-value"><i class="fa fa-calendar-day"></i>${escHtml(b.checkin || b.Booking_CheckIn || '—')}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Check-out</span>
+            <span class="detail-value"><i class="fa fa-calendar-check"></i>${escHtml(b.checkout || b.Booking_CheckOut || '—')}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Duration</span>
+            <span class="detail-value"><i class="fa fa-moon"></i>${nights} night${nights !== 1 ? 's' : ''}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Guests</span>
+            <span class="detail-value"><i class="fa fa-user-group"></i>${b.adults || b.Booking_Adults || 1} adult${(b.adults||1)!=1?'s':''}${parseInt(b.children||b.Booking_Children||0) > 0 ? ', '+(b.children||b.Booking_Children)+' child'+(parseInt(b.children||b.Booking_Children)!=1?'ren':'') : ''}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Rooms</span>
+            <span class="detail-value"><i class="fa fa-door-closed"></i>${b.rooms || b.Booking_Rooms || 1} room${(b.rooms||1)!=1?'s':''}</span>
+          </div>
+        </div>
+
+        <div class="price-row">
+          <span class="price-label"><i class="fa fa-receipt" style="margin-right:5px;color:var(--blue);"></i>Total Amount</span>
+          <span class="price-value">${total}</span>
+        </div>
+
+        <div class="card-footer">
+          <span class="booked-on">
+            <i class="fa fa-calendar-plus"></i>
+            Booked on ${bookedOn || 'N/A'}
+          </span>
+          ${canCancel ? `
+            <button class="btn-cancel" onclick="openCancelModal(${b.id}, '${escAttr(b.hotelName || b.Booking_HotelName || '')}')">
+              <i class="fa fa-xmark"></i> Cancel Booking
+            </button>
+          ` : ''}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function emptyState(tab) {
+  const msgs = {
+    active:    { icon: 'fa-suitcase-rolling', title: 'No active bookings', sub: 'Book a hotel and your upcoming stays will appear here.' },
+    past:      { icon: 'fa-clock-rotate-left', title: 'No past bookings yet', sub: 'Completed stays will show up here after your check-out date.' },
+    cancelled: { icon: 'fa-ban', title: 'No cancelled bookings', sub: "You haven't cancelled any reservations." }
+  };
+  const m = msgs[tab];
+  return `
+    <div class="empty-state">
+      <i class="fa ${m.icon}"></i>
+      <h3>${m.title}</h3>
+      <p>${m.sub}</p>
+      ${tab === 'active' ? `<a class="btn-browse" href="index.html"><i class="fa fa-magnifying-glass"></i> Find Hotels</a>` : ''}
+    </div>
+  `;
+}
+
+// ============================================================
+//  CANCEL FLOW
+// ============================================================
+function openCancelModal(bookingId, hotelName) {
+  pendingCancel = { id: bookingId };
+  document.getElementById('cancelModalDesc').textContent =
+    `Are you sure you want to cancel your booking at ${hotelName}? This cannot be undone.`;
+  document.getElementById('cancelModal').classList.add('open');
+}
+
+function closeCancelModal() {
+  document.getElementById('cancelModal').classList.remove('open');
+  pendingCancel = null;
+}
+
+async function doCancel() {
+  if (!pendingCancel) return;
+
+  const btn = document.getElementById('modalConfirmBtn');
+  btn.textContent = 'Cancelling…';
+  btn.disabled    = true;
+
+  const email = localStorage.getItem('user_User_Email') || '';
+  const formData = new FormData();
+  formData.append('bookingId',  pendingCancel.id);
+  formData.append('userEmail',  email);
+
+  try {
+    const res  = await fetch('cancel-booking.php', { method: 'POST', body: formData });
+    const data = await res.json();
+
+    closeCancelModal();
+    btn.textContent = 'Yes, Cancel';
+    btn.disabled    = false;
+
+    if (data.success) {
+      // Update local state
+      const booking = allBookings.find(b => b.id == pendingCancel.id || b.id == pendingCancel.id);
+      if (booking) { booking.status = 'cancelled'; booking.category = 'cancelled'; }
+
+      // Sync localStorage
+      const stored = JSON.parse(localStorage.getItem('my_bookings') || '[]');
+      const idx = stored.findIndex(b => b.id == (pendingCancel && pendingCancel.id));
+      if (idx !== -1) { stored[idx].status = 'cancelled'; localStorage.setItem('my_bookings', JSON.stringify(stored)); }
+
+      updateCounts();
+      renderTab(currentTab);
+      showToast('Booking cancelled successfully.', 'success');
+    } else {
+      showToast(data.message || 'Failed to cancel booking.', 'error');
+    }
+  } catch (err) {
+    closeCancelModal();
+    btn.textContent = 'Yes, Cancel';
+    btn.disabled    = false;
+
+    // Offline fallback — update localStorage only
+    const stored = JSON.parse(localStorage.getItem('my_bookings') || '[]');
+    const idx = stored.findIndex(b => b.id == (pendingCancel && pendingCancel.id));
+    if (idx !== -1) {
+      stored[idx].status = 'cancelled';
+      localStorage.setItem('my_bookings', JSON.stringify(stored));
+    }
+    const booking = allBookings.find(b => b.id == (pendingCancel && pendingCancel.id));
+    if (booking) { booking.status = 'cancelled'; booking.category = 'cancelled'; }
+    updateCounts();
+    renderTab(currentTab);
+    showToast('Booking cancelled (offline mode).', 'success');
+  }
+
+  pendingCancel = null;
+}
+
+// Close modal on overlay click
+document.getElementById('cancelModal').addEventListener('click', function(e) {
+  if (e.target === this) closeCancelModal();
+});
+
+// ============================================================
+//  HELPERS
+// ============================================================
+function calcNights(checkin, checkout) {
+  try {
+    const ci = new Date(checkin);
+    const co = new Date(checkout);
+    const ms = co - ci;
+    return Math.max(1, Math.round(ms / 86400000));
+  } catch { return 1; }
+}
+
+function escHtml(str) {
+  return String(str)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function escAttr(str) { return escHtml(str).replace(/'/g,'&#39;'); }
+
+function showToast(msg, type = '') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className   = 'toast ' + type + ' show';
+  setTimeout(() => { t.className = 'toast ' + type; }, 3500);
+}
+</script>
+</body>
+</html>

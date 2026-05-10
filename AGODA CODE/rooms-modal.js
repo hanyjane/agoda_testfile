@@ -145,6 +145,9 @@ async function openRoomsModal(btn) {
   const hotelLoc   = btn.dataset.hotelLocation || '';
   const hotelRating = parseFloat(btn.dataset.hotelRating) || 8.0;
 
+  // Save hotel id for confirmBooking to use
+  localStorage.setItem('last_hotel_id', hotelId);
+
   const checkin  = (document.getElementById('checkinLabel')  || {}).textContent || '';
   const checkout = (document.getElementById('checkoutLabel') || {}).textContent || '';
   const guests   = (document.getElementById('guestSummary')  || {}).textContent || '2 adults · 1 room';
@@ -236,6 +239,7 @@ function selectRoom(btn) {
   const totalPrice    = parseFloat(btn.dataset.total);
   const nights        = parseInt(btn.dataset.nights);
 
+  // Ensure the overlay div exists (it's injected in hotel.html)
   const overlay = document.getElementById('bookingConfirmOverlay');
   if (!overlay) {
     alert('bookingConfirmOverlay div is missing from hotel.html — add it before </body>');
@@ -353,15 +357,16 @@ function selectRoom(btn) {
         <button class="bcm-btn-back" onclick="closeBookingConfirm()">
           <i class="fa fa-arrow-left"></i> Back to Rooms
         </button>
-        <button class="bcm-btn-confirm" onclick="confirmBooking()">
-  <i class="fa fa-check"></i> Confirm Booking
-</button>
+        <button class="bcm-btn-confirm" id="bcmConfirmBtn" onclick="confirmBooking()">
+          <i class="fa fa-check"></i> Confirm Booking
+        </button>
       </div>
 
     </div>`;
 
   overlay.classList.add('open');
 }
+
 // ============================================================
 //  CLOSE BOOKING CONFIRMATION MODAL
 // ============================================================
@@ -376,16 +381,24 @@ document.addEventListener('click', function (e) {
 });
 
 // ============================================================
-//  CONFIRM BOOKING
+//  CONFIRM BOOKING — saves to DB then redirects to my-bookings
 // ============================================================
-function confirmBooking() {
+async function confirmBooking() {
+  const confirmBtn = document.getElementById('bcmConfirmBtn');
+  if (confirmBtn) {
+    confirmBtn.disabled    = true;
+    confirmBtn.innerHTML   = '<i class="fa fa-circle-notch fa-spin"></i> Saving…';
+  }
+
   const hotelName  = document.getElementById('modalHotelName').textContent;
   const checkin    = (document.getElementById('checkinLabel')  || {}).textContent || '';
   const checkout   = (document.getElementById('checkoutLabel') || {}).textContent || '';
   const adults     = (document.getElementById('adultsCount')   || {}).textContent || '1';
   const children   = (document.getElementById('childrenCount') || {}).textContent || '0';
   const rooms      = (document.getElementById('roomsCount')    || {}).textContent || '1';
-  const roomType   = document.querySelector('.bcm-room-type')  ? document.querySelector('.bcm-room-type').textContent : '';
+  const roomType   = document.querySelector('.bcm-room-type')
+                     ? document.querySelector('.bcm-room-type').textContent.trim()
+                     : '';
   const totalEl    = document.querySelector('.bcm-price-row--total span:last-child');
   const totalRaw   = totalEl ? totalEl.textContent.replace(/[^0-9.]/g, '') : '0';
   const userEmail  = localStorage.getItem('user_User_Email') || '';
@@ -403,33 +416,69 @@ function confirmBooking() {
   formData.append('rooms',      rooms);
   formData.append('total',      totalRaw);
 
-  fetch('bookings.php', { method: 'POST', body: formData })
-    .then(r => r.json())
-    .then(data => {
-      if (data.success) {
-        // Also save to localStorage as backup
-        const booking = {
-          id: data.booking_id,
-          hotelName, roomType, checkin, checkout,
-          adults, children, rooms,
-          total: '₱' + parseFloat(totalRaw).toLocaleString('en-PH'),
-          bookedOn: new Date().toLocaleDateString('en-PH', { year:'numeric', month:'short', day:'numeric' }),
-          status: 'confirmed'
-        };
-        const existing = JSON.parse(localStorage.getItem('my_bookings') || '[]');
-        existing.unshift(booking);
-        localStorage.setItem('my_bookings', JSON.stringify(existing));
+  try {
+    const res  = await fetch('bookings.php', { method: 'POST', body: formData });
+    const data = await res.json();
+
+    if (data.success) {
+      // ── Save to localStorage as a fast-access cache ──
+      const booking = {
+        id:        data.booking_id,
+        hotelName, roomType, checkin, checkout,
+        adults, children, rooms,
+        total:     parseFloat(totalRaw),
+        bookedOn:  new Date().toLocaleDateString('en-PH', { year:'numeric', month:'short', day:'numeric' }),
+        status:    'confirmed'
+      };
+      const existing = JSON.parse(localStorage.getItem('my_bookings') || '[]');
+      existing.unshift(booking);
+      localStorage.setItem('my_bookings', JSON.stringify(existing));
+
+      // ── Close modal and redirect to My Bookings ──
+      closeBookingConfirm();
+      window.location.href = 'my-bookings.html?booked=1';
+
+    } else {
+      // Re-enable button and show error inside modal
+      if (confirmBtn) {
+        confirmBtn.disabled  = false;
+        confirmBtn.innerHTML = '<i class="fa fa-check"></i> Confirm Booking';
       }
-    })
-    .catch(err => console.error('Booking save error:', err));
+      showBookingError(data.message || 'Failed to save booking. Please try again.');
+    }
 
-  closeBookingConfirm();
+  } catch (err) {
+    console.error('Booking save error:', err);
 
-  const toast = document.getElementById('roomToast');
-  const msg   = document.getElementById('roomToastMsg');
-  if (toast && msg) {
-    msg.textContent = 'Booking confirmed! Thank you.';
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 3500);
+    // Network error fallback — still save to localStorage and redirect
+    const booking = {
+      id:        Date.now(),
+      hotelName, roomType, checkin, checkout,
+      adults, children, rooms,
+      total:     parseFloat(totalRaw),
+      bookedOn:  new Date().toLocaleDateString('en-PH', { year:'numeric', month:'short', day:'numeric' }),
+      status:    'confirmed'
+    };
+    const existing = JSON.parse(localStorage.getItem('my_bookings') || '[]');
+    existing.unshift(booking);
+    localStorage.setItem('my_bookings', JSON.stringify(existing));
+
+    closeBookingConfirm();
+    window.location.href = 'my-bookings.html?booked=1';
   }
+}
+
+// ── Show a small error note inside the confirm modal ──
+function showBookingError(msg) {
+  // Remove any existing error
+  const old = document.querySelector('.bcm-error-msg');
+  if (old) old.remove();
+
+  const actions = document.querySelector('.bcm-actions');
+  if (!actions) return;
+  const err = document.createElement('p');
+  err.className   = 'bcm-error-msg';
+  err.style.cssText = 'color:#dc2626;font-size:13px;font-weight:600;text-align:center;margin-bottom:8px;';
+  err.textContent = msg;
+  actions.parentNode.insertBefore(err, actions);
 }
