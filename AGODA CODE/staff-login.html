@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Staff Login — Agoda</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue:   #1a56db;
+      --dark:   #1a1a2e;
+      --red:    #dc2626;
+      --grey:   #6b7280;
+      --light:  #f4f7fc;
+      --border: #e5e9f0;
+    }
+
+    body {
+      font-family: 'Nunito Sans', sans-serif;
+      background: var(--light);
+      min-height: 100vh;
+      color: var(--dark);
+    }
+
+    /* ── Navbar ── */
+    .top-nav {
+      background: #fff;
+      height: 60px;
+      padding: 0 16px;
+      position: sticky;
+      top: 0;
+      z-index: 600;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner { display: flex; align-items: center; height: 100%; flex: 1; }
+    .logo-wrap { flex-shrink: 0; display: flex; align-items: center; margin-right: 40px; margin-left: 20px; }
+    .logo-wrap a { display: flex; align-items: center; text-decoration: none; gap: 8px; }
+    .logo-text { font-size: 22px; font-weight: 800; color: var(--blue); letter-spacing: -0.5px; }
+    .logo-badge {
+      font-size: 10px; font-weight: 800;
+      background: #1a1f3c; color: #fff;
+      padding: 3px 8px; border-radius: 4px;
+      letter-spacing: 0.5px; text-transform: uppercase;
+    }
+    .nav-back {
+      font-size: 13px; font-weight: 600; color: var(--grey);
+      text-decoration: none; display: flex; align-items: center; gap: 6px;
+      padding: 6px 12px; border-radius: 8px;
+      transition: background 0.15s, color 0.15s;
+    }
+    .nav-back:hover { background: var(--light); color: var(--dark); }
+
+    /* ── Page layout ── */
+    .page-body {
+      min-height: calc(100vh - 60px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 16px;
+    }
+
+    /* ── Card ── */
+    .login-card {
+      width: 460px;
+      max-width: 100%;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.12);
+      overflow: hidden;
+      animation: fadeUp 0.25s ease;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Card header ── */
+    .card-header {
+      background: linear-gradient(135deg, #1a1f3c 0%, #1a56db 100%);
+      padding: 32px 36px 28px;
+      text-align: center;
+    }
+    .card-header-icon {
+      width: 60px; height: 60px; border-radius: 16px;
+      background: rgba(255,255,255,0.15);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px; color: #fff;
+      margin: 0 auto 16px;
+    }
+    .card-header h1 { font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 6px; }
+    .card-header p  { font-size: 14px; color: rgba(255,255,255,0.75); }
+
+    /* ── Card body ── */
+    .card-body { padding: 32px 36px 28px; }
+
+    /* ── Form message ── */
+    .form-msg {
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 18px;
+      display: none;
+      align-items: center;
+      gap: 8px;
+    }
+    .form-msg.error   { background: #fee2e2; color: var(--red); border: 1px solid #fca5a5; display: flex; }
+    .form-msg.success { background: #dcfce7; color: #16a34a; border: 1px solid #bbf7d0; display: flex; }
+
+    /* ── Fields ── */
+    .field-group { margin-bottom: 18px; }
+    .field-label {
+      display: block;
+      font-size: 12px; font-weight: 700; color: var(--grey);
+      text-transform: uppercase; letter-spacing: 0.5px;
+      margin-bottom: 7px;
+    }
+    .field-wrap {
+      position: relative;
+    }
+    .field-icon {
+      position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+      font-size: 14px; color: #bbb; pointer-events: none;
+    }
+    .field-input {
+      width: 100%;
+      height: 48px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 0 14px 0 40px;
+      font-family: 'Nunito Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--dark);
+      background: #fff;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .field-input::placeholder { color: #c0c7d0; }
+    .field-input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(26,86,219,0.1);
+    }
+    .toggle-pass {
+      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+      background: none; border: none; cursor: pointer;
+      color: #aaa; font-size: 14px; padding: 4px;
+      transition: color 0.15s;
+    }
+    .toggle-pass:hover { color: var(--dark); }
+
+    /* ── Submit button ── */
+    .btn-submit {
+      width: 100%;
+      height: 50px;
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-family: 'Nunito Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      margin-top: 24px;
+    }
+    .btn-submit:hover:not(:disabled) { background: #1447b8; transform: translateY(-1px); }
+    .btn-submit:active:not(:disabled) { transform: translateY(0); }
+    .btn-submit:disabled { opacity: 0.65; cursor: not-allowed; }
+
+    /* ── Divider ── */
+    .back-link {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 13px;
+      color: var(--grey);
+    }
+    .back-link a { color: var(--blue); font-weight: 600; text-decoration: none; }
+    .back-link a:hover { text-decoration: underline; }
+
+    /* ── Security note ── */
+    .security-note {
+      display: flex; align-items: center; gap: 8px;
+      background: #f0f6ff;
+      border: 1px solid #dce8f8;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 12px; font-weight: 600; color: #3b5abb;
+      margin-top: 20px;
+    }
+    .security-note i { font-size: 14px; flex-shrink: 0; }
+
+    @media (max-width: 520px) {
+      .card-body   { padding: 24px 20px 20px; }
+      .card-header { padding: 24px 20px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="top-nav">
+  <div class="nav-inner">
+    <div class="logo-wrap">
+      <a href="index.html">
+        <span class="logo-text">agoda</span>
+        <span class="logo-badge">Staff</span>
+      </a>
+    </div>
+  </div>
+  <a href="index.html" class="nav-back">
+    <i class="fa fa-arrow-left"></i> Back to site
+  </a>
+</nav>
+
+<!-- ===== PAGE BODY ===== -->
+<div class="page-body">
+  <div class="login-card">
+
+    <!-- Card header -->
+    <div class="card-header">
+      <div class="card-header-icon">
+        <i class="fa fa-shield-halved"></i>
+      </div>
+      <h1>Staff Portal</h1>
+      <p>Sign in to access the staff dashboard</p>
+    </div>
+
+    <!-- Card body -->
+    <div class="card-body">
+
+      <!-- Error / Success message -->
+      <div class="form-msg" id="formMsg">
+        <i class="fa fa-circle-exclamation"></i>
+        <span id="formMsgText"></span>
+      </div>
+
+      <!-- Username -->
+      <div class="field-group">
+        <label class="field-label" for="staffUsername">Username</label>
+        <div class="field-wrap">
+          <i class="fa fa-user field-icon"></i>
+          <input
+            type="text"
+            id="staffUsername"
+            class="field-input"
+            placeholder="Enter your staff username"
+            autocomplete="username"
+          />
+        </div>
+      </div>
+
+      <!-- Password -->
+      <div class="field-group">
+        <label class="field-label" for="staffPassword">Password</label>
+        <div class="field-wrap">
+          <i class="fa fa-lock field-icon"></i>
+          <input
+            type="password"
+            id="staffPassword"
+            class="field-input"
+            placeholder="Enter your password"
+            autocomplete="current-password"
+            style="padding-right: 44px;"
+          />
+          <button type="button" class="toggle-pass" onclick="togglePass()">
+            <i class="fa fa-eye" id="passIcon"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Submit -->
+      <button class="btn-submit" id="submitBtn" onclick="handleLogin()">
+        <i class="fa fa-arrow-right-to-bracket"></i> Sign In to Dashboard
+      </button>
+
+      <!-- Security note -->
+      <div class="security-note">
+        <i class="fa fa-lock"></i>
+        This portal is restricted to authorised Agoda staff only.
+        Unauthorised access attempts are logged.
+      </div>
+
+      <div class="back-link">
+        Not staff? <a href="login.html">Customer login →</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── Toggle password visibility ──
+  function togglePass() {
+    const input = document.getElementById('staffPassword');
+    const icon  = document.getElementById('passIcon');
+    if (input.type === 'password') {
+      input.type = 'text';
+      icon.classList.replace('fa-eye', 'fa-eye-slash');
+    } else {
+      input.type = 'password';
+      icon.classList.replace('fa-eye-slash', 'fa-eye');
+    }
+  }
+
+  // ── Allow Enter key to submit ──
+  document.getElementById('staffPassword').addEventListener('keydown', e => {
+    if (e.key === 'Enter') handleLogin();
+  });
+  document.getElementById('staffUsername').addEventListener('keydown', e => {
+    if (e.key === 'Enter') handleLogin();
+  });
+
+  // ── Show message ──
+  function showMsg(text, type) {
+    const el   = document.getElementById('formMsg');
+    const span = document.getElementById('formMsgText');
+    el.className = 'form-msg ' + type;
+    span.textContent = text;
+  }
+
+  // ── Login handler ──
+  async function handleLogin() {
+    const username = document.getElementById('staffUsername').value.trim();
+    const password = document.getElementById('staffPassword').value;
+    const btn      = document.getElementById('submitBtn');
+
+    if (!username || !password) {
+      showMsg('Please enter both username and password.', 'error');
+      return;
+    }
+
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fa fa-circle-notch fa-spin"></i> Signing in…';
+
+    try {
+      const body = new URLSearchParams({ username, password });
+      const res  = await fetch('staff-login.php', { method: 'POST', body });
+      const data = await res.json();
+
+      if (data.success) {
+        // Store staff session in localStorage
+        localStorage.setItem('staff_logged_in', 'true');
+        localStorage.setItem('staff_username',  data.username);
+        localStorage.setItem('staff_name',      data.name);
+        localStorage.setItem('staff_role',      data.role);
+
+        showMsg('Login successful! Redirecting…', 'success');
+        setTimeout(() => { window.location.href = 'staff-dashboard.html'; }, 1000);
+      } else {
+        showMsg(data.message || 'Invalid credentials. Please try again.', 'error');
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa fa-arrow-right-to-bracket"></i> Sign In to Dashboard';
+      }
+    } catch (err) {
+      showMsg('Network error. Please check your connection and try again.', 'error');
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fa fa-arrow-right-to-bracket"></i> Sign In to Dashboard';
+    }
+  }
+
+  // ── Redirect if already logged in ──
+  if (localStorage.getItem('staff_logged_in') === 'true') {
+    window.location.href = 'staff-dashboard.html';
+  }
+</script>
+
+</body>
+</html>
