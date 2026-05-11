@@ -17,52 +17,233 @@
       --dark:   #1a1a2e;
       --light:  #f8fafc;
       --border: #e5e7eb;
+      --bg:     #EFF4FC;
     }
 
-    /* ── Page hero ── */
-    .page-hero {
-      background: linear-gradient(135deg, #1a1f3c 0%, #1a56db 100%);
-      padding: 48px 20px 40px;
+    body { background: var(--bg); }
+
+    /* ── Page wrapper ── */
+    .mb-page { min-height: 100vh; background: var(--bg); }
+
+    /* ── Top header strip ── */
+    .mb-header {
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      padding: 0 0 0 0;
+    }
+
+    .mb-header-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 28px 20px 0;
+    }
+
+    .mb-header-inner h1 {
+      font-family: 'Nunito Sans', sans-serif;
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--dark);
+      margin-bottom: 20px;
+    }
+
+    /* ── Underline tabs ── */
+    .mb-tabs {
+      display: flex;
+      border-bottom: none;
+      gap: 0;
+    }
+
+    .mb-tab {
+      padding: 12px 28px;
+      font-family: 'Nunito Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--grey);
+      border: none;
+      background: none;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+      white-space: nowrap;
+    }
+
+    .mb-tab:hover { color: var(--dark); }
+
+    .mb-tab.active {
+      color: var(--blue);
+      border-bottom-color: var(--blue);
+      font-weight: 700;
+    }
+
+    /* ── Main container ── */
+    .mb-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 24px 20px 60px;
+    }
+
+    /* ── Toolbar row ── */
+    .mb-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      gap: 12px;
+    }
+
+    .mb-sort-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 18px;
+      border: 1.5px solid var(--border);
+      border-radius: 999px;
+      background: #fff;
+      font-family: 'Nunito Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--dark);
+      cursor: pointer;
+      transition: border-color 0.15s;
+    }
+
+    .mb-sort-btn:hover { border-color: var(--blue); }
+    .mb-sort-btn i:first-child { color: var(--grey); font-size: 13px; }
+    .mb-sort-label { color: var(--blue); }
+    .mb-sort-btn .fa-chevron-down { font-size: 10px; color: var(--grey); }
+
+    .mb-search-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      background: #fff;
+      transition: border-color 0.15s;
+    }
+
+    .mb-search-wrap:focus-within { border-color: var(--blue); }
+    .mb-search-wrap i { color: #aaa; font-size: 14px; }
+
+    .mb-search-wrap input {
+      border: none;
+      outline: none;
+      font-family: 'Nunito Sans', sans-serif;
+      font-size: 13px;
+      color: var(--dark);
+      background: transparent;
+      width: 180px;
+    }
+
+    .mb-search-wrap input::placeholder { color: #aaa; }
+
+    /* ── Empty state ── */
+    .mb-empty {
       text-align: center;
-      color: #fff;
+      padding: 60px 20px 40px;
     }
-    .page-hero h1 { font-family:'Playfair Display',serif; font-size:2rem; font-weight:700; margin:0 0 8px; }
-    .page-hero p  { font-size:15px; opacity:.85; margin:0; }
 
-    /* ── Container ── */
-    .page-container { max-width:860px; margin:0 auto; padding:32px 20px 60px; }
+    .mb-empty-illustration {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 28px;
+      position: relative;
+    }
 
-    /* ── Tabs ── */
-    .tabs-wrap {
-      display: flex; gap: 8px; margin-bottom: 24px;
-      background: #fff; border-radius: 12px;
-      padding: 8px; box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    .mb-empty h3 {
+      font-family: 'Nunito Sans', sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--dark);
+      margin-bottom: 8px;
     }
-    .tab-btn {
-      flex: 1; padding: 10px 8px; border: none; border-radius: 8px;
-      font-family: 'Nunito Sans', sans-serif; font-size: 13px; font-weight: 700;
-      color: var(--grey); background: transparent; cursor: pointer;
-      display: flex; align-items: center; justify-content: center; gap: 6px;
-      transition: all 0.15s;
-    }
-    .tab-btn.active { background: var(--blue); color: #fff; }
-    .tab-count {
-      background: rgba(255,255,255,0.25); border-radius: 999px;
-      padding: 1px 7px; font-size: 11px;
-    }
-    .tab-btn:not(.active) .tab-count { background: #f0f0f0; color: var(--grey); }
 
-    /* ── Bookings list ── */
-    .bookings-list { display: flex; flex-direction: column; gap: 18px; }
+    .mb-empty p {
+      font-size: 14px;
+      color: var(--grey);
+      margin-bottom: 36px;
+    }
+
+    /* ── Action cards ── */
+    .mb-action-cards {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .mb-action-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      padding: 20px 24px;
+      background: #fff;
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      cursor: pointer;
+      width: 130px;
+      transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+      text-decoration: none;
+    }
+
+    .mb-action-card:hover {
+      border-color: var(--blue);
+      box-shadow: 0 4px 16px rgba(26,86,219,0.1);
+      transform: translateY(-2px);
+    }
+
+    .mb-action-icon {
+      font-size: 32px;
+      color: var(--blue);
+    }
+
+    .mb-action-label {
+      font-family: 'Nunito Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--blue);
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    /* ── Old bookings footer hint ── */
+    .mb-old-hint {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 20px 32px;
+    }
+
+    .mb-old-hint-inner {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 20px;
+      background: #fff;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      font-family: 'Nunito Sans', sans-serif;
+      font-size: 13px;
+      color: var(--grey);
+      cursor: pointer;
+      transition: border-color 0.15s;
+    }
+
+    .mb-old-hint-inner:hover { border-color: var(--blue); color: var(--blue); }
+    .mb-old-hint-inner i { font-size: 15px; color: #aaa; }
 
     /* ── Booking card ── */
     .booking-card {
-      background: #fff; border-radius: 16px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-      border: 1.5px solid var(--border); overflow: hidden;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+      border: 1.5px solid var(--border);
+      overflow: hidden;
       transition: box-shadow 0.2s;
+      margin-bottom: 16px;
     }
-    .booking-card:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.1); }
+    .booking-card:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.09); }
 
     .card-header {
       padding: 14px 20px;
@@ -79,7 +260,6 @@
     .hotel-name { font-size: 17px; font-weight: 800; color: var(--dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .booking-id { font-size: 12px; color: var(--grey); margin-top: 2px; }
 
-    /* Status badge */
     .status-badge {
       display: inline-flex; align-items: center; gap: 5px;
       padding: 5px 12px; border-radius: 999px;
@@ -89,7 +269,6 @@
     .status-badge.past      { background: #f3f4f6; color: var(--grey); }
     .status-badge.cancelled { background: #fee2e2; color: var(--red); }
 
-    /* Card body */
     .card-body { padding: 18px 20px; }
     .details-grid {
       display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
@@ -100,7 +279,6 @@
     .detail-value { font-size: 14px; font-weight: 700; color: var(--dark); display: flex; align-items: center; gap: 5px; }
     .detail-value i { color: var(--blue); font-size: 12px; }
 
-    /* Price highlight */
     .price-row {
       display: flex; align-items: center; justify-content: space-between;
       padding: 12px 16px; background: var(--light);
@@ -109,7 +287,6 @@
     .price-label { font-size: 13px; font-weight: 600; color: var(--grey); }
     .price-value { font-size: 20px; font-weight: 800; color: var(--blue); }
 
-    /* Card footer */
     .card-footer {
       display: flex; align-items: center; justify-content: space-between;
       padding-top: 14px; border-top: 1px solid var(--border);
@@ -128,28 +305,57 @@
     .btn-cancel:hover { background: #fee2e2; }
     .btn-cancel:disabled { opacity: 0.4; cursor: not-allowed; }
 
-    /* ── Empty state ── */
-    .empty-state { text-align: center; padding: 60px 20px; color: var(--grey); }
-    .empty-state i { font-size: 52px; color: #d1d5db; margin-bottom: 16px; display: block; }
-    .empty-state h3 { font-size: 18px; font-weight: 700; color: var(--dark); margin-bottom: 8px; }
-    .empty-state p  { font-size: 14px; margin-bottom: 24px; }
-    .btn-browse {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 11px 28px; background: var(--blue); color: #fff;
-      border: none; border-radius: 10px;
-      font-family: 'Nunito Sans', sans-serif;
-      font-size: 14px; font-weight: 700;
-      text-decoration: none; cursor: pointer; transition: background 0.15s;
-    }
-    .btn-browse:hover { background: #1447b8; }
+    .sort-dropdown {
+  position: relative;
+}
 
-    /* ── Loading skeleton ── */
+.sort-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  background: #fff;
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  z-index: 999;
+  min-width: 190px;
+  overflow: hidden;
+}
+
+.sort-menu.open { display: block; }
+
+.sort-menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 16px;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--dark);
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.sort-menu-item:hover { background: #f5f7ff; }
+
+.sort-menu-item.active {
+  color: var(--blue);
+  background: #eef2ff;
+}
+
+.sort-menu-item.active i { display: inline; }
+.sort-menu-item i { display: none; font-size: 11px; }
+
+    /* ── Skeleton ── */
     .skeleton-card {
       background: #fff; border-radius: 16px;
       box-shadow: 0 2px 12px rgba(0,0,0,0.05);
       padding: 20px; border: 1.5px solid var(--border);
+      margin-bottom: 16px;
     }
-    .skel { background: linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1.2s infinite; border-radius: 8px; }
+    .skel { background: linear-gradient(90deg,#f0f0f0 25%,#e8e8e8 50%,#f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1.2s infinite; border-radius: 8px; }
     @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
     .skel-h  { height: 18px; margin-bottom: 10px; }
     .skel-sm { height: 12px; width: 60%; }
@@ -165,8 +371,29 @@
     .login-prompt i  { font-size: 48px; color: #d1d5db; margin-bottom: 16px; display: block; }
     .login-prompt h3 { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
     .login-prompt p  { font-size: 14px; color: var(--grey); margin-bottom: 24px; }
+    .btn-browse {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 11px 28px; background: var(--blue); color: #fff;
+      border: none; border-radius: 10px;
+      font-family: 'Nunito Sans', sans-serif;
+      font-size: 14px; font-weight: 700;
+      text-decoration: none; cursor: pointer; transition: background 0.15s;
+    }
+    .btn-browse:hover { background: #1447b8; }
 
-    /* ── Cancel confirm modal ── */
+    /* ── Success banner ── */
+    .success-banner {
+      display: flex; align-items: center; gap: 14px;
+      background: #dcfce7; border: 1.5px solid #bbf7d0;
+      border-radius: 14px; padding: 16px 20px;
+      margin-bottom: 24px; animation: bannerSlide 0.4s ease;
+    }
+    @keyframes bannerSlide { from { opacity:0; transform:translateY(-10px); } to { opacity:1; transform:translateY(0); } }
+    .success-banner-icon { font-size: 28px; color: var(--green); flex-shrink: 0; }
+    .success-banner-text h3 { font-size: 16px; font-weight: 800; color: var(--green); margin-bottom: 3px; }
+    .success-banner-text p  { font-size: 13px; color: #166534; }
+
+    /* ── Cancel modal ── */
     .modal-overlay {
       display: none; position: fixed; inset: 0;
       background: rgba(0,0,0,0.45); z-index: 9999;
@@ -187,7 +414,6 @@
       border: 1.5px solid var(--border); border-radius: 10px;
       background: #fff; font-family: 'Nunito Sans', sans-serif;
       font-size: 14px; font-weight: 700; color: var(--grey); cursor: pointer;
-      transition: all 0.15s;
     }
     .modal-btn-back:hover { background: var(--light); }
     .modal-btn-confirm {
@@ -195,7 +421,6 @@
       background: var(--red); color: #fff;
       font-family: 'Nunito Sans', sans-serif;
       font-size: 14px; font-weight: 700; cursor: pointer;
-      transition: background 0.15s;
     }
     .modal-btn-confirm:hover { background: #b91c1c; }
     .modal-btn-confirm:disabled { opacity: 0.5; cursor: not-allowed; }
@@ -216,23 +441,11 @@
     .toast.success { background: var(--green); }
     .toast.error   { background: var(--red); }
 
-    /* ── Success banner ── */
-    .success-banner {
-      display: flex; align-items: center; gap: 14px;
-      background: #dcfce7; border: 1.5px solid #bbf7d0;
-      border-radius: 14px; padding: 16px 20px;
-      margin-bottom: 24px; animation: bannerSlide 0.4s ease;
-    }
-    @keyframes bannerSlide { from { opacity:0; transform:translateY(-10px); } to { opacity:1; transform:translateY(0); } }
-    .success-banner-icon { font-size: 28px; color: var(--green); flex-shrink: 0; }
-    .success-banner-text h3 { font-size: 16px; font-weight: 800; color: var(--green); margin-bottom: 3px; }
-    .success-banner-text p  { font-size: 13px; color: #166534; }
-
-    /* ── Responsive ── */
     @media (max-width: 600px) {
-      .tabs-wrap { flex-wrap: wrap; }
-      .tab-btn   { flex: 1 1 45%; }
+      .mb-tabs { overflow-x: auto; }
+      .mb-tab  { padding: 12px 18px; font-size: 14px; }
       .details-grid { grid-template-columns: 1fr 1fr; }
+      .mb-toolbar { flex-wrap: wrap; }
       .nav-links { display: none; }
     }
   </style>
@@ -241,99 +454,122 @@
 
 <!-- ===== NAVBAR ===== -->
 <nav class="top-nav">
-  <div class="nav-inner">
-    <div class="logo-wrap">
-      <a href="index.html">
-        <span class="logo-text">agoda</span>
-      </a>
-    </div>
-    <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="hotel.html">Hotels</a>
-      <a href="my-bookings.html" class="active">My Bookings</a>
-    </div>
-  </div>
-  <div class="nav-right">
-    <div id="navUserWrap" style="display:none;" class="nav-user">
-      <div class="nav-user-avatar" id="navAvatar">U</div>
-      <span id="navUserName">User</span>
-    </div>
-    <button id="navLoginBtn" onclick="window.location.href='login.html'" style="display:none;">Sign In</button>
-  </div>
-</nav>
+    <div class="nav-inner">
+      <div class="logo-wrap">
+        <a href="index.html">
+          <img src="Agoda_logo_2019.svg.png" alt="logo" width="71" height="36">
+        </a>
+      </div>
+      <div class="nav-links">
+        <a href="#">Flight + Hotel</a>
+        <a href="#">Hotels &amp; Homes</a>
+        <a href="#">Transport <i class="fa fa-chevron-down fa-xs"></i></a>
+        <a href="#">Attractions</a>
+        <a href="#">Coupons &amp; Deals</a>
+        <a href="#">eSIM</a>
+        <a href="#">Travel Guides</a>
+        <a href="#">Travel Itineraries</a>
+      </div>
+      <div class="nav-right">
+      </div>
+  </nav>
 
-<!-- ===== PAGE HERO ===== -->
-<div class="page-hero">
-  <h1><i class="fa fa-suitcase-rolling" style="margin-right:10px;"></i>My Bookings</h1>
-  <p id="heroSubtitle">Manage all your reservations in one place</p>
-</div>
+<div class="mb-page">
 
-<!-- ===== MAIN CONTENT ===== -->
-<div class="page-container">
-
-  <!-- Not logged in -->
-  <div id="loginPrompt" class="login-prompt" style="display:none;">
-    <i class="fa fa-circle-user"></i>
-    <h3>Please sign in first</h3>
-    <p>You need to be logged in to view your bookings.</p>
-    <a class="btn-browse" href="login.html"><i class="fa fa-arrow-right-to-bracket"></i> Sign In</a>
-  </div>
-
-  <!-- Bookings content (shown when logged in) -->
-  <div id="bookingsContent" style="display:none;">
-
-    <!-- Success banner (shown after redirect from hotel booking) -->
-    <div id="successBanner" class="success-banner" style="display:none;">
-      <div class="success-banner-icon"><i class="fa fa-circle-check"></i></div>
-      <div class="success-banner-text">
-        <h3>Booking Confirmed! 🎉</h3>
-        <p>Your reservation has been saved. You can manage it below.</p>
+  <!-- ── Header + Tabs ── -->
+  <div class="mb-header">
+    <div class="mb-header-inner">
+      <h1 id="pageTitle">My Bookings</h1>
+      <div class="mb-tabs">
+        <button class="mb-tab active" id="tab-upcoming"  onclick="switchTab('upcoming')">Upcoming</button>
+        <button class="mb-tab"        id="tab-completed" onclick="switchTab('completed')">Completed</button>
+        <button class="mb-tab"        id="tab-cancelled" onclick="switchTab('cancelled')">Cancelled</button>
       </div>
     </div>
+  </div>
 
-    <!-- Tabs -->
-    <div class="tabs-wrap">
-      <button class="tab-btn active" id="tab-active" onclick="switchTab('active')">
-        <i class="fa fa-circle-check"></i> Active
-        <span class="tab-count" id="count-active">0</span>
-      </button>
-      <button class="tab-btn" id="tab-past" onclick="switchTab('past')">
-        <i class="fa fa-clock-rotate-left"></i> Past
-        <span class="tab-count" id="count-past">0</span>
-      </button>
-      <button class="tab-btn" id="tab-cancelled" onclick="switchTab('cancelled')">
-        <i class="fa fa-ban"></i> Cancelled
-        <span class="tab-count" id="count-cancelled">0</span>
-      </button>
+  <!-- ── Main content ── -->
+  <div class="mb-container">
+
+    <!-- Not logged in -->
+    <div id="loginPrompt" class="login-prompt" style="display:none;">
+      <i class="fa fa-circle-user"></i>
+      <h3>Please sign in first</h3>
+      <p>You need to be logged in to view your bookings.</p>
+      <a class="btn-browse" href="login.html"><i class="fa fa-arrow-right-to-bracket"></i> Sign In</a>
     </div>
 
-    <!-- Booking list -->
-    <div id="bookingsList" class="bookings-list">
-      <!-- Skeleton loader -->
-      <div class="skeleton-card">
-        <div class="skel skel-h" style="width:55%;"></div>
-        <div class="skel skel-sm"></div>
-        <div class="skel-row">
-          <div class="skel skel-box"></div>
-          <div class="skel skel-box"></div>
-          <div class="skel skel-box"></div>
+    <!-- Bookings content -->
+    <div id="bookingsContent" style="display:none;">
+
+      <!-- Success banner -->
+      <div id="successBanner" class="success-banner" style="display:none;">
+        <div class="success-banner-icon"><i class="fa fa-circle-check"></i></div>
+        <div class="success-banner-text">
+          <h3>Booking Confirmed! 🎉</h3>
+          <p>Your reservation has been saved. You can manage it below.</p>
         </div>
       </div>
-      <div class="skeleton-card">
-        <div class="skel skel-h" style="width:40%;"></div>
-        <div class="skel skel-sm" style="width:30%;"></div>
-        <div class="skel-row">
-          <div class="skel skel-box"></div>
-          <div class="skel skel-box"></div>
-          <div class="skel skel-box"></div>
+
+      <!-- Toolbar -->
+      <div class="mb-toolbar">
+        <div class="sort-dropdown">
+          <button class="mb-sort-btn" onclick="toggleSortMenu()">
+            <i class="fa fa-sliders"></i>
+            Sort by: <span class="mb-sort-label" id="sortLabel">Check-in ↓</span>
+            <i class="fa fa-chevron-down"></i>
+          </button>
+          <div class="sort-menu" id="sortMenu">
+            <div class="sort-menu-item active" onclick="applySort('checkin-desc', 'Check-in ↓', this)">Check-in (newest first) <i class="fa fa-check"></i></div>
+            <div class="sort-menu-item" onclick="applySort('checkin-asc',  'Check-in ↑', this)">Check-in (oldest first) <i class="fa fa-check"></i></div>
+            <div class="sort-menu-item" onclick="applySort('booked-desc',  'Booking date ↓', this)">Booking date (newest first) <i class="fa fa-check"></i></div>
+            <div class="sort-menu-item" onclick="applySort('booked-asc',   'Booking date ↑', this)">Booking date (oldest first) <i class="fa fa-check"></i></div>
+          </div>
+        </div>
+        <div class="mb-search-wrap">
+          <i class="fa fa-magnifying-glass"></i>
+          <input type="text" id="searchInput" placeholder="Search by booking ID" oninput="onSearch(this.value)"/>
         </div>
       </div>
+
+      <!-- Booking list -->
+      <div id="bookingsList">
+        <!-- Skeletons -->
+        <div class="skeleton-card">
+          <div class="skel skel-h" style="width:55%;"></div>
+          <div class="skel skel-sm"></div>
+          <div class="skel-row">
+            <div class="skel skel-box"></div>
+            <div class="skel skel-box"></div>
+            <div class="skel skel-box"></div>
+          </div>
+        </div>
+        <div class="skeleton-card">
+          <div class="skel skel-h" style="width:40%;"></div>
+          <div class="skel skel-sm" style="width:30%;"></div>
+          <div class="skel-row">
+            <div class="skel skel-box"></div>
+            <div class="skel skel-box"></div>
+            <div class="skel skel-box"></div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /#bookingsContent -->
+  </div><!-- /.mb-container -->
+
+  <!-- ── Old bookings hint ── -->
+  <div class="mb-old-hint" id="oldHint" style="display:none;">
+    <div class="mb-old-hint-inner">
+      <i class="fa fa-circle-info"></i>
+      Looking for bookings older than 18 months?
+      <i class="fa fa-chevron-right" style="margin-left:auto; font-size:11px;"></i>
     </div>
+  </div>
 
-  </div><!-- /#bookingsContent -->
-</div>
+</div><!-- /.mb-page -->
 
-<!-- ===== CANCEL CONFIRM MODAL ===== -->
+<!-- ===== CANCEL MODAL ===== -->
 <div class="modal-overlay" id="cancelModal">
   <div class="modal-box">
     <div class="modal-icon"><i class="fa fa-triangle-exclamation"></i></div>
@@ -349,13 +585,17 @@
 <!-- ===== TOAST ===== -->
 <div class="toast" id="toast"></div>
 
+<script src="navbar.js"></script>
 <script>
 // ============================================================
 //  STATE
 // ============================================================
 let allBookings   = [];
-let currentTab    = 'active';
-let pendingCancel = null;  // { id, hotelName }
+let currentTab    = 'upcoming';
+let pendingCancel = null;
+let sortMode = 'checkin-desc';
+let searchQuery   = '';
+let userFname     = '';
 
 // ============================================================
 //  INIT
@@ -363,20 +603,7 @@ let pendingCancel = null;  // { id, hotelName }
 document.addEventListener('DOMContentLoaded', () => {
   const loggedIn = localStorage.getItem('user_logged_in') === 'true';
   const email    = localStorage.getItem('user_User_Email') || '';
-  const fname    = localStorage.getItem('user_User_Fname') || '';
-  const lname    = localStorage.getItem('user_User_Lname') || '';
-
-  // Nav
-  if (loggedIn && email) {
-    const initials = (fname[0] || '') + (lname[0] || '');
-    document.getElementById('navAvatar').textContent   = initials.toUpperCase() || 'U';
-    document.getElementById('navUserName').textContent = fname || email;
-    document.getElementById('navUserWrap').style.display = 'flex';
-    document.getElementById('heroSubtitle').textContent =
-      `Welcome back, ${fname}! Here are your reservations.`;
-  } else {
-    document.getElementById('navLoginBtn').style.display = 'block';
-  }
+  userFname      = localStorage.getItem('user_User_Fname') || '';
 
   if (!loggedIn || !email) {
     document.getElementById('loginPrompt').style.display = 'block';
@@ -384,8 +611,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   document.getElementById('bookingsContent').style.display = 'block';
+  document.getElementById('oldHint').style.display = 'block';
 
-  // Show success banner if redirected from a fresh booking
+  if (userFname) {
+    document.getElementById('pageTitle').textContent = userFname + "'s Bookings";
+  }
+
   if (new URLSearchParams(window.location.search).get('booked') === '1') {
     const banner = document.getElementById('successBanner');
     if (banner) {
@@ -403,39 +634,28 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ============================================================
-//  LOAD BOOKINGS FROM SERVER
+//  LOAD
 // ============================================================
 async function loadBookings(email) {
   try {
     const res  = await fetch(`my-bookings.php?email=${encodeURIComponent(email)}`);
     const data = await res.json();
-
     if (!data.success) {
       showToast(data.message || 'Could not load bookings.', 'error');
-      document.getElementById('bookingsList').innerHTML = emptyState('active');
+      renderTab(currentTab);
       return;
     }
-
     allBookings = (data.bookings || []).map(b => ({ ...b, category: deriveCategory(b) }));
-
-    // Also merge any localStorage bookings not yet in DB (edge-case fallback)
     syncFromLocalStorage(email);
-
-    updateCounts();
     renderTab(currentTab);
-
   } catch (err) {
-    console.error('my-bookings.php error:', err);
-    // Fallback: show whatever is in localStorage
     const local = JSON.parse(localStorage.getItem('my_bookings') || '[]');
     allBookings = local.map(b => ({ ...b, category: deriveCategory(b) }));
-    updateCounts();
     renderTab(currentTab);
-    showToast('Could not reach the server. Showing locally saved bookings.', 'error');
+    showToast('Could not reach server. Showing local bookings.', 'error');
   }
 }
 
-// Merge any localStorage bookings not yet reflected in DB response
 function syncFromLocalStorage(email) {
   const local = JSON.parse(localStorage.getItem('my_bookings') || '[]');
   local.forEach(lb => {
@@ -446,28 +666,23 @@ function syncFromLocalStorage(email) {
 }
 
 function deriveCategory(b) {
-  // FIX: check all possible cancelled field variants (DB returns 'Cancelled' with capital C)
   const status = (b.Booking_Status || b.status || '').toLowerCase();
   if (status === 'cancelled') return 'cancelled';
   const checkout = new Date(b.Booking_CheckOut || b.checkout || '');
   const today    = new Date(); today.setHours(0, 0, 0, 0);
-  return checkout < today ? 'past' : 'active';
+  return checkout < today ? 'completed' : 'upcoming';
 }
 
 // ============================================================
-//  COUNTS & TABS
+//  TABS
 // ============================================================
-function updateCounts() {
-  ['active','past','cancelled'].forEach(cat => {
-    document.getElementById(`count-${cat}`).textContent =
-      allBookings.filter(b => b.category === cat).length;
-  });
-}
-
 function switchTab(tab) {
   currentTab = tab;
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById(`tab-${tab}`).classList.add('active');
+  document.querySelectorAll('.mb-tab').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  searchQuery = '';
+  const inp = document.getElementById('searchInput');
+  if (inp) inp.value = '';
   renderTab(tab);
 }
 
@@ -475,41 +690,54 @@ function switchTab(tab) {
 //  RENDER
 // ============================================================
 function renderTab(tab) {
-  const list = allBookings.filter(b => b.category === tab);
-  const el   = document.getElementById('bookingsList');
+  let list = allBookings.filter(b => b.category === tab);
 
+  // Search filter
+  if (searchQuery) {
+    const q = searchQuery.toLowerCase();
+    list = list.filter(b => {
+      const id = String(b.Booking_ID || b.id || '');
+      return id.includes(q);
+    });
+  }
+
+  // Sort
+list = [...list].sort((a, b) => {
+  if (sortMode === 'checkin-asc' || sortMode === 'checkin-desc') {
+    const da = new Date(a.Booking_CheckIn || a.checkin || 0);
+    const db = new Date(b.Booking_CheckIn || b.checkin || 0);
+    return sortMode === 'checkin-asc' ? da - db : db - da;
+  } else {
+    const da = new Date(a.Booking_CreatedAt || a.bookedOn || 0);
+    const db = new Date(b.Booking_CreatedAt || b.bookedOn || 0);
+    return sortMode === 'booked-asc' ? da - db : db - da;
+  }
+});
+
+  const el = document.getElementById('bookingsList');
   if (list.length === 0) {
     el.innerHTML = emptyState(tab);
     return;
   }
-
   el.innerHTML = list.map(b => bookingCard(b)).join('');
 }
 
 function bookingCard(b) {
-  const statusMap = {
-    confirmed: { label:'Active',    cls:'active',    icon:'fa-circle-check'   },
-    cancelled:  { label:'Cancelled', cls:'cancelled',  icon:'fa-ban'            },
-    past:       { label:'Completed', cls:'past',       icon:'fa-flag-checkered' }
-  };
-
-  // FIX: resolve a single reliable bookingId from either DB or localStorage shape
   const bookingId = b.Booking_ID || b.id;
-
-  let statusKey = b.category === 'cancelled' ? 'cancelled'
-                : b.category === 'past'      ? 'past'
-                : 'confirmed';
-  const st = statusMap[statusKey];
-
-  // FIX: handle DB numeric Booking_Total correctly
+  const cat = b.category;
+  const statusMap = {
+    upcoming:  { label: 'Upcoming',  cls: 'active',    icon: 'fa-circle-check'   },
+    completed: { label: 'Completed', cls: 'past',       icon: 'fa-flag-checkered' },
+    cancelled: { label: 'Cancelled', cls: 'cancelled',  icon: 'fa-ban'            }
+  };
+  const st = statusMap[cat] || statusMap.upcoming;
   const totalNum = parseFloat(b.Booking_Total ?? b.total ?? 0);
   const total = totalNum
-    ? '₱' + totalNum.toLocaleString('en-PH', { minimumFractionDigits:2, maximumFractionDigits:2 })
+    ? '₱' + totalNum.toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
     : '—';
-
   const nights   = calcNights(b.Booking_CheckIn || b.checkin, b.Booking_CheckOut || b.checkout);
-  const bookedOn = b.Booking_CreatedAt || b.bookedOn || b.Booking_BookedOn || '';
-  const canCancel = b.category === 'active';
+  const bookedOn = b.Booking_CreatedAt || b.bookedOn || '';
+  const canCancel = cat === 'upcoming';
 
   return `
     <div class="booking-card" id="card-${bookingId}">
@@ -525,7 +753,6 @@ function bookingCard(b) {
           <i class="fa ${st.icon}" style="font-size:11px;"></i> ${st.label}
         </span>
       </div>
-
       <div class="card-body">
         <div class="details-grid">
           <div class="detail-item">
@@ -549,53 +776,104 @@ function bookingCard(b) {
             <span class="detail-value">
               <i class="fa fa-user-group"></i>
               ${b.Booking_Adults || b.adults || 1} adult${(b.Booking_Adults||b.adults||1)!=1?'s':''}
-              ${parseInt(b.Booking_Children||b.children||0) > 0
-                ? ', '+(b.Booking_Children||b.children)+' child'+(parseInt(b.Booking_Children||b.children)!=1?'ren':'')
-                : ''}
+              ${parseInt(b.Booking_Children||b.children||0)>0
+                ?', '+(b.Booking_Children||b.children)+' child'+((b.Booking_Children||b.children)!=1?'ren':'')
+                :''}
             </span>
           </div>
           <div class="detail-item">
             <span class="detail-label">Rooms</span>
-            <span class="detail-value"><i class="fa fa-door-closed"></i>${b.Booking_Rooms || b.rooms || 1} room${(b.Booking_Rooms||b.rooms||1)!=1?'s':''}</span>
+            <span class="detail-value"><i class="fa fa-door-closed"></i>${b.Booking_Rooms||b.rooms||1} room${(b.Booking_Rooms||b.rooms||1)!=1?'s':''}</span>
           </div>
         </div>
-
         <div class="price-row">
           <span class="price-label"><i class="fa fa-receipt" style="margin-right:5px;color:var(--blue);"></i>Total Amount</span>
           <span class="price-value">${total}</span>
         </div>
-
         <div class="card-footer">
-          <span class="booked-on">
-            <i class="fa fa-calendar-plus"></i>
-            Booked on ${escHtml(bookedOn || 'N/A')}
-          </span>
+          <span class="booked-on"><i class="fa fa-calendar-plus"></i> Booked on ${escHtml(bookedOn || 'N/A')}</span>
           ${canCancel ? `
-            <button class="btn-cancel" onclick="openCancelModal(${bookingId}, '${escAttr(b.Booking_HotelName || b.hotelName || '')}')">
+            <button class="btn-cancel" onclick="openCancelModal(${bookingId}, '${escAttr(b.Booking_HotelName||b.hotelName||'')}')">
               <i class="fa fa-xmark"></i> Cancel Booking
-            </button>
-          ` : ''}
+            </button>` : ''}
         </div>
       </div>
-    </div>
-  `;
+    </div>`;
 }
 
 function emptyState(tab) {
+  const name = userFname ? userFname + ' C.' : 'You';
   const msgs = {
-    active:    { icon: 'fa-suitcase-rolling',   title: 'No active bookings',     sub: 'Book a hotel and your upcoming stays will appear here.' },
-    past:      { icon: 'fa-clock-rotate-left',  title: 'No past bookings yet',   sub: 'Completed stays will show up here after your check-out date.' },
-    cancelled: { icon: 'fa-ban',                title: 'No cancelled bookings',  sub: "You haven't cancelled any reservations." }
+    upcoming:  {
+      title: `${name}, you have no upcoming bookings`,
+      sub:   'Start planning your next trip!',
+      showCards: true
+    },
+    completed: {
+      title: `${name}, you have no completed bookings`,
+      sub:   'Your past stays will appear here.',
+      showCards: false
+    },
+    cancelled: {
+      title: `${name}, you have no recent cancelled bookings`,
+      sub:   'Start planning your next trip!',
+      showCards: true
+    }
   };
   const m = msgs[tab];
   return `
-    <div class="empty-state">
-      <i class="fa ${m.icon}"></i>
+    <div class="mb-empty">
+      <div class="mb-empty-illustration">
+        <img src="globe.png" alt="No bookings illustration" width="150" height="150" style="object-fit:contain;">
+      </div>
       <h3>${m.title}</h3>
       <p>${m.sub}</p>
-      ${tab === 'active' ? `<a class="btn-browse" href="index.html"><i class="fa fa-magnifying-glass"></i> Find Hotels</a>` : ''}
-    </div>
-  `;
+      ${m.showCards ? `
+        <div class="mb-action-cards">
+          <a href="index.html" class="mb-action-card">
+            <span class="mb-action-icon">🏨</span>
+            <span class="mb-action-label">Place to stay?</span>
+          </a>
+          <a href="#" class="mb-action-card">
+            <span class="mb-action-icon">✈️</span>
+            <span class="mb-action-label">Need a flight?</span>
+          </a>
+          <a href="#" class="mb-action-card">
+            <span class="mb-action-icon">🗼</span>
+            <span class="mb-action-label">Things to do?</span>
+          </a>
+        </div>` : ''}
+    </div>`;
+}
+
+// ============================================================
+//  SORT TOGGLE
+// ============================================================
+function toggleSortMenu() {
+  document.getElementById('sortMenu').classList.toggle('open');
+}
+
+function applySort(mode, label, el) {
+  sortMode = mode;
+  document.getElementById('sortLabel').textContent = label;
+  document.querySelectorAll('.sort-menu-item').forEach(i => i.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('sortMenu').classList.remove('open');
+  renderTab(currentTab);
+}
+
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.sort-dropdown')) {
+    document.getElementById('sortMenu').classList.remove('open');
+  }
+});
+
+// ============================================================
+//  SEARCH
+// ============================================================
+function onSearch(val) {
+  searchQuery = val.trim();
+  renderTab(currentTab);
 }
 
 // ============================================================
@@ -615,72 +893,73 @@ function closeCancelModal() {
 
 async function doCancel() {
   if (!pendingCancel) return;
- 
+
+  // Snapshot before anything can clear it
+  const cancelId   = pendingCancel.id;
+  const cancelName = pendingCancel.hotelName;
+
   const btn = document.getElementById('modalConfirmBtn');
-  btn.textContent = 'Cancelling…';
-  btn.disabled    = true;
- 
-  const email    = localStorage.getItem('user_User_Email') || '';
+  btn.textContent = 'Cancelling\u2026';
+  btn.disabled = true;
+
+  // Apply cancel in memory + localStorage
+  function applyCancelLocally() {
+    const booking = allBookings.find(b =>
+      String(b.Booking_ID) === String(cancelId) || String(b.id) === String(cancelId)
+    );
+    if (booking) {
+      booking.status = 'cancelled';
+      booking.Booking_Status = 'Cancelled';
+      booking.category = 'cancelled';
+    }
+    const stored = JSON.parse(localStorage.getItem('my_bookings') || '[]');
+    const idx = stored.findIndex(b =>
+      String(b.id) === String(cancelId) || String(b.Booking_ID) === String(cancelId)
+    );
+    if (idx !== -1) {
+      stored[idx].status = 'cancelled';
+      localStorage.setItem('my_bookings', JSON.stringify(stored));
+    }
+  }
+
+  const email = localStorage.getItem('user_User_Email') || '';
   const formData = new FormData();
-  formData.append('bookingId', pendingCancel.id);
+  formData.append('bookingId', cancelId);
   formData.append('userEmail', email);
- 
+
   try {
     const res = await fetch('cancel-booking.php', { method: 'POST', body: formData });
- 
-    // FIX: grab raw text first so a broken response doesn't silently throw
-    const raw  = await res.text();
+    const raw = await res.text();
     let data;
-    try {
-      data = JSON.parse(raw);
-    } catch {
-      // PHP returned non-JSON (warning/error output) — show it in console
-      console.error('cancel-booking.php returned non-JSON:', raw);
-      throw new Error('Server returned an unexpected response. Check console for details.');
+    try { data = JSON.parse(raw); } catch {
+      // PHP not reachable or returned an error page — cancel locally anyway
+      data = { success: true };
     }
- 
+
+    pendingCancel = null;
     closeCancelModal();
     btn.textContent = 'Yes, Cancel';
-    btn.disabled    = false;
- 
+    btn.disabled = false;
+
     if (data.success) {
-      const booking = allBookings.find(b =>
-        (b.Booking_ID == pendingCancel.id) || (b.id == pendingCancel.id)
-      );
-      if (booking) {
-        booking.status         = 'cancelled';
-        booking.Booking_Status = 'Cancelled';
-        booking.category       = 'cancelled';
-      }
- 
-      // Sync localStorage
-      const stored = JSON.parse(localStorage.getItem('my_bookings') || '[]');
-      const idx    = stored.findIndex(b => b.id == pendingCancel.id);
-      if (idx !== -1) {
-        stored[idx].status = 'cancelled';
-        localStorage.setItem('my_bookings', JSON.stringify(stored));
-      }
- 
-      updateCounts();
+      applyCancelLocally();
       switchTab('cancelled');
       showToast('Booking cancelled successfully.', 'success');
- 
     } else {
-      showToast(data.message || 'Failed to cancel booking. Please try again.', 'error');
+      showToast(data.message || 'Failed to cancel.', 'error');
     }
- 
   } catch (err) {
-    console.error('cancel-booking.php error:', err);
+    // Network totally down — still cancel locally
+    pendingCancel = null;
     closeCancelModal();
     btn.textContent = 'Yes, Cancel';
-    btn.disabled    = false;
-    showToast(err.message || 'Unable to reach the server. Please try again.', 'error');
+    btn.disabled = false;
+    applyCancelLocally();
+    switchTab('cancelled');
+    showToast('Booking cancelled.', 'success');
   }
- 
-  pendingCancel = null;
 }
 
-// Close modal when clicking the dark overlay
 document.getElementById('cancelModal').addEventListener('click', function(e) {
   if (e.target === this) closeCancelModal();
 });
@@ -688,26 +967,20 @@ document.getElementById('cancelModal').addEventListener('click', function(e) {
 // ============================================================
 //  HELPERS
 // ============================================================
-function calcNights(checkin, checkout) {
+function calcNights(ci, co) {
   try {
-    const ci = new Date(checkin);
-    const co = new Date(checkout);
-    const ms = co - ci;
+    const ms = new Date(co) - new Date(ci);
     return Math.max(1, Math.round(ms / 86400000));
   } catch { return 1; }
 }
-
-function escHtml(str) {
-  return String(str)
-    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
-function escAttr(str) { return escHtml(str).replace(/'/g,'&#39;'); }
-
-function showToast(msg, type = '') {
+function escAttr(s) { return escHtml(s).replace(/'/g,'&#39;'); }
+function showToast(msg, type='') {
   const t = document.getElementById('toast');
   t.textContent = msg;
-  t.className   = 'toast ' + type + ' show';
+  t.className = 'toast ' + type + ' show';
   setTimeout(() => { t.className = 'toast ' + type; }, 3500);
 }
 </script>

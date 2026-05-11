@@ -369,19 +369,17 @@ body {
   z-index: 3;
   margin: 0 auto;
   padding: 0 20px;
-  max-width: 1050px;  /* ← keeps UI contained in center */
+  max-width: 1100px;  /* ← keeps UI contained in center */
 }
 
 /* ── Tabs ── */
 .search-tabs {
   list-style: none;
   margin: 0 10% -10px;
-
   background: #fff;
   border-radius: 12px;
   display: flex;
-  align-items: stretch;
-  height: 48px;
+  height: 49px;
   position: relative;
   z-index: 2;
   box-shadow: 0 2px 8px rgba(0,0,0,0.06);
@@ -399,12 +397,12 @@ body {
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 0 14px;
-  height: 48px;
+  padding: 0 13px;
+  height: 49px;
 }
 
 .stab-inner i    { font-size: 14px; color: #2A2A2E; flex-shrink: 0; }
-.stab-inner span { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 500; color: #6b7280; white-space: nowrap; }
+.stab-inner span { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 500; color: #6b7280; white-space: nowrap; }
 
 .stab.active { border-bottom-color: #5392F9; }
 .stab.active .stab-inner i,
@@ -440,7 +438,7 @@ body {
 .stay-toggle button.active { border-color: var(--agoda-blue); color: var(--agoda-blue); background: #e8f0fe; }
 
 /* ── Destination Input ── */
-.search-input-wrap { position: relative; margin-bottom: 10px; }
+.search-input-wrap { position: relative; margin-bottom: 14px; }
 
 .search-input-wrap i {
   position: absolute;
@@ -581,8 +579,8 @@ body {
 .add-flight {
   color: var(--agoda-blue);
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 13px;
-  font-weight: 500;
+  font-size: 16px;
+  font-weight: 700;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -906,13 +904,13 @@ body {
 /* =============================================================
    TOP DESTINATIONS SECTION
    ============================================================= */
-.section-wrap { max-width: 1100px; margin: 60px auto 40px; padding: 0 20px; }
+.section-wrap { max-width: 1050px; margin: 0 auto 40px; padding: 0 20px; }
 
 .section-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.6rem;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 25px;
   font-weight: 700;
-  color: #1a1a2e;
+  color: #252C38;
   margin-bottom: 24px;
 }
 
@@ -962,6 +960,37 @@ body {
   border: none;
   z-index: 999;
   animation: bounce 2s infinite;
+}
+
+
+/* ── Search Validation Toast ── */
+.search-toast {
+  position: fixed;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ff4d4f;
+  color: #fff;
+  padding: 14px 28px;
+  border-radius: 10px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.18);
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.search-toast.show { opacity: 1; }
+
+.search-input-error {
+  border: 2px solid #ff4d4f !important;
+  box-shadow: 0 0 0 3px rgba(255,77,79,0.15) !important;
 }
 
 @keyframes bounce {

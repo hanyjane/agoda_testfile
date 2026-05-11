@@ -31,13 +31,13 @@ const countryFlags = {
 const allCountries = [...new Set(destinations.map(d => d.country))];
 
 // ── Element references ──
-const searchInput = document.getElementById('searchInput');
+const searchInput    = document.getElementById('searchInput');
 const searchDropdown = document.getElementById('searchDropdown');
-const recentSection = document.getElementById('recentSection');
-const citySection = document.getElementById('citySection');
-const cityResults = document.getElementById('cityResults');
+const recentSection  = document.getElementById('recentSection');
+const citySection    = document.getElementById('citySection');
+const cityResults    = document.getElementById('cityResults');
 const popularSection = document.getElementById('popularSection');
-const popularList = document.getElementById('popularList');
+const popularList    = document.getElementById('popularList');
 
 document.getElementById('columnsSection').style.display = 'none';
 
@@ -69,7 +69,7 @@ function buildPopularCountries() {
   citySection.style.display = 'none';
 }
 
-// ── Show cities of selected country (with "All hotels in X" at top) ──
+// ── Show cities of selected country ──
 function showCountryCities(country) {
   lastSelectedCountry = country;
   const flag = countryFlags[country] || '🌍';
@@ -81,8 +81,6 @@ function showCountryCities(country) {
       <i class="fa fa-arrow-left"></i> All countries
     </div>
     <p class="city-country-header">${flag} ${country}</p>
-
-    <!-- ALL hotels in country option -->
     <div class="result-item result-all-country" onclick="selectCountry('${country}')">
       <div class="result-all-icon"><i class="fa fa-globe"></i></div>
       <div class="result-info">
@@ -91,7 +89,6 @@ function showCountryCities(country) {
       </div>
       <i class="fa fa-chevron-right" style="color:#ccc;margin-left:auto;font-size:12px;"></i>
     </div>
-
     ${cities.map(d => `
       <div class="result-item" onclick="selectDestination('${d.name}', '${d.country}', '${d.city}')">
         <img class="result-img" src="${d.img}" alt="${d.name}" onerror="this.style.background='#e5e5e5';this.removeAttribute('src')"/>
@@ -107,16 +104,15 @@ function showCountryCities(country) {
   citySection.style.display = 'block';
 }
 
-// ── Select entire country (no specific city) ──
+// ── Select entire country ──
 function selectCountry(country) {
-  const flag = countryFlags[country] || '🌍';
   searchInput.value = country;
   lastSelectedCountry = country;
   searchDropdown.classList.remove('active');
   localStorage.setItem('search_country', country);
   localStorage.setItem('search_city', '');
   localStorage.setItem('search_destination', country);
-  saveRecentSearch(country);
+  saveRecentSearch(country, country, '');
   document.dispatchEvent(new CustomEvent('destinationSelected', {
     detail: { name: country, country, city: '' }
   }));
@@ -130,32 +126,89 @@ function selectDestination(name, country, city) {
   localStorage.setItem('search_country', country);
   localStorage.setItem('search_city', city);
   localStorage.setItem('search_destination', name + ', ' + country);
-  saveRecentSearch(name + ', ' + country);
+  saveRecentSearch(name + ', ' + country, country, city);
   document.dispatchEvent(new CustomEvent('destinationSelected', {
     detail: { name, country, city }
   }));
 }
 
-// ── Recent search ──
+// ── Save recent search with real dates ──
+function saveRecentSearch(destination, country = '', city = '') {
+  const ciEl  = document.getElementById('checkin-display');
+  const coEl  = document.getElementById('checkout-display');
+  const ciDay = document.getElementById('checkin-day');
+  const coDay = document.getElementById('checkout-day');
+
+  const checkin     = ciEl  ? ciEl.textContent.trim()  : '';
+  const checkout    = coEl  ? coEl.textContent.trim()  : '';
+  const checkinDay  = ciDay ? ciDay.textContent.trim() : '';
+  const checkoutDay = coDay ? coDay.textContent.trim() : '';
+
+  const guests = document.getElementById('adults-count')
+    ? document.getElementById('adults-count').textContent.trim()
+    : '2';
+
+  const hasValidDates = checkin && checkout
+    && checkin  !== 'Check-in'
+    && checkout !== 'Check-out';
+
+  localStorage.setItem('recent_search', JSON.stringify({
+    destination,
+    country,
+    city,
+    checkin,
+    checkinDay,
+    checkout,
+    checkoutDay,
+    dates:  hasValidDates ? checkin + ' – ' + checkout : '',
+    guests
+  }));
+}
+
+// ── Load recent search into dropdown ──
 function loadRecent() {
   const recent = JSON.parse(localStorage.getItem('recent_search') || 'null');
-  if (recent) {
-    document.getElementById('recentCity').textContent = recent.destination;
-    document.getElementById('recentDates').textContent = recent.dates;
-    document.getElementById('recentGuests').textContent = recent.guests;
+  if (recent && recent.destination) {
+    document.getElementById('recentCity').textContent   = recent.destination;
+    document.getElementById('recentDates').textContent  = recent.dates || 'No dates selected';
+    document.getElementById('recentGuests').textContent = recent.guests || '2';
     recentSection.style.display = 'block';
   } else {
     recentSection.style.display = 'none';
   }
 }
 
+// ── Click recent search — fill inputs ──
 function useRecent() {
   const recent = JSON.parse(localStorage.getItem('recent_search') || 'null');
-  if (recent) {
-    searchInput.value = recent.destination;
-    searchDropdown.classList.remove('active');
-    localStorage.setItem('search_destination', recent.destination);
+  if (!recent) return;
+
+  // Fill search input
+  searchInput.value = recent.destination;
+  searchDropdown.classList.remove('active');
+
+  // Save to localStorage so collectAndSearch picks it up
+  localStorage.setItem('search_destination', recent.destination);
+  if (recent.city)    localStorage.setItem('search_city',    recent.city);
+  if (recent.country) localStorage.setItem('search_country', recent.country);
+
+  // Fill check-in date
+  if (recent.checkin && recent.checkin !== 'Check-in') {
+    const ciVal = document.getElementById('checkin-display');
+    const ciDay = document.getElementById('checkin-day');
+    if (ciVal) ciVal.textContent = recent.checkin;
+    if (ciDay) ciDay.textContent = recent.checkinDay || '';
   }
+
+  // Fill check-out date
+  if (recent.checkout && recent.checkout !== 'Check-out') {
+    const coVal = document.getElementById('checkout-display');
+    const coDay = document.getElementById('checkout-day');
+    if (coVal) coVal.textContent = recent.checkout;
+    if (coDay) coDay.textContent = recent.checkoutDay || '';
+  }
+
+  searchDropdown.style.display = 'none';
 }
 
 function showDefault() {
@@ -182,14 +235,12 @@ function filterResults(q) {
     d.tags.toLowerCase().includes(cleaned)
   );
 
-  // Only country matches → show that country's cities
   if (matchedCountries.length === 1 && matchedCities.filter(d => d.country === matchedCountries[0]).length > 0) {
     showCountryCities(matchedCountries[0]);
     citySection.style.display = 'block';
     return;
   }
 
-  // Multiple country matches → show country cards
   if (matchedCountries.length > 1 && matchedCities.length === 0) {
     cityResults.innerHTML = matchedCountries.map(country => {
       const flag = countryFlags[country] || '🌍';
@@ -210,7 +261,6 @@ function filterResults(q) {
     return;
   }
 
-  // Mixed / city-level matches — group by country
   const allMatches = destinations.filter(d =>
     d.name.toLowerCase().includes(cleaned) ||
     d.country.toLowerCase().includes(cleaned) ||
@@ -255,18 +305,6 @@ function highlight(text, query) {
   return text.replace(regex, '<strong>$1</strong>');
 }
 
-function saveRecentSearch(destination) {
-  const today = new Date();
-  const checkin = new Date(today); checkin.setDate(today.getDate() + 5);
-  const checkout = new Date(today); checkout.setDate(today.getDate() + 9);
-  const fmt = d => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
-  localStorage.setItem('recent_search', JSON.stringify({
-    destination,
-    dates: fmt(checkin) + ' – ' + fmt(checkout),
-    guests: 2
-  }));
-}
-
 // ── Events ──
 searchInput.addEventListener('focus', function () {
   searchDropdown.classList.add('active');
@@ -284,7 +322,7 @@ searchInput.addEventListener('keydown', function (e) {
   if (e.key === 'Enter') {
     const q = this.value.trim();
     if (q) {
-      saveRecentSearch(q);
+      saveRecentSearch(q, localStorage.getItem('search_country') || '', localStorage.getItem('search_city') || '');
       searchDropdown.classList.remove('active');
       localStorage.setItem('search_destination', q);
     }

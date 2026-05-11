@@ -1,4 +1,4 @@
-================================================
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -490,10 +490,6 @@
   </style>
 </head>
 <body>
-
-<!-- =============================
-     AUTH GUARD (shown while checking)
-============================= -->
 <div id="authGuard" style="position:fixed;inset:0;background:#f4f7fc;display:flex;align-items:center;justify-content:center;z-index:9999;">
   <div style="text-align:center;">
     <i class="fa fa-circle-notch fa-spin" style="font-size:32px;color:#1a56db;"></i>
@@ -501,9 +497,6 @@
   </div>
 </div>
 
-<!-- =============================
-     APP SHELL
-============================= -->
 <div class="app-shell">
 
   <!-- ── SIDEBAR ── -->
@@ -926,8 +919,13 @@ function renderStats(summary) {
   document.getElementById('statTotal').textContent     = summary.total || 0;
   document.getElementById('statConfirmed').textContent = summary.confirmed || 0;
   document.getElementById('statCancelled').textContent = summary.cancelled || 0;
-  const rev = parseFloat(summary.revenue || 0);
-  document.getElementById('statRevenue').textContent   = '₱' + (rev >= 1000000
+
+  // Only count revenue from completed bookings
+  const rev = allBookings
+    .filter(b => (b.Booking_Status || '').toLowerCase() === 'completed')
+    .reduce((sum, b) => sum + parseFloat(b.Booking_Total || 0), 0);
+
+  document.getElementById('statRevenue').textContent = '₱' + (rev >= 1000000
     ? (rev / 1000000).toFixed(1) + 'M'
     : rev >= 1000 ? (rev / 1000).toFixed(1) + 'K'
     : rev.toFixed(0));

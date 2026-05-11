@@ -1,319 +1,321 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Agoda - See the World for Less</title>
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet"/>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap"
+    rel="stylesheet" />
   <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <!-- Font Awesome -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="style.css" />
 
-  <link rel="stylesheet" href="search.css"/>
+  <link rel="stylesheet" href="search.css" />
 </head>
+
 <body>
 
 
-<!-- ===== NAVBAR ===== -->
-<nav class="top-nav">
-  <div class="nav-inner">
-    <div class="logo-wrap">
-      <a href="index.html">
-        <img src="Agoda_logo_2019.svg.png" alt="logo" width="71" height="36">
-      </a>
-    </div>
-    <div class="nav-links">
-      <a href="#">Flight + Hotel</a>
-      <a href="#">Hotels &amp; Homes</a>
-      <a href="#">Transport <i class="fa fa-chevron-down fa-xs"></i></a>
-      <a href="#">Attractions</a>
-      <a href="#">Coupons &amp; Deals</a>
-      <a href="#">eSIM</a>
-      <a href="#">Travel Guides</a>
-      <a href="#">Travel Itineraries</a>
-    </div>
-    <div class="nav-right">
-  </div>
-</nav>
+  <!-- ===== NAVBAR ===== -->
+  <nav class="top-nav">
+    <div class="nav-inner">
+      <div class="logo-wrap">
+        <a href="index.html">
+          <img src="Agoda_logo_2019.svg.png" alt="logo" width="71" height="36">
+        </a>
+      </div>
+      <div class="nav-links">
+        <a href="#">Flight + Hotel</a>
+        <a href="#">Hotels &amp; Homes</a>
+        <a href="#">Transport <i class="fa fa-chevron-down fa-xs"></i></a>
+        <a href="#">Attractions</a>
+        <a href="#">Coupons &amp; Deals</a>
+        <a href="#">eSIM</a>
+        <a href="#">Travel Guides</a>
+        <a href="#">Travel Itineraries</a>
+      </div>
+      <div class="nav-right">
+      </div>
+  </nav>
 
-<!-- ===== HERO ===== -->
-<section class="hero">
+  <!-- ===== HERO ===== -->
+  <section class="hero">
 
-  <h1 class="hero-title">SEE THE WORLD FOR LESS</h1>
+    <h1 class="hero-title">SEE THE WORLD FOR LESS</h1>
 
-  <div class="search-container">
-    <ul class="search-tabs">
-      <li class="stab active" onclick="setTab(this)">
-        <div class="stab-inner"><i class="fa fa-hotel"></i><span>Hotels</span></div>
-      </li>
-      <li class="stab" onclick="setTab(this)">
-        <div class="stab-inner"><i class="fa fa-plane"></i><span>Flights</span></div>
-      </li>
-      <li class="stab" onclick="setTab(this)">
-        <div class="stab-inner"><i class="fa fa-house"></i><span>Homes &amp; Apts</span></div>
-      </li>
-      <li class="stab" onclick="setTab(this)">
-        <div class="stab-inner"><i class="fa fa-plane-departure"></i><span>Flight + Hotel</span></div>
-      </li>
-      <li class="stab" onclick="setTab(this)">
-        <div class="stab-inner"><i class="fa fa-ticket"></i><span>Attractions</span></div>
-      </li>
-      <li class="stab" onclick="setTab(this)">
-        <div class="stab-inner"><i class="fa fa-car"></i><span>Airport transfer</span></div>
-      </li>
-    </ul>
+    <div class="search-container">
+      <ul class="search-tabs">
+        <li class="stab active" onclick="setTab(this)">
+          <div class="stab-inner"><i class="fa fa-hotel"></i><span>Hotels</span></div>
+        </li>
+        <li class="stab" onclick="setTab(this)">
+          <div class="stab-inner"><i class="fa fa-plane"></i><span>Flights</span></div>
+        </li>
+        <li class="stab" onclick="setTab(this)">
+          <div class="stab-inner"><i class="fa fa-house"></i><span>Homes &amp; Apts</span></div>
+        </li>
+        <li class="stab" onclick="setTab(this)">
+          <div class="stab-inner"><i class="fa fa-plane-departure"></i><span>Flight + Hotel</span></div>
+        </li>
+        <li class="stab" onclick="setTab(this)">
+          <div class="stab-inner"><i class="fa fa-ticket"></i><span>Activities</span></div>
+        </li>
+        <li class="stab" onclick="setTab(this)">
+          <div class="stab-inner"><i class="fa fa-car"></i><span>Airport transfer</span></div>
+        </li>
+      </ul>
 
-     <!-- ===== SEARCH BAR ===== -->
-    <div class="search-box">
-      <div class="search-bar-wrap">
-        <div class="search-trigger">
-          <div class="search-trigger-inner">
-            <i class="fa fa-search search-trigger-icon"></i>
-            <input
-              type="text"
-              class="search-trigger-input"
-              id="searchInput"
-              placeholder="Where are you going?"
-              autocomplete="on"/>
+      <!-- ===== SEARCH BAR ===== -->
+      <div class="search-box">
+        <div class="search-bar-wrap">
+          <div class="search-trigger">
+            <div class="search-trigger-inner">
+              <i class="fa fa-search search-trigger-icon"></i>
+              <input type="text" class="search-trigger-input" id="searchInput" placeholder="Where are you going?"
+                autocomplete="on" />
+            </div>
           </div>
-        </div>        
 
           <!-- ===== DROPDOWN ===== -->
-      <div class="search-dropdown" id="searchDropdown">
-          <!-- Recent Search -->
-          <div class="search-section" id="recentSection" style="display:none;">
-            <p class="search-section-title">Recent search</p>
-            <div class="recent-item" id="recentItem" onclick="useRecent()">
-              <div class="recent-left">
-                <i class="fa fa-clock-rotate-left recent-icon"></i>
-                <div class="recent-item-info">
-                  <p class="recent-city" id="recentCity">—</p>
-                  <p class="recent-dates" id="recentDates">—</p>
+          <div class="search-dropdown" id="searchDropdown">
+            <!-- Recent Search -->
+            <div class="search-section" id="recentSection" style="display:none;">
+              <p class="search-section-title">Recent search</p>
+              <div class="recent-item" id="recentItem" onclick="useRecent()">
+                <div class="recent-left">
+                  <i class="fa fa-clock-rotate-left recent-icon"></i>
+                  <div class="recent-item-info">
+                    <p class="recent-city" id="recentCity">—</p>
+                    <p class="recent-dates" id="recentDates">—</p>
+                  </div>
+                </div>
+                <div class="recent-guests">
+                  <i class="fa fa-user"></i>
+                  <span id="recentGuests">2</span>
                 </div>
               </div>
-              <div class="recent-guests">
-                <i class="fa fa-user"></i>
-                <span id="recentGuests">2</span>
+            </div>
+
+            <!-- City results -->
+            <div class="search-section" id="citySection" style="display:none;">
+              <p class="search-section-label">City</p>
+              <div class="search-results-list" id="cityResults"></div>
+            </div>
+
+            <!-- Areas + Landmarks -->
+            <div class="search-columns" id="columnsSection" style="display:none;">
+              <div class="search-col">
+                <p class="search-section-label">Areas</p>
+                <div class="search-results-list" id="areaResults"></div>
+              </div>
+              <div class="search-col">
+                <p class="search-section-label">Landmarks</p>
+                <div class="search-results-list" id="landmarkResults"></div>
               </div>
             </div>
-          </div>
-      
-          <!-- City results -->
-          <div class="search-section" id="citySection" style="display:none;">
-            <p class="search-section-label">City</p>
-            <div class="search-results-list" id="cityResults"></div>
-          </div>
-      
-          <!-- Areas + Landmarks -->
-          <div class="search-columns" id="columnsSection" style="display:none;">
-            <div class="search-col">
-              <p class="search-section-label">Areas</p>
-              <div class="search-results-list" id="areaResults"></div>
+
+            <!-- Popular cities (default) -->
+            <div class="search-popular" id="popularSection">
+              <p class="search-section-title">Popular cities in Philippines</p>
+              <div class="popular-list" id="popularList"></div>
             </div>
-            <div class="search-col">
-              <p class="search-section-label">Landmarks</p>
-              <div class="search-results-list" id="landmarkResults"></div>
-            </div>
+
           </div>
-      
-          <!-- Popular cities (default) -->
-          <div class="search-popular" id="popularSection">
-            <p class="search-section-title">Popular cities in Philippines</p>
-            <div class="popular-list" id="popularList"></div>
-          </div>
-      
         </div>
-      </div>
 
 
-      <!-- Date & Guest Row — -->
-      <div class="date-picker-wrap">
-        <div class="date-guest-row">
-          <!-- ✅ Added id + openPicker() -->
-          <div class="date-box" id="checkin-box" onclick="openPicker('checkin')">
-            <i class="fa fa-calendar-days"></i>
-            <div>
-              <span class="value" id="checkin-display">8 May 2026</span>
-              <span class="label" id="checkin-day">Friday</span>
-            </div>
-          </div>
-          <div class="date-box" id="checkout-box" onclick="openPicker('checkout')">
-            <i class="fa fa-calendar-days"></i>
-            <div>
-              <span class="value" id="checkout-display">9 May 2026</span>
-              <span class="label" id="checkout-day">Saturday</span>
-            </div>
-          </div>
-          <!-- Guest box wrapped for popup positioning -->
-          <div class="guest-picker-wrap">
-            <div class="guest-box" id="guest-box" onclick="toggleGuests()">
-              <i class="fa fa-user-group"></i>
+        <!-- Date & Guest Row — -->
+        <div class="date-picker-wrap">
+          <div class="date-guest-row">
+            <!-- ✅ Added id + openPicker() -->
+            <div class="date-box" id="checkin-box" onclick="openPicker('checkin')">
+              <i class="fa fa-calendar-days"></i>
               <div>
-                <span class="value" id="guests-display">2 adults</span>
-                <span class="label" id="rooms-label">1 room</span>
-              </div>
-              <i class="fa fa-chevron-down" id="guest-chevron" style="color:#aaa; font-size:0.75rem; margin-left:auto;"></i>
-            </div>
-            <!-- Guest Picker Popup -->
-            <div id="guest-picker">
-              <div class="gp-row">
-                <div class="gp-label-wrap">
-                  <span class="gp-label">Room</span>
-                </div>
-                <div class="gp-counter">
-                  <button class="gp-btn gp-minus" onclick="changeGuest('rooms', -1)">−</button>
-                  <span class="gp-count" id="rooms-count">1</span>
-                  <button class="gp-btn gp-plus" onclick="changeGuest('rooms', 1)">+</button>
-                </div>
-              </div>
-              <div class="gp-row">
-                <div class="gp-label-wrap">
-                  <span class="gp-label">Adults</span>
-                  <span class="gp-sublabel">Ages 18 or above</span>
-                </div>
-                <div class="gp-counter">
-                  <button class="gp-btn gp-minus" onclick="changeGuest('adults', -1)">−</button>
-                  <span class="gp-count" id="adults-count">2</span>
-                  <button class="gp-btn gp-plus" onclick="changeGuest('adults', 1)">+</button>
-                </div>
-              </div>
-              <div class="gp-row gp-row-last">
-                <div class="gp-label-wrap">
-                  <span class="gp-label">Children</span>
-                  <span class="gp-sublabel">Ages 0-17</span>
-                </div>
-                <div class="gp-counter">
-                  <button class="gp-btn gp-minus" onclick="changeGuest('children', -1)">−</button>
-                  <span class="gp-count" id="children-count">0</span>
-                  <button class="gp-btn gp-plus" onclick="changeGuest('children', 1)">+</button>
-                </div>
+                <span class="value" id="checkin-display">Check-in</span>
+                <span class="label" id="checkin-day"></span>
               </div>
             </div>
-          </div><!-- /guest-picker-wrap -->
+            <div class="date-box" id="checkout-box" onclick="openPicker('checkout')">
+              <i class="fa fa-calendar-days"></i>
+              <div>
+                <span class="value" id="checkout-display">Check-out</span>
+                <span class="label" id="checkout-day"></span>
+              </div>
+            </div>
+            <!-- Guest box wrapped for popup positioning -->
+            <div class="guest-picker-wrap">
+              <div class="guest-box" id="guest-box" onclick="toggleGuests()">
+                <i class="fa fa-user-group"></i>
+                <div>
+                  <span class="value" id="guests-display">2 adults</span>
+                  <span class="label" id="rooms-label">1 room</span>
+                </div>
+                <i class="fa fa-chevron-down" id="guest-chevron"
+                  style="color:#aaa; font-size:0.75rem; margin-left:auto;"></i>
+              </div>
+              <!-- Guest Picker Popup -->
+              <div id="guest-picker">
+                <div class="gp-row">
+                  <div class="gp-label-wrap">
+                    <span class="gp-label">Room</span>
+                  </div>
+                  <div class="gp-counter">
+                    <button class="gp-btn gp-minus" onclick="changeGuest('rooms', -1)">−</button>
+                    <span class="gp-count" id="rooms-count">1</span>
+                    <button class="gp-btn gp-plus" onclick="changeGuest('rooms', 1)">+</button>
+                  </div>
+                </div>
+                <div class="gp-row">
+                  <div class="gp-label-wrap">
+                    <span class="gp-label">Adults</span>
+                    <span class="gp-sublabel">Ages 18 or above</span>
+                  </div>
+                  <div class="gp-counter">
+                    <button class="gp-btn gp-minus" onclick="changeGuest('adults', -1)">−</button>
+                    <span class="gp-count" id="adults-count">2</span>
+                    <button class="gp-btn gp-plus" onclick="changeGuest('adults', 1)">+</button>
+                  </div>
+                </div>
+                <div class="gp-row gp-row-last">
+                  <div class="gp-label-wrap">
+                    <span class="gp-label">Children</span>
+                    <span class="gp-sublabel">Ages 0-17</span>
+                  </div>
+                  <div class="gp-counter">
+                    <button class="gp-btn gp-minus" onclick="changeGuest('children', -1)">−</button>
+                    <span class="gp-count" id="children-count">0</span>
+                    <button class="gp-btn gp-plus" onclick="changeGuest('children', 1)">+</button>
+                  </div>
+                </div>
+              </div>
+            </div><!-- /guest-picker-wrap -->
+          </div>
+
+          <!-- ✅ Datepicker Popup — placed right below the date row -->
+          <div id="picker-popup">
+            <div class="picker-tabs">
+              <button id="tab-cal-btn" class="active" onclick="setPickerTab('cal')">Calendar</button>
+              <button id="tab-flex-btn" onclick="setPickerTab('flex')">I'm flexible</button>
+            </div>
+            <div id="tab-cal-content">
+              <div class="cal-months">
+                <div class="cal-month">
+                  <div class="cal-month-header">
+                    <button class="nav-btn" onclick="shiftMonth(-1)">&#8249;</button>
+                    <span id="left-month-label"></span>
+                    <span class="nav-placeholder"></span>
+                  </div>
+                  <div id="left-cal" class="cal-grid"></div>
+                </div>
+                <div class="cal-month">
+                  <div class="cal-month-header">
+                    <span class="nav-placeholder"></span>
+                    <span id="right-month-label"></span>
+                    <button class="nav-btn" onclick="shiftMonth(1)">&#8250;</button>
+                  </div>
+                  <div id="right-cal" class="cal-grid"></div>
+                </div>
+              </div>
+            </div>
+            <div id="tab-flex-content">
+              <div class="flex-section">
+                <p class="flex-heading">How long do you want to stay?</p>
+                <div class="flex-duration-row">
+                  <button class="flex-duration-btn active" onclick="selectDuration(this)">3 nights</button>
+                  <button class="flex-duration-btn" onclick="selectDuration(this)">1 week</button>
+                  <button class="flex-duration-btn" onclick="selectDuration(this)">1 month</button>
+                </div>
+                <label class="flex-weekend-label">
+                  <input type="checkbox" id="weekend-check" checked onchange="toggleWeekend(this)" />
+                  <span>Must include weekend</span>
+                </label>
+              </div>
+              <div class="flex-section">
+                <p class="flex-heading">When do you want to travel?</p>
+                <p class="flex-subheading">Select your preferred month</p>
+                <div class="flex-months-wrap">
+                  <button class="flex-months-arrow" id="flex-arrow-left" onclick="scrollFlexMonths(-1)">&#8249;</button>
+                  <div class="flex-months-row" id="flex-months-row"></div>
+                  <button class="flex-months-arrow" id="flex-arrow-right" onclick="scrollFlexMonths(1)">&#8250;</button>
+                </div>
+              </div>
+              <div class="flex-footer">
+                <button class="flex-btn-clear" onclick="clearFlex()">Clear</button>
+                <button class="flex-btn-select" onclick="selectFlex()">Select</button>
+              </div>
+            </div>
+          </div>
+        </div><!-- /date-picker-wrap -->
+
+        <button class="add-flight">
+          <i class="fa fa-plus"></i> Add a flight
+        </button>
+
+      </div><!-- /search-box -->
+
+      <button class="btn-search" onclick="collectAndSearch()">SEARCH</button>
+    </div><!-- /search-container -->
+  </section>
+
+  <!-- ===== TOP DESTINATIONS ===== -->
+  <section class="section-wrap">
+    <h2 class="section-title">Top destinations in the Philippines</h2>
+    <div class="dest-grid">
+      <div class="dest-card">
+        <img src="manila-homepage.jpg" alt="Manila" loading="lazy" />
+        <div class="dest-card-overlay">
+          <div class="dest-card-name">Manila</div>
+          <div class="dest-card-count">13,223 accommodations</div>
         </div>
-
-        <!-- ✅ Datepicker Popup — placed right below the date row -->
-        <div id="picker-popup">
-          <div class="picker-tabs">
-            <button id="tab-cal-btn" class="active" onclick="setPickerTab('cal')">Calendar</button>
-            <button id="tab-flex-btn" onclick="setPickerTab('flex')">I'm flexible</button>
-          </div>
-          <div id="tab-cal-content">
-            <div class="cal-months">
-              <div class="cal-month">
-                <div class="cal-month-header">
-                  <button class="nav-btn" onclick="shiftMonth(-1)">&#8249;</button>
-                  <span id="left-month-label"></span>
-                  <span class="nav-placeholder"></span>
-                </div>
-                <div id="left-cal" class="cal-grid"></div>
-              </div>
-              <div class="cal-month">
-                <div class="cal-month-header">
-                  <span class="nav-placeholder"></span>
-                  <span id="right-month-label"></span>
-                  <button class="nav-btn" onclick="shiftMonth(1)">&#8250;</button>
-                </div>
-                <div id="right-cal" class="cal-grid"></div>
-              </div>
-            </div>
-          </div>
-          <div id="tab-flex-content">
-            <div class="flex-section">
-              <p class="flex-heading">How long do you want to stay?</p>
-              <div class="flex-duration-row">
-                <button class="flex-duration-btn active" onclick="selectDuration(this)">3 nights</button>
-                <button class="flex-duration-btn" onclick="selectDuration(this)">1 week</button>
-                <button class="flex-duration-btn" onclick="selectDuration(this)">1 month</button>
-              </div>
-              <label class="flex-weekend-label">
-                <input type="checkbox" id="weekend-check" checked onchange="toggleWeekend(this)"/>
-                <span>Must include weekend</span>
-              </label>
-            </div>
-            <div class="flex-section">
-              <p class="flex-heading">When do you want to travel?</p>
-              <p class="flex-subheading">Select your preferred month</p>
-              <div class="flex-months-wrap">
-                <button class="flex-months-arrow" id="flex-arrow-left" onclick="scrollFlexMonths(-1)">&#8249;</button>
-                <div class="flex-months-row" id="flex-months-row"></div>
-                <button class="flex-months-arrow" id="flex-arrow-right" onclick="scrollFlexMonths(1)">&#8250;</button>
-              </div>
-            </div>
-            <div class="flex-footer">
-              <button class="flex-btn-clear" onclick="clearFlex()">Clear</button>
-              <button class="flex-btn-select" onclick="selectFlex()">Select</button>
-            </div>
-          </div>
+      </div>
+      <div class="dest-card">
+        <img src="cebu-homepage.jpg" alt="Cebu" loading="lazy" />
+        <div class="dest-card-overlay">
+          <div class="dest-card-name">Cebu</div>
+          <div class="dest-card-count">5,254 accommodations</div>
         </div>
-      </div><!-- /date-picker-wrap -->
-
-      <button class="add-flight">
-        <i class="fa fa-plus"></i> Add a flight
-      </button>
-
-    </div><!-- /search-box -->
-
-        <button class="btn-search" onclick="collectAndSearch()">SEARCH</button>
-  </div><!-- /search-container -->
-</section>
-
-<!-- ===== TOP DESTINATIONS ===== -->
-<section class="section-wrap">
-  <h2 class="section-title">Top destinations in the Philippines</h2>
-  <div class="dest-grid">
-    <div class="dest-card">
-      <img src="manila-homepage.jpg" alt="Manila" loading="lazy"/>
-      <div class="dest-card-overlay">
-        <div class="dest-card-name">Manila</div>
-        <div class="dest-card-count">13,223 accommodations</div>
+      </div>
+      <div class="dest-card">
+        <img src="boracay-homepage.jpg" alt="Boracay" loading="lazy" />
+        <div class="dest-card-overlay">
+          <div class="dest-card-name">Boracay Island</div>
+          <div class="dest-card-count">1,038 accommodations</div>
+        </div>
+      </div>
+      <div class="dest-card">
+        <img src="baguio-homepage.jpg" alt="Baguio" loading="lazy" />
+        <div class="dest-card-overlay">
+          <div class="dest-card-name">Baguio</div>
+          <div class="dest-card-count">1,944 accommodations</div>
+        </div>
+      </div>
+      <div class="dest-card">
+        <img src="davao-homepage.jpg" alt="Davao" />
+        <div class="dest-card-overlay">
+          <div class="dest-card-name">Davao City</div>
+          <div class="dest-card-count">1,609 accommodations</div>
+        </div>
       </div>
     </div>
-    <div class="dest-card">
-      <img src="cebu-homepage.jpg" alt="Cebu" loading="lazy"/>
-      <div class="dest-card-overlay">
-        <div class="dest-card-name">Cebu</div>
-        <div class="dest-card-count">5,254 accommodations</div>
-      </div>
-    </div>
-    <div class="dest-card">
-      <img src="boracay-homepage.jpg" alt="Boracay" loading="lazy"/>
-      <div class="dest-card-overlay">
-        <div class="dest-card-name">Boracay Island</div>
-        <div class="dest-card-count">1,038 accommodations</div>
-      </div>
-    </div>
-    <div class="dest-card">
-      <img src="baguio-homepage.jpg" alt="Baguio" loading="lazy"/>
-      <div class="dest-card-overlay">
-        <div class="dest-card-name">Baguio</div>
-        <div class="dest-card-count">1,944 accommodations</div>
-      </div>
-    </div>  
-    <div class="dest-card">
-      <img src="davao-homepage.jpg" alt="Davao"/>
-      <div class="dest-card-overlay">
-        <div class="dest-card-name">Davao City</div>
-        <div class="dest-card-count">1,609 accommodations</div>
-      </div>
-    </div>
-  </div>
-</section>
+  </section>
 
-<button class="mobile-cta">
-  <i class="fa fa-mobile-screen"></i> Save more on App!
-</button>
+  <button class="mobile-cta">
+    <i class="fa fa-mobile-screen"></i> Save more on App!
+  </button>
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Custom JS (includes datepicker logic) -->
-<script src="script.js"></script>
-<script src="navbar.js"></script>
-<script src="search.js"></script>
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Custom JS (includes datepicker logic) -->
+  <script src="script.js"></script>
+  <script src="navbar.js"></script>
+  <script src="search.js"></script>
 </body>
+
 </html>
