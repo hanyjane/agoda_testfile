@@ -326,23 +326,27 @@ body {
    HERO
    ============================================================= */
 .hero {
-  background: var(--agoda-hero-bg);
+  background: none;
   padding: 25px 0 10px;
   position: relative;
   overflow: visible;
   min-height: 480px;
-  margin: 0 375px;
+  margin: 0;
+  width: 100%;
 }
 
-.hero-skyline {
+.hero::before {
+  content: '';
   position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 140px;
-  pointer-events: none;
-  overflow: hidden;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 55%;          /* ← only top 55% has the purple bg */
+  background: url('background.png') center top / cover no-repeat;
+  background-color: #7b85b8;
+  z-index: 0;
+  border-radius: 0 0 30px 30px;
 }
-
-.hero-skyline svg { width: 100%; height: 100%; }
 
 .hero-title {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -365,13 +369,14 @@ body {
   z-index: 3;
   margin: 0 auto;
   padding: 0 20px;
+  max-width: 1050px;  /* ← keeps UI contained in center */
 }
 
 /* ── Tabs ── */
 .search-tabs {
   list-style: none;
   margin: 0 10% -10px;
-  padding: 0 50px;
+
   background: #fff;
   border-radius: 12px;
   display: flex;
@@ -380,7 +385,7 @@ body {
   position: relative;
   z-index: 2;
   box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-  gap: 10px;
+  gap: 5px;
 }
 
 .stab {

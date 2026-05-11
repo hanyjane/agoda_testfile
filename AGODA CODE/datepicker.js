@@ -5,11 +5,12 @@ const MONTHS = [
 const WDAYS = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 const DAYS  = ["Mo","Tu","We","Th","Fr","Sa","Su"];
 
-let viewYear  = 2026;
-let viewMonth = 4; // 0-indexed: 4 = May
+const _now = new Date();
+let viewYear  = _now.getFullYear();
+let viewMonth = _now.getMonth();
 
-let checkinDate  = new Date(2026, 4, 11); // May 11
-let checkoutDate = new Date(2026, 4, 12); // May 12
+let checkinDate  = null;
+let checkoutDate = null;
 let selecting    = null; // 'checkin' | 'checkout'
 
 /* ── Open / Close ─────────────────────────────────── */
@@ -17,15 +18,18 @@ let selecting    = null; // 'checkin' | 'checkout'
 function openPicker(which) {
   selecting = which;
 
-  // Highlight the active date box
   document.getElementById('checkin-box').classList.toggle('active', which === 'checkin');
   document.getElementById('checkout-box').classList.toggle('active', which === 'checkout');
 
-  // Navigate view so the relevant date is visible
   const ref = which === 'checkin' ? checkinDate : (checkoutDate || checkinDate);
   if (ref) {
     viewYear  = ref.getFullYear();
     viewMonth = ref.getMonth();
+  } else {
+    // ← default to today's month when no date is selected
+    const today = new Date();
+    viewYear  = today.getFullYear();
+    viewMonth = today.getMonth();
   }
 
   document.getElementById('picker-popup').style.display = 'block';
@@ -183,7 +187,7 @@ function updateDisplay(which, date) {
     dayEl.textContent = WDAYS[date.getDay()];
   } else {
     valEl.textContent = which === 'checkin' ? 'Check-in' : 'Check-out';
-    dayEl.textContent = '';
+    dayEl.textContent = which === 'checkin' ? 'Add date' : 'Add date';
   }
 }
 
@@ -204,7 +208,7 @@ function fmtDate(d) {
 
 /* ── Init ─────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
-  updateDisplay('checkin',  checkinDate);
-  updateDisplay('checkout', checkoutDate);
+  updateDisplay('checkin',  null);
+  updateDisplay('checkout', null);
   renderBoth();
 });
