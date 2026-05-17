@@ -595,7 +595,7 @@ body {
   display: block;
   width: 45%;
   margin: -25px auto 0;
-  padding: 14px;
+  padding: 10px;
   background: var(--agoda-blue);
   color: #fff;
   border: none;
@@ -974,7 +974,7 @@ body {
   padding: 14px 28px;
   border-radius: 10px;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 15px;
+  font-size: 15px;  
   font-weight: 600;
   box-shadow: 0 4px 20px rgba(0,0,0,0.18);
   z-index: 9999;
@@ -1016,4 +1016,306 @@ body {
   .date-guest-row { grid-template-columns: 1fr; }
   .dest-grid      { grid-template-columns: repeat(2, 1fr); }
   .btn-search     { width: 100%; }
+}
+
+
+    /* ===== AGODA FOOTER ===== */
+    .agoda-footer {
+      background: #2b2d3a;
+      color: #ccc;
+      text-align: center;
+      padding: 28px 20px 24px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+ 
+    .agoda-footer p {
+      margin: 0 0 4px;
+      color: #aaa;
+    }
+ 
+    .agoda-footer-brands {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 52px;
+      margin-top: 22px;
+      flex-wrap: wrap;
+    }
+ 
+    /* Agoda wordmark */
+    .footer-brand-agoda {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+ 
+    .footer-brand-agoda .agoda-text {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 21px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.5px;
+    }
+ 
+    .footer-brand-agoda .agoda-dots {
+      display: flex;
+      gap: 4px;
+    }
+ 
+    .footer-brand-agoda .agoda-dots span {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+ 
+    .dot-red    { background: #e63946; }
+    .dot-orange { background: #f4a261; }
+    .dot-green  { background: #2a9d8f; }
+    .dot-blue   { background: #457b9d; }
+    .dot-purple { background: #6d4c9e; }
+ 
+    /* Priceline */
+    .footer-brand-priceline {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: #00aff5;
+      letter-spacing: -0.3px;
+    }
+ 
+    /* KAYAK */
+    .footer-brand-kayak {
+      background: #ff690f;
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 2.5px;
+      padding: 5px 11px;
+      border-radius: 3px;
+    }
+ 
+    /* Booking.com */
+    .footer-brand-booking {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 19px;
+      font-weight: 700;
+      color: #fff;
+    }
+ 
+    .footer-brand-booking .booking-dot {
+      color: #003580;
+      background: #003580;
+      color: #fff;
+      border-radius: 3px;
+      padding: 1px 5px;
+      font-size: 13px;
+      vertical-align: middle;
+      margin-left: 1px;
+    }
+ 
+    /* OpenTable */
+    .footer-brand-opentable {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+ 
+    .footer-brand-opentable .ot-icon {
+      width: 20px;
+      height: 20px;
+      background: #da3743;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+ 
+    .footer-brand-opentable .ot-icon::after {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #fff;
+    }
+ 
+    .footer-brand-opentable .ot-text {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: #ddd;
+    }
+ 
+    @media (max-width: 600px) {
+      .agoda-footer-brands {
+        gap: 28px;
+      }
+    }
+
+/* ===== FOOTER NAV SECTION ===== */
+.footer-nav-section {
+  background: #E9EBEE;
+  width: 100%;
+  margin: 0;
+}
+
+.footer-nav-grid {
+  display: flex;
+  flex-direction: row;
+  max-width: 1132px;
+  margin: 0 auto;
+  padding: 48px 16px;
+  box-sizing: border-box;
+}
+
+.footer-nav-col {
+  flex: 1;
+  min-width: 0;
+  padding-right: 10px;
+}
+
+.footer-nav-title {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #2A2A2E;
+  margin: 10.67px 0px;
+  line-height: 1.27;
+}
+
+.footer-nav-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-nav-col ul li {
+  margin: 0;
+  padding: 0;
+}
+
+.footer-nav-col ul a {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #2a2a2e;
+  text-decoration: none;
+  line-height: 1.8;
+  display: inline-block;
+}
+
+.footer-nav-col ul a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ===== FOOTER LINKS SECTION ===== */
+.top-footer {
+  background: #ffffff;
+  margin: 0px;
+}
+
+.footer-links-section {
+  margin: 0;
+  padding: 48px 16px;
+}
+
+.footer-links-grid {
+  display: flex;
+  flex-direction: row;
+  gap: 0;
+  max-width: 1132px;
+  margin: 0 auto;
+}
+
+.footer-grid-item {
+  flex: 1;
+  padding: 24px;
+  min-width: 0;
+}
+
+.footer-grid-item:nth-child(2) {
+  padding-top: 51px;
+}
+
+.footer-col-title {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #000000;
+  margin: -1.33px 0px 10.67px;
+  line-height: 1.27;
+}
+
+.footer-col-subtitle {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #000000;
+  margin: 12px 0px 2.67px;
+  line-height: 1.27;
+}
+
+.footer-grid-item ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-grid-item ul li {
+  padding: 0;
+  margin: 0;
+}
+
+.footer-grid-item ul a {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  text-underline-offset: 4px;
+  font-weight: 600;
+}
+
+.footer-grid-item ul a span {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: rgb(107, 115, 136);
+  fill: rgb(107, 115, 136);
+  display: inline-flex;
+  line-height: 18.19px;
+  margin-top: -1.19px;
+  margin-bottom: -1.19px;
+  text-underline-offset: 4px;
+}
+
+.footer-grid-item ul a:hover span {
+  color: #1a56db;
+  fill: #1a56db;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .footer-nav-grid { flex-wrap: wrap; }
+  .footer-nav-col  { flex: 0 0 calc(50% - 20px); margin-bottom: 24px; }
+
+  .footer-links-grid { flex-wrap: wrap; }
+  .footer-grid-item  { flex: 0 0 calc(33.33% - 48px); }
+  .footer-grid-item:nth-child(2) { padding-top: 24px; }
+}
+
+@media (max-width: 600px) {
+  .footer-nav-grid    { flex-direction: column; padding: 24px 12px; }
+  .footer-nav-col     { flex: 1 1 100%; padding: 0 0 20px; }
+
+  .footer-links-section { padding: 28px 12px; }
+  .footer-links-grid    { flex-direction: column; }
+  .footer-grid-item     { flex: 1 1 100%; padding: 16px 12px; }
+  .footer-grid-item:nth-child(2) { padding-top: 16px; }
 }
