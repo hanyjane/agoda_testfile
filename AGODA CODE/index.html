@@ -264,47 +264,218 @@
     </div><!-- /search-container -->
   </section>
 
-  <!-- ===== TOP DESTINATIONS ===== -->
-  <section class="section-wrap">
-    <h2 class="section-title">Top destinations in the Philippines</h2>
-    <div class="dest-grid">
-      <div class="dest-card">
-        <img src="manila-homepage.jpg" alt="Manila" loading="lazy" />
-        <div class="dest-card-overlay">
+<!-- ===== TOP DESTINATIONS (Scrollable Carousel) ===== -->
+<section class="section-wrap dest-section">
+  <h2 class="section-title">Top destinations in the Philippines</h2>
+ 
+  <!-- Outer wrapper is relative so the arrow can float over it -->
+  <div class="dest-carousel-outer">
+ 
+    <!-- Scrollable track — full width, no side padding for arrows -->
+    <div class="dest-carousel-track" id="destTrack">
+ 
+      <div class="dest-card" onclick="searchCity('Manila')">
+        <div class="dest-card-img-wrap">
+          <img src="manila-homepage.jpg" alt="Manila" loading="lazy" />
+        </div>
+        <div class="dest-card-info">
           <div class="dest-card-name">Manila</div>
           <div class="dest-card-count">13,223 accommodations</div>
         </div>
       </div>
-      <div class="dest-card">
-        <img src="cebu-homepage.jpg" alt="Cebu" loading="lazy" />
-        <div class="dest-card-overlay">
+ 
+      <div class="dest-card" onclick="searchCity('Cebu')">
+        <div class="dest-card-img-wrap">
+          <img src="cebu-homepage.jpg" alt="Cebu" loading="lazy" />
+        </div>
+        <div class="dest-card-info">
           <div class="dest-card-name">Cebu</div>
           <div class="dest-card-count">5,254 accommodations</div>
         </div>
       </div>
-      <div class="dest-card">
-        <img src="boracay-homepage.jpg" alt="Boracay" loading="lazy" />
-        <div class="dest-card-overlay">
+ 
+      <div class="dest-card" onclick="searchCity('Boracay Island')">
+        <div class="dest-card-img-wrap">
+          <img src="boracay-homepage.jpg" alt="Boracay Island" loading="lazy" />
+        </div>
+        <div class="dest-card-info">
           <div class="dest-card-name">Boracay Island</div>
           <div class="dest-card-count">1,038 accommodations</div>
         </div>
       </div>
-      <div class="dest-card">
-        <img src="baguio-homepage.jpg" alt="Baguio" loading="lazy" />
-        <div class="dest-card-overlay">
+ 
+      <div class="dest-card" onclick="searchCity('Baguio')">
+        <div class="dest-card-img-wrap">
+          <img src="baguio-homepage.jpg" alt="Baguio" loading="lazy" />
+        </div>
+        <div class="dest-card-info">
           <div class="dest-card-name">Baguio</div>
           <div class="dest-card-count">1,944 accommodations</div>
         </div>
       </div>
-      <div class="dest-card">
-        <img src="davao-homepage.jpg" alt="Davao" />
-        <div class="dest-card-overlay">
+ 
+      <div class="dest-card" onclick="searchCity('Davao City')">
+        <div class="dest-card-img-wrap">
+          <img src="davao-homepage.jpg" alt="Davao City" loading="lazy" />
+        </div>
+        <div class="dest-card-info">
           <div class="dest-card-name">Davao City</div>
           <div class="dest-card-count">1,609 accommodations</div>
         </div>
       </div>
+ 
+      <div class="dest-card" onclick="searchCity('Palawan')">
+        <div class="dest-card-img-wrap">
+          <img src="palawan-homepage.jpg" alt="Palawan" loading="lazy"
+            onerror="this.src='https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?w=400&q=80'" />
+        </div>
+        <div class="dest-card-info">
+          <div class="dest-card-name">Palawan</div>
+          <div class="dest-card-count">820 accommodations</div>
+        </div>
+      </div>
+ 
+      <div class="dest-card" onclick="searchCity('Siargao')">
+        <div class="dest-card-img-wrap">
+          <img src="siargao-homepage.jpg" alt="Siargao" loading="lazy"
+            onerror="this.src='https://images.unsplash.com/photo-1504474699400-a28682b5d756?w=400&q=80'" />
+        </div>
+        <div class="dest-card-info">
+          <div class="dest-card-name">Siargao</div>
+          <div class="dest-card-count">430 accommodations</div>
+        </div>
+      </div>
+ 
+    </div><!-- /dest-carousel-track -->
+ 
+    <!-- Arrow floats over the right edge of the image row -->
+    <button class="dest-arrow dest-arrow-left hidden" id="destPrev" aria-label="Scroll left">
+      <i class="fa fa-chevron-left"></i>
+    </button>
+    <button class="dest-arrow dest-arrow-right hidden" id="destNext" aria-label="Scroll right">
+      <i class="fa fa-chevron-right"></i>
+    </button>
+ 
+  </div><!-- /dest-carousel-outer -->
+</section>
+ 
+
+<!-- ===== VIP WELCOME (only visible when logged in) ===== -->
+<section class="section-wrap vip-section" id="vipSection" style="display:none;">
+ 
+  <!-- Title row -->
+  <h2 class="section-title vip-section-title">
+    Welcome back <span id="vipUserName">there</span>! You are
+    <img src="vip.png" alt="Bronze" height="26" style="vertical-align:middle;" />
+  </h2>
+ 
+  <!-- Card -->
+  <div class="vip-card">
+ 
+    <!-- Left: just the image, 280x150 -->
+    <img src="vipbronze.png" alt="VIP Bronze" width="280" height="150"
+      style="border-radius:12px; flex-shrink:0; object-fit:cover;" />
+ 
+    <!-- Middle: description + perks + tier progress -->
+    <div class="vip-details">
+      <p class="vip-desc">
+        Every time you see the VIP badge, it means you are getting special discounts or benefits
+        only available to VIP users. Enjoy exclusive deals and collect more bookings to maintain
+        your VIP status!
+      </p>
+ 
+      <div class="vip-perks">
+        <div class="vip-perk"><span class="vip-check">&#10004;</span> Best price guarantee</div>
+        <div class="vip-perk"><span class="vip-check">&#10004;</span> <strong>VIP deals up to 10% off</strong></div>
+        <div class="vip-perk"><span class="vip-check">&#10004;</span> Insider deals</div>
+      </div>
+ 
+      <!-- Tier progress -->
+      <div class="vip-progress">
+        <div class="vip-progress-track">
+          <div class="vip-progress-line"></div>
+          <div class="vip-node active" id="node-bronze">
+            <div class="vip-node-circle">&#9733;</div>
+            <div class="vip-node-label">Bronze</div>
+            <div class="vip-node-sub vip-node-active-sub">Member</div>
+          </div>
+          <div class="vip-node" id="node-silver">
+            <div class="vip-node-circle">&#9733;</div>
+            <div class="vip-node-label">Silver</div>
+            <div class="vip-node-sub">2 bookings</div>
+          </div>
+          <div class="vip-node" id="node-gold">
+            <div class="vip-node-circle">&#9733;</div>
+            <div class="vip-node-label">Gold</div>
+            <div class="vip-node-sub">5 bookings</div>
+          </div>
+          <div class="vip-node" id="node-platinum">
+            <div class="vip-node-circle">&#9733;</div>
+            <div class="vip-node-label">Platinum</div>
+            <div class="vip-node-sub">10 Bookings</div>
+          </div>
+          <div class="vip-node" id="node-diamond">
+            <div class="vip-node-circle">&#9733;</div>
+            <div class="vip-node-label">Diamond</div>
+            <div class="vip-node-sub">15 Bookings</div>
+          </div>
+        </div>
+      </div>
     </div>
-  </section>
+ 
+    <!-- Right: More details button -->
+    <div class="vip-action">
+      <button class="vip-more-btn">More details</button>
+    </div>
+ 
+  </div>
+</section>
+ 
+
+
+<!-- ===== ACCOMMODATION PROMOTIONS (Scrollable Carousel) ===== -->
+<section class="section-wrap promo-section">
+ 
+  <div class="promo-header">
+    <h2 class="section-title" style="margin-bottom:0;">Accommodation Promotions</h2>
+    <a href="#" class="promo-view-all">View all <i class="fa fa-chevron-right fa-xs"></i></a>
+  </div>
+ 
+  <div class="promo-carousel-outer">
+ 
+    <div class="promo-carousel-track" id="promoTrack">
+ 
+      <div class="promo-card">
+        <img src="promo-deals.jpg" alt="Grab all your Deals" loading="lazy" />
+      </div>
+ 
+      <div class="promo-card">
+        <img src="promo-football.jpg" alt="Top Match-Day Hotels" loading="lazy" />
+      </div>
+ 
+      <div class="promo-card">
+        <img src="promo-sale.jpg" alt="Mid Month Sale" loading="lazy" />
+      </div>
+ 
+      <div class="promo-card">
+        <img src="promo-4.jpg" alt="Promotion 4" loading="lazy" />
+      </div>
+ 
+      <div class="promo-card">
+        <img src="promo-5.jpg" alt="Promotion 5" loading="lazy" />
+      </div>
+ 
+    </div><!-- /promo-carousel-track -->
+ 
+    <button class="promo-arrow promo-arrow-left hidden" id="promoPrev" aria-label="Scroll left">
+      <i class="fa fa-chevron-left"></i>
+    </button>
+    <button class="promo-arrow promo-arrow-right" id="promoNext" aria-label="Scroll right">
+      <i class="fa fa-chevron-right"></i>
+    </button>
+ 
+  </div>
+</section>
 
   <button class="mobile-cta">
     <i class="fa fa-mobile-screen"></i> Save more on App!

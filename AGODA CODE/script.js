@@ -1,4 +1,86 @@
-// Clear dates on index page load
+(function () {
+  const section = document.getElementById('vipSection');
+  if (!section) return;
+ 
+  const isLoggedIn = localStorage.getItem('user_logged_in') === 'true';
+  if (!isLoggedIn) return;
+ 
+  section.style.display = 'block';
+ 
+  const firstName = localStorage.getItem('user_User_Fname') || 'there';
+  document.getElementById('vipUserName').textContent = firstName;
+ 
+  const bookingCount = parseInt(localStorage.getItem('user_booking_count') || '0', 10);
+ 
+  let tier = 'Bronze', tierColor = '#cd7f32';
+  if      (bookingCount >= 15) { tier = 'Diamond'; tierColor = '#00bcd4'; }
+  else if (bookingCount >= 10) { tier = 'Platinum'; tierColor = '#9c27b0'; }
+  else if (bookingCount >= 5)  { tier = 'Gold';    tierColor = '#f5c518'; }
+  else if (bookingCount >= 2)  { tier = 'Silver';  tierColor = '#aaa';   }
+ 
+  document.getElementById('vipTierLabel').textContent = tier;
+  document.getElementById('vipTierLabel').style.background = tierColor;
+ 
+  const tierMap = { Bronze: 'node-bronze', Silver: 'node-silver', Gold: 'node-gold', Platinum: 'node-platinum', Diamond: 'node-diamond' };
+  document.querySelectorAll('.vip-node').forEach(n => n.classList.remove('active'));
+  const activeNode = document.getElementById(tierMap[tier]);
+  if (activeNode) activeNode.classList.add('active');
+})();
+
+document.addEventListener('DOMContentLoaded', function () {
+  const track = document.getElementById('destTrack');
+  const prev  = document.getElementById('destPrev');
+  const next  = document.getElementById('destNext');
+  if (!track || !prev || !next) return;
+ 
+  const SCROLL_AMOUNT = 430;
+ 
+  function updateArrows() {
+    prev.classList.toggle('hidden', track.scrollLeft <= 4);
+    next.classList.toggle('hidden',
+      track.scrollLeft + track.clientWidth >= track.scrollWidth - 4);
+  }
+ 
+  prev.addEventListener('click', () => track.scrollBy({ left: -SCROLL_AMOUNT, behavior: 'smooth' }));
+  next.addEventListener('click', () => track.scrollBy({ left:  SCROLL_AMOUNT, behavior: 'smooth' }));
+  track.addEventListener('scroll', updateArrows, { passive: true });
+ 
+  // Run multiple times to catch layout shifts from VIP section appearing
+  setTimeout(updateArrows, 100);
+  setTimeout(updateArrows, 500);
+  window.addEventListener('load', updateArrows);
+ 
+  window.searchCity = function (cityName) {
+    const inp = document.getElementById('searchInput');
+    if (inp) inp.value = cityName;
+    if (typeof collectAndSearch === 'function') {
+      collectAndSearch();
+    } else {
+      window.location.href = 'hotel.html?city=' + encodeURIComponent(cityName);
+    }
+  };
+});
+
+(function () {
+  const track = document.getElementById('promoTrack');
+  const prev  = document.getElementById('promoPrev');
+  const next  = document.getElementById('promoNext');
+  if (!track || !prev || !next) return;
+ 
+  const SCROLL_AMOUNT = 360;
+ 
+  function updateArrows() {
+    prev.classList.toggle('hidden', track.scrollLeft <= 4);
+    next.classList.toggle('hidden',
+      track.scrollLeft + track.clientWidth >= track.scrollWidth - 4);
+  }
+ 
+  prev.addEventListener('click', () => track.scrollBy({ left: -SCROLL_AMOUNT, behavior: 'smooth' }));
+  next.addEventListener('click', () => track.scrollBy({ left:  SCROLL_AMOUNT, behavior: 'smooth' }));
+  track.addEventListener('scroll', updateArrows, { passive: true });
+  updateArrows();
+})();
+
 
 // ============================================================
 //  TAB SWITCHING (search tabs)
@@ -7,6 +89,7 @@ function setTab(el) {
   document.querySelectorAll('.stab').forEach(t => t.classList.remove('active'));
   el.classList.add('active');
 }
+
 
 // ============================================================
 //  STAY TOGGLE
